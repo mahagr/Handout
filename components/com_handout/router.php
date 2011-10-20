@@ -25,7 +25,7 @@ if(!is_object($_HANDOUT)) {
 class HandoutRouterHelper {
 	function getDoc($id) {
 
-		static $docs;
+		static $docs = null;
 
 		if(!isset($docs)) {
 			$docs = array();
@@ -62,7 +62,7 @@ function HandoutBuildRoute(&$query) {
 			$segments[] = 'category';
 			break;
 		default:
-			$segments[] = $query['task'];			
+			$segments[] = $query['task'];
 	}
 
 	// check for gid=...
@@ -106,13 +106,13 @@ function HandoutParseRoute($segments){
 	if ( isset($segments[0]) ) {
 		switch ( $segments[0]) {
 			case 'category':
-				$vars['task'] = 'cat_view'; 
+				$vars['task'] = 'cat_view';
 				break;
 			case 'document':
-				$vars['task'] = 'doc_details'; 
+				$vars['task'] = 'doc_details';
 				break;
 			default:
-				$vars['task'] = $segments[0];		
+				$vars['task'] = $segments[0];
 		}
 
 		if (in_array($segments[0], array('category', 'upload'))) {

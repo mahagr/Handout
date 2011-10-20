@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Handout - The Joomla Download Manager
  * @package 	Handout
@@ -15,14 +15,14 @@ jimport('joomla.application.component.model');
 
 class HandoutModelCode extends JModel
 {
-	
+
 	function __construct()
 	{
 		parent::__construct();
-		
+
 	}
-	
-	
+
+
 
 	function processCode($codeVal, $usertype) {
 		$email = trim(JRequest::getVar('email', ''));
@@ -78,7 +78,7 @@ class HandoutModelCode extends JModel
 					break;
 				case '2': // email required
 					//validity of email
-					if (!$email || !preg_match("/^[a-z0-9]+([_\\.-][a-z0-9]+)*@([a-z0-9]+([\.-][a-z0-9]+)*)+\\.[a-z]{2,}$/i", $email)) {
+					if (!$email || !preg_match('/^[a-z0-9]+([_\.-][a-z0-9]+)*@([a-z0-9]+([\.-][a-z0-9]+)*)+\.[a-z]{2,}$/i', $email)) {
 						HandoutHelper::_returnTo ( 'doc_code', JText::_('COM_HANDOUT_CODE_INVALID_EMAIL'), '', $params);
 					}
 
@@ -134,8 +134,8 @@ class HandoutModelCode extends JModel
 		$database->setQuery($query);
 		return $database->loadResult();
 	}
-	
-	
+
+
 }
 
 

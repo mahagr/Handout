@@ -29,7 +29,7 @@ class NotifyConfig extends JParameter
 	 */
 	public function getInstance()
 	{
-		static $instance;
+		static $instance = null;
 		if( !isset($instance)) {
 			$instance = new NotifyConfig();
 		}

@@ -32,25 +32,22 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 	<ul class="sample" data-role="listview">
 			<?php
 				foreach($this->cat_list->items as $category_item) :
-				
+
 				if($this->conf->cat_empty || $category_item->data->files != 0) :
 						$icon_ext = strrchr($category_item->paths->icon, "/");
 						$icon_ext = strrchr($icon_ext, "-");
-						
+
 
 			?>
 						<li>
 							<a href="<?php echo JURI::root().'index.php?option=com_handout&task=cat_view&gid='.$category_item->data->id.'&tmpl=component';?>"><img src="<?php echo COM_HANDOUT_CSSPATH; ?>../images/icons/folder.gif" alt="pic">
 
 							<h3><?php echo $category_item->data->title;?></h3>
-							
 
-							<?php
-							if($category_item->data->description) :
-								?><p><?php echo $category_item->data->description;?></p><?php
-							endif;
-							?>
-							
+							<?php if($category_item->data->description) :?>
+							<p><?php echo $category_item->data->description;?></p>
+							<?php endif; ?>
+
 							<span  class="ui-li-count"> <?php echo $category_item->data->files;?></span></a>
 						</li>
 			<?php
@@ -58,5 +55,5 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 				endforeach;
 			?>
 		</ul>
-	
+
 <?php } ?>

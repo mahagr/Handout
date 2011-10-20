@@ -25,15 +25,16 @@ defined('_JEXEC') or die;
 *   $this->doc->paths (object) : holds the document paths
 *   $this->doc->buttons (object) : holds the document buttons
 */
-echo '<li class="hdoc-item">';
-	if(!$this->doc->data->published)
-		$iconClass="hunpublished";
-	elseif($this->doc->data->checked_out)
-		$iconClass="hcheckedout";
-	else
-		$iconClass='';
-	echo '<div class="hdoc-icon '.$iconClass.'">';
-
+if(!$this->doc->data->published)
+	$iconClass="hunpublished";
+elseif($this->doc->data->checked_out)
+	$iconClass="hcheckedout";
+else
+	$iconClass='';
+?>
+	<li class="hdoc-item">
+	<div class="hdoc-icon <?php echo $iconClass ?>">
+<?php
 	//output document image
 	switch ($this->conf->doc_image) :
 		case 0 :   //do nothing
@@ -64,24 +65,19 @@ echo '<li class="hdoc-item">';
 	?></div>
 	<?php
 		//output document link
-		if(isset($this->doc->buttons['download']) && $this->conf->item_title_link) :
+		$isDownload = isset($this->doc->buttons['download']) && $this->conf->item_title_link;
 		?>
-			<h4 class="hasTip" title="<?php echo $this->doc->data->docname ?>::<?php echo JText::_('COM_HANDOUT_CLICK_TO_DOWNLOAD'); ?>"><a href="<?php echo $this->doc->buttons['download']->link;?>"><?php
-		else :
-		?>
-			<h4 class="hasTip" title="<?php echo $this->doc->data->docname ?>::<?php echo JText::_('COM_HANDOUT_CLICK_TO_SEE_DETAILS'); ?>"><a><?php
-		endif;
-		echo $this->doc->data->docname."</a>";
-
-		if($this->doc->data->new) :
-			?><span class="hdoc-new"><?php echo $this->doc->data->new ?></span><?php
-		endif;
-		if($this->doc->data->hot) :
-			?><span class="hdoc-hot"><?php echo $this->doc->data->hot ?></span><?php
-		endif;
-		echo "</h4>";
-
-		echo "<div class='hdoc-details'>";
+		<h4 class="hasTip" title="<?php echo $this->doc->data->docname ?>::<?php echo ($isDownload ? JText::_('COM_HANDOUT_CLICK_TO_DOWNLOAD') : JText::_('COM_HANDOUT_CLICK_TO_SEE_DETAILS')) ?>">
+			<a<?php echo $isDownload ? ' href="'.$this->doc->buttons['download']->link.'"' : '' ?>><?php echo $this->doc->data->docname ?></a>
+			<?php if($this->doc->data->new) : ?>
+			<span class="hdoc-new"><?php echo $this->doc->data->new ?></span>
+			<?php endif;
+			if($this->doc->data->hot) :?>
+			<span class="hdoc-hot"><?php echo $this->doc->data->hot ?></span>
+			<?php endif; ?>
+		</h4>
+		<div class='hdoc-details'>
+		<?php
 
 		if($this->conf->item_tooltip) :
 			$tooltip = '';
@@ -176,7 +172,8 @@ echo '<li class="hdoc-item">';
 			foreach($this->doc->buttons as $button) {
 				$popup = ($button->params->get('popup', false)) ? 'type="popup"' : '';
 				$attr = '';
-				if($class = $button->params->get('class', '')) {
+				$class = $button->params->get('class', '');
+				if($class) {
 					$attr = 'class="' . $class . '"';
 				}
 				?><li <?php echo $attr?>>

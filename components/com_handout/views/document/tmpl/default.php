@@ -174,7 +174,8 @@ $document->setMetaData('language', $this->data->doclanguage);
 				foreach($this->buttons as $button) {
 					$popup = ($button->params->get('popup', false)) ? 'type="popup"' : '';
 					$attr = '';
-					if($class = $button->params->get('class', '')) {
+					$class = $button->params->get('class', '');
+					if($class) {
 						$attr = 'class="' . $class . '"';
 					}
 					?><li <?php echo $attr?>>
