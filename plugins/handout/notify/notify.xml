@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE install>
 <install type="plugin" version="1.5.0" group="handout" method="upgrade">
   <name>Handout - Notify</name>
   <creationDate>April 2011</creationDate>

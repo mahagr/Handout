@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE form>
 <form type="params" version="1.0">
   <params>
   	 <param name="crc_checksum" type="text" default="" size="15"

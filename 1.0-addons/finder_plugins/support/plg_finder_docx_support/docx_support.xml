@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+<!DOCTYPE install>
 <install version="1.5" type="plugin" group="finder" method="upgrade">
 	<name>Finder - DOCX Support</name>
 	<group>finder</group>

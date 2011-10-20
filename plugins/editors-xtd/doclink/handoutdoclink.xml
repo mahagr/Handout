@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!DOCTYPE install>
 <install version="1.5" type="plugin" group="editors-xtd" method="upgrade">
   <name>Handout - Document Link</name>
   <version>1.0</version>

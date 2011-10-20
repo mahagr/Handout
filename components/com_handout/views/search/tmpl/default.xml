@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE metadata>
 <metadata>
 	<layout title="Search">
 		<message>Page for searching in document by various criteria</message>

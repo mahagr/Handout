@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE metadata>
 <metadata>
     <view title="Empty" hidden="true">
         <message><![CDATA['Handout Populate is not a frontend component. See the configuration panel for cron commands]]></message>

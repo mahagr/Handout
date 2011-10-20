@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE install>
 <install version="1.5" type="plugin" group="community" method="upgrade">
 	<name>Handout- Jomsocial</name>
 	<author>Kontent Extensions</author>
