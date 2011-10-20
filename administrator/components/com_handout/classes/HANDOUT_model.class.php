@@ -159,7 +159,7 @@ class HANDOUT_Document extends HANDOUT_Model
 
 	function &getInstance($id)
 	{
-		static $instances;
+		static $instances = null;
 
 		if (!isset($instances)) {
 			$instances = array();
@@ -229,7 +229,7 @@ class HANDOUT_Document extends HANDOUT_Model
 		$bot->setParm('file', $file);
 		$bot->trigger();
 		if ($bot->getError()) {
-			_returnTo('cat_view', $bot->getErrorMsg());
+			HandoutHelper::_returnTo('cat_view', $bot->getErrorMsg());
 		}
 
 		$buttons = array();

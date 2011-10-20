@@ -674,7 +674,7 @@ class HandoutMigration_Docman extends HandoutMigration
 		$dir = opendir($this->documentsPath);
 
 		//get all files to copy
-		while (($file = readdir($dir))) {
+		while (false !== ($file = readdir($dir))) {
 			if (is_file($this->documentsPath . DS . $file)) { //no copy links, directories and no file links
 				$oldFile = $newFile = $file;
 				$this->renameDuplicate($newFile);
@@ -1230,15 +1230,15 @@ class HandoutMigration_Folder extends HandoutMigration
 					return false;
 
 				case 2: // convert to underscore
-					$name=preg_replace( "/\s/" , '_' , $name );
+					$name=preg_replace( '/\s/' , '_' , $name );
 					break;
 
 				case 3: // convert to dash
-					$name=preg_replace( "/\s/" , '-' , $name );
+					$name=preg_replace( '/\s/' , '-' , $name );
 					break;
 
 				case 4: // REMOVE
-					$name=preg_replace( "/\s/" , '' , $name );
+					$name=preg_replace( '/\s/' , '' , $name );
 					break;
 			}
 		}

@@ -28,7 +28,7 @@ class HTML_HandoutDoclink {
 						<div id="selector">
 							<label for="listctrl"><?php echo JText::_('Category'); ?></label>
 							<?php echo HTML_HandoutDoclink::createListCtrl($rows, 'listctrl', 'listctrl'); ?>
-							<button class="button" type="button" "name="updir"  onClick="javascript:changeListCtrl('up');"><img src="<?php echo COM_HANDOUT_MEDIA?>/images/icon-16-upfolder.png" alt="<?php echo JText::_('Up'); ?>"></button>
+							<button class="button" type="button" name="updir" onClick="javascript:changeListCtrl('up');"><img src="<?php echo COM_HANDOUT_MEDIA?>/images/icon-16-upfolder.png" alt="<?php echo JText::_('Up'); ?>"></button>
 						</div>
 						<div id="browser">
 							<iframe src="<?php echo JURI::base()?>index.php?option=com_handout&amp;task=doclink-listview" id="listview" name="listview" width="545" height="150" marginwidth="0" marginheight="0" align="top" scrolling="no" frameborder="0" hspace="0" vspace="0"></iframe>
@@ -221,7 +221,7 @@ class HTML_HandoutDoclink {
 			?>
 			<tr>
 				<td><img src="<?php echo $icon ?>" alt="<?php echo $details->docname ?>" /></td>
-				<td><a href="javascript:;" onClick="onclickItem('<?php echo addslashes($details->docname) ?>', '<?php echo $url ?>', <?php echo $details->catid ?>, '<?php echo $icon ?>', '<?php echo $details->filesize ?>', '<?php echo $itemtime ?>');"><?php echo $details->docname ?></td>
+				<td><a href="javascript:;" onClick="onclickItem('<?php echo addslashes($details->docname) ?>', '<?php echo $url ?>', <?php echo $details->catid ?>, '<?php echo $icon ?>', '<?php echo $details->filesize ?>', '<?php echo $itemtime ?>');"><?php echo $details->docname ?></a></td>
 				<td><?php echo $details->filesize; ?></td>
 				<td><?php echo $itemtime; ?></td>
 			</tr>

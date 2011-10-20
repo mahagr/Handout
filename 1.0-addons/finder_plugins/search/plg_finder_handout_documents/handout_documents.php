@@ -105,7 +105,7 @@ class plgFinderHANDOUT_Documents extends FinderIndexerAdapter
 
 		// Let's do a little trick to get the Itemid.
 		$tmp = array('option' => 'com_handout', 'task' => 'doc_download', 'gid' => $item->id);
-		DocmanBuildRoute($tmp);
+		HandoutBuildRoute($tmp);
 		$Itemid = !empty($tmp['Itemid']) ? '&Itemid='.$tmp['Itemid'] : null;
 
 		// Build the necessary route and path information.
@@ -223,7 +223,7 @@ class plgFinderHANDOUT_Documents extends FinderIndexerAdapter
 		// Load the router.
 		require_once JPATH_SITE.'/components/com_handout/router.php';
 
-		// Register the DOCman configuration class.
+		// Register the Handout configuration class.
 		JLoader::register('HandoutConfig', JPATH_ADMINISTRATOR.'/components/com_handout/handout.config.php');
 
 		// Check if the Handout class is available.

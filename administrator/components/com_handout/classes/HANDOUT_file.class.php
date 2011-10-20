@@ -350,9 +350,9 @@ class HANDOUT_FileUpload
 		$this->proto_reject = array('file', 'php', 'zlib', 'asp', 'pl', 'compress.zlib', 'compress.bzip2', 'ogg');
 		$this->proto_accept = array('http', 'https', 'ftp');
 	}
-	
-	
-	
+
+
+
 	function _getError()
 	{
 	return $this->_err;
@@ -478,7 +478,8 @@ function _clearError()
 
 		// Open the local file and copy contents
 		$file_to_open = $path . $name;
-		if ($fh = fopen($file_to_open, "w")) {
+		$fh = fopen($file_to_open, "w");
+		if ($fh) {
 			$filesize = 0;
 			while (!feof($bufferhandle)) {
 				$buffer = fread($bufferhandle, 40960);
@@ -708,15 +709,15 @@ function _clearError()
 					return false;
 
 				case 2: // convert to underscore
-					$name = preg_replace("/\s/", '_', $name);
+					$name = preg_replace('/\s/', '_', $name);
 					break;
 
 				case 3: // convert to dash
-					$name = preg_replace("/\s/", '-', $name);
+					$name = preg_replace('/\s/', '-', $name);
 					break;
 
 				case 4: // REMOVE
-					$name = preg_replace("/\s/", '', $name);
+					$name = preg_replace('/\s/', '', $name);
 					break;
 			}
 		}
@@ -759,7 +760,7 @@ class HANDOUT_Folder
 		}
 		$handle = @opendir($this->path);
 
-		while ($file = @readdir($handle)) {
+		while (false !== ($file = @readdir($handle))) {
 			if (substr($file, 0, 1) == '.')
 				continue;
 			if (@is_dir($this->path . '/' . $file))

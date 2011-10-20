@@ -61,7 +61,7 @@ echo $tabs->startPanel('Document', 'configtab');	?>
 	</tr>
 	<tr>
 		<td class="key">Homepage URL</td>
-		<td><input type="text" size="50" maxsize="255" name="docurl" value="<?php echo $this->config->docurl; ?>" /></td>
+		<td><input type="text" size="50" maxlength="255" name="docurl" value="<?php echo $this->config->docurl; ?>" /></td>
 	</tr>
 	</table>
 </fieldset>

@@ -91,12 +91,12 @@ class HTML_HandoutCodes {
 				<td> </td>
 				<td><?php echo JText::_('COM_HANDOUT_CODES_USER_DESC'); ?></td>
 			 </tr>
-			<input type="hidden" name="id" value="<?php echo $row->id;?>" />
-			<input type="hidden" name="option" value="com_handout" />
-			<input type="hidden" name="section" value="codes" />
-			<input type="hidden" name="task" value="" />
-			<?php echo HANDOUT_token::render();?>
-	</table>
+		</table>
+		<input type="hidden" name="id" value="<?php echo $row->id;?>" />
+		<input type="hidden" name="option" value="com_handout" />
+		<input type="hidden" name="section" value="codes" />
+		<input type="hidden" name="task" value="" />
+		<?php echo HANDOUT_token::render();?>
 	</form>
 	<?php include_once(JPATH_ADMINISTRATOR."/components/com_handout/footer.php");
 	}
@@ -131,14 +131,14 @@ class HTML_HandoutCodes {
 			$k = 0;
 			for ($i = 0, $n = count($rows);$i < $n;$i++) {
 				$row = &$rows[$i];
-				echo "<tr class=\"row$k\">";
-				echo "<td width=\"20\">";
-				$task = $row->published ? 'unpublish' : 'publish';
-				$img = $row->published ? 'publish_g.png' : 'publish_x.png';
-				$alt = $row->published ? JText::_('COM_HANDOUT_PUBLISHED') : JText::_('COM_HANDOUT_UNPUBLISH') ;
-
 				?>
-						<?php echo JHTML::_('grid.id',$i, $row->id);?>
+					<tr class="row<?php echo $k ?>">
+						<td width="20">
+						<?php
+						$task = $row->published ? 'unpublish' : 'publish';
+						$img = $row->published ? 'publish_g.png' : 'publish_x.png';
+						$alt = $row->published ? JText::_('COM_HANDOUT_PUBLISHED') : JText::_('COM_HANDOUT_UNPUBLISH') ;
+						echo JHTML::_('grid.id',$i, $row->id);?>
 						</td>
 						<td align="left">
 							<a href="index.php?option=com_handout&section=codes&task=edit&cid[0]=<?php echo $row->id?>">

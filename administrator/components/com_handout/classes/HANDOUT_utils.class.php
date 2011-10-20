@@ -157,7 +157,7 @@ class HANDOUT_Utils
 				if ($keepOuterKey)
 					$output[] = $key;
 				// This is value is an array, go and do it again!
-				$output[] = implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+				$output[] = $this->implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
 			}
 			else
 				$output[] = $key . $inner_glue . $item;
@@ -252,7 +252,7 @@ class HANDOUT_Utils
 			/* if jomsocial groupid not empty then groupid will added with url */
 			if(!empty($groupid))
 			$link .= "&groupid=$groupid";
-			
+
 		if (is_array($params))
 			$link .= "&" . HANDOUT_Utils::implode_assoc('=', '&', $params);
 
@@ -486,7 +486,7 @@ class HANDOUT_Utils
 
 	function getModuleIdByName($name)
 	{
-		static $modules;
+		static $modules = null;
 		if (!isset($modules)) {
 			$database = &JFactory::getDBO();
 			$database->setQuery("SELECT id, module FROM #__modules");
@@ -621,7 +621,7 @@ class HANDOUT_Utils
 	 */
 	function getItemid($component = 'com_handout')
 	{
-		static $ids;
+		static $ids = null;
 		if (!isset($ids)) {
 			$ids = array();
 		}
@@ -730,7 +730,7 @@ class HANDOUT_Cats
 		 * -- Get a category hierarchy --
 		 */
 		// Performance: query should only be executed once
-		static $cats;
+		static $cats = null;
 		if (!isset($cats)) {
 			$query = "SELECT c.id, c.parent_id AS parent" . "\n FROM #__categories AS c" . "\n WHERE section='com_handout'" . "\n AND published <> -2"
 					. "\n ORDER BY ordering";
@@ -803,14 +803,14 @@ class HANDOUT_Cats
 	 */
 	function &getCategoryList()
 	{
-		static $list;
+		static $list = null;
 
 		if (!isset($list)) {
 			$database = &JFactory::getDBO();
 			 $query="SELECT * FROM #__categories" . "\n WHERE ".COM_HANDOUT_FIELD_SECTION." = 'com_handout'";
 			 $database->setQuery($query);
 			$list = $database->loadObjectList('id');
-			
+
 		}
 		return $list;
 	}
@@ -1145,10 +1145,10 @@ class HANDOUT_Docs
 		// We couldn't sort by category until now (we didn't HAVE a category)
 		if ($order == 'category') {
 			if ($invert) {
-				usort($rows, create_function("$a,$b", "return strcasecmp($a->section . $a->docname , $b->section . $b->docname);"));
+				usort($rows, create_function('$a,$b', "return strcasecmp($a->section . $a->docname , $b->section . $b->docname);"));
 			}
 			else {
-				usort($rows, create_function("$a,$b", "return strcasecmp($b->section . $b->docname , $a->section . $a->docname);"));
+				usort($rows, create_function('$a,$b', "return strcasecmp($b->section . $b->docname , $a->section . $a->docname);"));
 			}
 		}
 		return $rows;

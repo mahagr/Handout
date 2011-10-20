@@ -24,7 +24,7 @@ class HANDOUT_groups {
 	 * @deprecated
 	 */
 	function & getList() {
-		static $groups;
+		static $groups = null;
 
 		if( !isset( $groups )) {
 			$database = &JFactory::getDBO();
@@ -42,11 +42,7 @@ class HANDOUT_groups {
 	 */
 	function & get($id)
 	{
-		static $groups;
-
-		if( !isset( $groups )) {
-			$groups = array();
-		}
+		static $groups = array();
 
 		if( !isset( $groups[$id] )) {
 			$database = &JFactory::getDBO();

@@ -41,7 +41,7 @@ class HANDOUT_Token
 	 */
 	function get($forceNew = false)
 	{
-		static $token;
+		static $token = null;
 
 		if($forceNew || !isset($token))
 		{

@@ -14,21 +14,21 @@ class HandoutFactory
 
 	function getHandout ()
 	{
-		$app = &JFactory::getApplication();
-		static $instance;
+		static $instance = null;
 		if (! is_object($instance)) {
 			$instance = new HandoutMainFrame();
-		}
-		if ($app->isSite()) {
-			$lang = &JFactory::getLanguage();
-			$lang->load('com_handout');
+			$app = &JFactory::getApplication();
+			if ($app->isSite()) {
+				$lang = &JFactory::getLanguage();
+				$lang->load('com_handout');
+			}
 		}
 		return $instance;
 	}
 
 	function getHandoutUser ()
 	{
-		static $instance;
+		static $instance = null;
 		if (! is_object($instance)) {
 			$handout = HandoutFactory::getHandout();
 			$instance = $handout->getUser();
@@ -49,7 +49,7 @@ class HandoutFactory
 	function getToolTip ($tooltip, $title = '', $width = '', $image = 'tooltip.png', $text = '', $href = '', $link = 1)
 	{
 		// Initialize the tooltipsif required
-		static $init;
+		static $init = false;
 		if (! $init) {
 			JHTML::_('behavior.tooltip');
 			$init = true;

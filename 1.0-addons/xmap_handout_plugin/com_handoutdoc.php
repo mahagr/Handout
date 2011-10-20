@@ -33,18 +33,18 @@ class xmap_com_handout
 
 		$link_query = parse_url($parent->link);
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
-		$catid = intval(xmap_com_handoutdoc::getParam($link_vars, 'gid', 0));
+		$catid = intval(self::getParam($link_vars, 'gid', 0));
 
 		if (! $catid) {
 			$catid = intval($doc_params->get('category_id', 0));
 		}
 
-		$include_documents = xmap_com_handoutdoc::getParam($params, 'include_documents', 1);
+		$include_documents = self::getParam($params, 'include_documents', 1);
 		$include_documents = ($include_documents == 1 || ($include_documents == 2 && $xmap->view == 'xml') || ($include_documents == 3 && $xmap->view == 'html'));
 		$params['include_documents'] = $include_documents;
 
-		$priority = xmap_com_handoutdoc::getParam($params, 'cat_priority', $parent->priority);
-		$changefreq = xmap_com_handoutdoc::getParam($params, 'cat_changefreq', $parent->changefreq);
+		$priority = self::getParam($params, 'cat_priority', $parent->priority);
+		$changefreq = self::getParam($params, 'cat_changefreq', $parent->changefreq);
 		if ($priority == '-1')
 			$priority = $parent->priority;
 		if ($changefreq == '-1')
@@ -53,8 +53,8 @@ class xmap_com_handout
 		$params['cat_priority'] = $priority;
 		$params['cat_changefreq'] = $changefreq;
 
-		$priority = xmap_com_handoutdoc::getParam($params, 'doc_priority', $parent->priority);
-		$changefreq = xmap_com_handoutdoc::getParam($params, 'doc_changefreq', $parent->changefreq);
+		$priority = self::getParam($params, 'doc_priority', $parent->priority);
+		$changefreq = self::getParam($params, 'doc_changefreq', $parent->changefreq);
 		if ($priority == '-1')
 			$priority = $parent->priority;
 		if ($changefreq == '-1')
@@ -63,7 +63,7 @@ class xmap_com_handout
 		$params['doc_priority'] = $priority;
 		$params['doc_changefreq'] = $changefreq;
 
-		$task = xmap_com_handoutdoc::getParam($params, 'doc_task', $parent->task);
+		$task = self::getParam($params, 'doc_task', $parent->task);
 		if ($task == '-1')
 			$task = $parent->task;
 
@@ -83,7 +83,7 @@ class xmap_com_handout
 		require_once $_HANDOUT->getPath('classes', 'file');
 		require_once $_HANDOUT->getPath('classes', 'model');
 
-		xmap_com_handoutdoc::getCategoryTree($xmap, $parent, $params, $catid);
+		self::getCategoryTree($xmap, $parent, $params, $catid);
 		return true;
 	}
 
@@ -111,7 +111,7 @@ class xmap_com_handout
 			$node->changefreq = $params['cat_changefreq'];
 			$node->link = 'index.php?option=com_handout&task=cat_view&gid=' . $row[0];
 			if ($xmap->printNode($node) !== FALSE) {
-				$node->tree = xmap_com_handoutdoc::getCategoryTree($xmap, $parent, $params, $row[0]);
+				$node->tree = self::getCategoryTree($xmap, $parent, $params, $row[0]);
 			}
 		}
 		$xmap->changeLevel(- 1);
@@ -144,7 +144,7 @@ class xmap_com_handout
 		if (defined('JPATH_SITE')) {
 			$var = JArrayHelper::getValue($arr, $name, $def, '');
 		} else {
-			$var = xmap_com_handoutdoc::getParam($arr, $name, $def);
+			$var = self::getParam($arr, $name, $def);
 		}
 		return $var;
 	}

@@ -23,7 +23,10 @@ Legend:
 ! -> Note
 
 -------------
- 
+
+20-Oct-2011 Matias
+^ Fix problems reported by Zend Studio
+
 18-Jul-2011 Severdia
 # Fixed language codes
 ^ Updated a language string

@@ -118,7 +118,8 @@ class HANDOUT_Config {
 		}
 
 		$config .= "}\n}";
-		if (($fp = fopen($this->_path, "w"))) {
+		$fp = fopen($this->_path, "w");
+		if ($fp) {
 			if( fputs($fp, $config) !== false AND fclose($fp) !==false) {
 				return true;
 			}
@@ -140,7 +141,7 @@ class HANDOUT_Config {
 		/**
 		 * Handle single and double quotes
 		 */
-		$search  = array( "\'", '\"' );
+		$search  = array( "\\'", '\"' );
 		$replace = array( "'", '"' );
 
 		$vars = get_object_vars($this->_config);

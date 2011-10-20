@@ -58,7 +58,7 @@ class HandoutInstallHelper
 
 	function getComponentId ()
 	{
-		static $id;
+		static $id = null;
 		if (! $id) {
 			$database = &JFactory::getDBO();
 			$database->setQuery("SELECT id FROM #__components WHERE name= 'Handout'");
@@ -314,7 +314,7 @@ class HandoutInstallHelper
 		// create index.html in subdirs
 
 		$handle = opendir($path);
-		while ($file = readdir($handle)) {
+		while (false !== ($file = @readdir($handle))) {
 			if ($file != '.' and $file != '..') {
 				$dir = $path . DS . $file;
 				if (is_dir($dir)) {
@@ -797,7 +797,8 @@ endif; ?>
 			'  AND parent = 0'
 		);
 		$result = $db->loadResult();
-		if ($error = $db->getErrorMsg()) {
+		$error = $db->getErrorMsg();
+		if ($error) {
 			JError::raiseError(500, $error);
 		}
 

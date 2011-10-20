@@ -45,11 +45,10 @@ class HTML_HandoutLogs {
 		$k = 0;
 		for ($i = 0, $n = count($rows);$i < $n;$i++) {
 			$row = &$rows[$i];
-			echo "<tr class=\"row$k\">";
-			echo "<td width=\"20\">";
 			?>
-
-			<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id;?>" onclick="isChecked(this.checked);" />
+				<tr class="row<?php echo $k ?>">
+					<td width="20">
+						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id;?>" onclick="isChecked(this.checked);" />
 					</td>
 					<td align="left">
 						<?php echo $row->log_datetime;?>

@@ -36,7 +36,7 @@ class TablePopulateParams
 
 	public static function getInstance()
 	{
-		static $instance;
+		static $instance = null;
 		if(!isset($instance))
 		{
 			$instance = new TablePopulateParams();

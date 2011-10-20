@@ -67,13 +67,12 @@ class HTML_HandoutAgreements {
 				</td>
 			</tr>
 
-			<input type="hidden" name="id" value="<?php echo $row->id;?>" />
-			<input type="hidden" name="option" value="com_handout" />
-			<input type="hidden" name="section" value="licenses" />
-			<input type="hidden" name="task" value="" />
-			<?php echo HANDOUT_token::render();?>
-		</form>
-	</table>
+		</table>
+		<input type="hidden" name="id" value="<?php echo $row->id;?>" />
+		<input type="hidden" name="option" value="com_handout" />
+		<input type="hidden" name="section" value="licenses" />
+		<input type="hidden" name="task" value="" />
+		<?php echo HANDOUT_token::render();?>
 	</form>
 	<?php include_once(JPATH_ADMINISTRATOR."/components/com_handout/footer.php");
 	}
@@ -104,11 +103,10 @@ class HTML_HandoutAgreements {
 			$k = 0;
 			for ($i = 0, $n = count($rows);$i < $n;$i++) {
 				$row = &$rows[$i];
-				echo "<tr class=\"row$k\">";
-				echo "<td width=\"20\">";
-
 				?>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id;?>" onclick="isChecked(this.checked);" />
+					<tr class="row<?php echo $k ?>">
+						<td width="20">
+							<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id;?>" onclick="isChecked(this.checked);" />
 						</td>
 						<td align="left">
 							<a href="#edit" onclick="return listItemTask('cb<?php echo $i;?>','edit')">

@@ -296,7 +296,7 @@ function editDocument($uid)
 			'class="inputbox" size="1"', 'value', 'text', $doc->docfilename);
 	} else { // uploaded_file isn't blank
 
-		$filename = preg_split("/\./", $uploaded_file);
+		$filename = preg_split('/\./', $uploaded_file);
 	 	$row->docname = $filename[0];
 
 		$docs = array(JHTML::_('select.option',$uploaded_file));

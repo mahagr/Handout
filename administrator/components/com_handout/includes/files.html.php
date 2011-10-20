@@ -139,12 +139,6 @@ class HTML_HandoutFiles
 	{
 
 		?>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-		<script language="Javascript" src="<?php echo JURI::root();?>/includes/js/overlib_mini.js"></script>
-		<script language="Javascript" src="<?php echo JURI::root();?>/administrator/components/com_handout/includes/js/handout.js"></script>
-
-		<form action="index.php?option=com_handout&section=files&task=upload&step=3&method=http&old_filename=<?php echo $old_filename;?>" method="post" enctype="multipart/form-data" onSubmit="MM_showHideLayers('Layer1','','show')" name="fm_upload">
-
 		<style type="text/css">
 			<!--
 			.style1 {
@@ -156,6 +150,12 @@ class HTML_HandoutFiles
 			.style3 {color: #FFFFFF}
 			//-->
 		</style>
+		<script language="Javascript" src="<?php echo JURI::root();?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURI::root();?>/administrator/components/com_handout/includes/js/handout.js"></script>
+
+		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
+
+		<form action="index.php?option=com_handout&section=files&task=upload&step=3&method=http&old_filename=<?php echo $old_filename;?>" method="post" enctype="multipart/form-data" onSubmit="MM_showHideLayers('Layer1','','show')" name="fm_upload">
 
 		<div id="Layer1" style="position:absolute; margin-left: auto; margin-right: auto;  width:200px; height:130px; z-index:150; visibility: hidden; left: 14px; top: 11px; background-color: #99989D; layer-background-color: #FF0000; border: 3px solid #F19518;">
 
@@ -177,14 +177,12 @@ class HTML_HandoutFiles
 		</tr>
 		<tr >
 			<td width="40%" align="center" rowspan="6">
-			<div align="right"><img src="<?php echo JURI::root();?>/administrator/components/com_handout/images/icon-48-upload.png">
+				<div align="right"><img src="<?php echo JURI::root();?>/administrator/components/com_handout/images/icon-48-upload.png"></div>
 			</td>
 			<td nowrap ><?php echo JText::_('COM_HANDOUT_FILETOUPLOAD');?>:</td>
 			<td  align="left" width="80%">
-			<div align="left">
-			  <input name="upload" type="file" id="upload" size="35">
-		</div>
-		</td>
+				<div align="left"><input name="upload" type="file" id="upload" size="35"></div>
+			</td>
 	 </tr>
 		 <?php if ($old_filename == '1') {?>
 	 <tr>
@@ -206,9 +204,9 @@ class HTML_HandoutFiles
 		<td align="left">
 				<input type="button" name="Submit2" value="&lt;&lt;&lt;" onclick="window.history.back()">
 		</td>
-			<td align="center"><div align="left">
-				<input type="submit" name="Submit" value="<?php echo JText::_('COM_HANDOUT_SUBMIT') ?>">
-			</td>
+		<td align="center">
+			<div align="left"><input type="submit" name="Submit" value="<?php echo JText::_('COM_HANDOUT_SUBMIT') ?>"></div>
+		</td>
 		</tr>
 	  </table>
 	<?php echo HANDOUT_token::render();?>
@@ -283,9 +281,11 @@ class HTML_HandoutFiles
 		</tr>
 		<tr>
 			<td colspan="2" align="center">&nbsp;</td>
-			<td align="center"><div align="left">
-				<input type="button" name="Submit2" value="&lt;&lt;&lt;" onclick="window.history.back()">
-				<input type="submit" name="Submit" value="<?php echo JText::_('COM_HANDOUT_SUBMIT');?>">
+			<td align="center">
+				<div align="left">
+					<input type="button" name="Submit2" value="&lt;&lt;&lt;" onclick="window.history.back()">
+					<input type="submit" name="Submit" value="<?php echo JText::_('COM_HANDOUT_SUBMIT');?>">
+				</div>
 			</td>
 		</tr>
 	  </table>
@@ -326,7 +326,7 @@ class HTML_HandoutFiles
 		  <td colspan="2"><div align="left">'<?php echo $file->name?>' -<?php echo JText::_('COM_HANDOUT_FILEUPLOADED');?></div></td>
 		</tr>
 	<tr>
-	  <td colspan=2><div align="center"><hr /></td>
+	  <td colspan=2><div align="center"><hr /></div></td>
 	<tr>
 	<?php } ?>
 

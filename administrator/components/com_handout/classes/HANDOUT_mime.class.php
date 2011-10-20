@@ -31,7 +31,7 @@ class HANDOUT_MIME_Magic {
 	*/
 	function &_getMimeExtensionMap()
 	{
-		static $mime_extension_map;
+		static $mime_extension_map = null;
 
 		if (!isset($mime_extension_map)) {
 			require dirname(__FILE__) . '/mime.mapping.php';
@@ -48,7 +48,7 @@ class HANDOUT_MIME_Magic {
 	*/
 	function &_getMimeMagicFile()
 	{
-		static $mime_magic;
+		static $mime_magic = null;
 
 		if (!isset($mime_magic)) {
 			require dirname(__FILE__) . '/mime.magic.php';

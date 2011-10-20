@@ -81,7 +81,7 @@ define('COM_HANDOUT_VALIDATE_EXISTS'	, 0x0010);
 define('COM_HANDOUT_VALIDATE_PROTO' 	, 0x0020); // Protocol (URL transfer )
 
 // Hard-coded filename regexes to reject, separate by '|'.
-define('COM_HANDOUT_FNAME_REJECT'	   , "\.htaccess|Thumbs\.db");
+define('COM_HANDOUT_FNAME_REJECT'	   , '\.htaccess|Thumbs\.db');
 
 // Meta-validate values
 define('COM_HANDOUT_VALIDATE_ADMIN' 	, COM_HANDOUT_VALIDATE_NAME | COM_HANDOUT_VALIDATE_PATH | COM_HANDOUT_VALIDATE_PROTO | COM_HANDOUT_VALIDATE_EXISTS);

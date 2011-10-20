@@ -61,7 +61,7 @@ class TablePopulateConf extends JTable
 
 	public function getInstance()
 	{
-		static $instance;
+		static $instance = null;
 
 		if(!isset($instance))
 		{

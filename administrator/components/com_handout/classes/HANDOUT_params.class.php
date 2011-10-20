@@ -135,7 +135,8 @@ class HandoutParameters {
 					}
 				}
 			} else {
-				if ($pos = strpos( $line, '=' )) {
+				$pos = strpos( $line, '=' );
+				if ($pos) {
 					$property = trim( substr( $line, 0, $pos ) );
 
 					if (substr($property, 0, 1) == '"' && substr($property, -1) == '"') {
@@ -227,7 +228,8 @@ class HandoutParameters {
 					$tagName = $root->getTagName();
 					$isParamsFile = ($tagName == 'mosinstall' || $tagName == 'mosparams' || $tagName == 'form' );
 					if ($isParamsFile && $root->getAttribute( 'type' ) == $this->_type) {
-						if ($params = &$root->getElementsByPath( 'params', 1 )) {
+						$params = &$root->getElementsByPath( 'params', 1 );
+						if ($params) {
 							$this->_xmlElem =& $params;
 						}
 					}
@@ -241,7 +243,8 @@ class HandoutParameters {
 
 			$element =& $this->_xmlElem;
 
-			if ($description = $element->getAttribute( 'description' )) {
+			$description = $element->getAttribute( 'description' );
+			if ($description) {
 				// add the params description to the display
 				$html[] = '<tr><td colspan="2">' . $description . '</td></tr>';
 			}
@@ -419,25 +422,6 @@ class HandoutParameters {
 	* @param string The control name
 	* @return string The html for the element
 	*/
-	function _form_mos_menu( $name, $value, &$node, $control_name ) {
-		$database = &JFactory::getDBO();
-
-		$menuTypes = mosAdminMenus::menutypes();
-
-		foreach($menuTypes as $menutype ) {
-			$options[] = JHTML::_('select.option', $menutype, $menutype );
-		}
-		array_unshift( $options, JHTML::_('select.option', '', '- Select Menu -' ) );
-
-		return JHTML::_('select.genericlist', $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
-	}
-	/**
-	* @param string The name of the form element
-	* @param string The value of the element
-	* @param object The xml element for the parameter
-	* @param string The control name
-	* @return string The html for the element
-	*/
 	function _form_filelist( $name, $value, &$node, $control_name ) {
 
 
@@ -572,7 +556,8 @@ class HandoutParametersHandler extends HandoutParameters
 					$element =& $xmlDoc->documentElement;
 
 					if (($element->getTagName() == 'form' OR $element->getTagName() == 'mosinstall') && $element->getAttribute( "type" ) == $this->_type) {
-						if (($element = $xmlDoc->getElementsByPath( 'params', 1 ))) {
+						$element = $xmlDoc->getElementsByPath( 'params', 1 );
+						if ($element) {
 							$this->_xmlElem =& $element;
 						}
 					}
@@ -591,7 +576,8 @@ class HandoutParametersHandler extends HandoutParameters
 		$html = array();
 		$html[] = '<table class="paramlist" width="100%">';
 
-		if ($description = $element->getAttribute( 'description' )) {
+		$description = $element->getAttribute( 'description' );
+		if ($description) {
 			// add the params description to the display
 			$html[] = '<tr><td colspan="3">' . $description . '</td></tr>';
 		}
@@ -628,7 +614,8 @@ class HandoutParametersHandler extends HandoutParameters
 	{
 		$html = array();
 
-		if ($description = $element->getAttribute( 'description' )) {
+		$description = $element->getAttribute( 'description' );
+		if ($description) {
 			// add the params description to the display
 			$html[] = '<div>' . $description . '</div>';
 		}

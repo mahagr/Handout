@@ -642,7 +642,7 @@ class HANDOUT_User
 		if ($this->isSpecial) {
 			return true;
 		}
-		
+
 	if ($this->userid == $doc->docsubmittedby) {
 				return true;
 			}else if(!$doc->docsubmittedby)
@@ -720,15 +720,15 @@ class HANDOUT_User
 		//Make sure we have a document object
 
 		$category = $this->isCategory($category);
-      
+
 		if (!$category->published and !$this->isSpecial) {
-		
+
 			return false;
 		}
-  
+
 		switch ($category->access) {
 			case '0': //public
-                   
+
 				return true;
 				break;
 			case '1': //registered
@@ -811,7 +811,7 @@ class HANDOUT_users
 	 */
 	function &getList()
 	{
-		static $users;
+		static $users = null;
 
 		if (!isset($users)) {
 			$db = &JFactory::getDBO();
@@ -827,7 +827,7 @@ class HANDOUT_users
 	 */
 	function &get($id)
 	{
-		static $users;
+		static $users = null;
 
 		if (!isset($users)) {
 			$users = array();
