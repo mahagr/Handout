@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT.'/toolbar.handout.html.php';
 require_once JPATH_COMPONENT.'/toolbar.handout.class.php';
 
-global $section;
+$section = JRequest::getCmd('section');
 
 // Remove some Zend notices
 $task = $task;

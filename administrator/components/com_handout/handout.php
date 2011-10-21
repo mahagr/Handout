@@ -46,10 +46,7 @@ $updatedoc = JRequest::getVar('updatedoc', '0');
 $sort = JRequest::getVar('sort', '0');
 $view_type = JRequest::getVar('view', 1);
 
-if (!isset($section)) {
-	global $section;
-	$section = JRequest::getVar('section', '');
-}
+$section = JRequest::getCmd('section');
 
 // add stylesheet
 

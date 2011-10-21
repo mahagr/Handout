@@ -60,7 +60,7 @@ function showFiles()
 {
 	$database = &JFactory::getDBO();
 	$option = JRequest::getCmd('option');
-	$section = JRequest::getCmd('option');
+	$section = JRequest::getCmd('section');
 	$app = &JFactory::getApplication();
 	$list_limit = $app->getCfg('list_limit');
 	$handout = &HandoutFactory::getHandout();

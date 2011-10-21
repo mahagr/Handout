@@ -24,6 +24,10 @@ Legend:
 
 -------------
 
+21-Oct-2011 Matias
+^ Replace global $section with local variables
+# Fix setUserState() bug where option was used instead of section
+
 20-Oct-2011 Matias
 ^ Fix problems reported by Zend Studio
 ^ Improve Joomla! 1.7 compatibility (remove DS)
