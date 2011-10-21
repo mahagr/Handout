@@ -134,7 +134,7 @@ class plgFinderHANDOUT_Documents extends FinderIndexerAdapter
 			$item->mime = strtolower(JFile::getExt($item->filename));
 
 			// Set the full file path.
-			$item->filepath = JPath::clean($this->_handout_config->handoutpath.'/'.$item->filename);
+			$item->filepath = JPath::clean($this->_handout->getCfg('handoutpath').'/'.$item->filename);
 
 			// Make sure that the path exists.
 			if (JFile::exists($item->filepath) !== false)
@@ -231,12 +231,12 @@ class plgFinderHANDOUT_Documents extends FinderIndexerAdapter
 			throw new Exception(JText::_('FINDER_PLG_HANDOUT_DOCUMENTS_CONFIG_NOT_FOUND'), 500);
 		}
 
-		// Instantiate the Handout configuration class.
-		$this->_handout_config = new HandoutConfig();
+		// Instantiate the Handout class.
+		$this->_handout = &HandoutFactory::getHandout();
 
 		// Check if the Handout documents path is valid.
-		if (empty($this->_handout_config->handoutpath) || !JFolder::exists($this->_handout_config->handoutpath)) {
-			throw new Exception(JText::sprintf('FINDER_PLG_HANDOUT_DOCUMENTS_PATH_NOT_FOUND', $this->_handout_config->handoutpath), 500);
+		if (empty($this->_handout->getCfg('handoutpath')) || !JFolder::exists($this->_handouthandout->getCfg('handoutpath'))) {
+			throw new Exception(JText::sprintf('FINDER_PLG_HANDOUT_DOCUMENTS_PATH_NOT_FOUND', $this->_handout->getCfg('handoutpath')), 500);
 		}
 
 		return true;
