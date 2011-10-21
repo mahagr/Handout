@@ -2,6 +2,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $handout = &HandoutFactory::getHandout();
+$docs = $docs;
 ?>
 
 <table class="adminlist">

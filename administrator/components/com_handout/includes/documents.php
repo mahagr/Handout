@@ -21,6 +21,8 @@ require_once $handout->getPath('classes', 'plugins');
 include_once $handout->getPath('classes', 'params');
 
 $task = JRequest::getCmd('task');
+$cid = $cid;
+$option = $option;
 
 JArrayHelper::toInteger( $cid );
 switch ($task) {

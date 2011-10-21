@@ -12,6 +12,11 @@
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/groups.html.php';
+
+$cid = $cid;
+$option = $option;
+$task = $task;
+
 JArrayHelper::toInteger(( $cid ));
 
 switch ($task) {

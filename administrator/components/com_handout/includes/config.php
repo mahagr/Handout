@@ -17,6 +17,10 @@ include_once dirname(__FILE__) . '/config.html.php';
 include_once dirname(__FILE__) . '/defines.php';
 include_once dirname(__FILE__) . '/cleardata.php';
 
+$cid = $cid;
+$option = $option;
+$task = $task;
+
 switch ($task) {
 	case "cancel":
 		$app = JFactory::getApplication();

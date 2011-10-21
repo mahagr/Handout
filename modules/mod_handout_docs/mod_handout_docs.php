@@ -24,6 +24,8 @@ $handout = &HandoutFactory::getHandout();
 
 require_once $handout->getPath('classes', 'model');
 
+$params = $params;
+
 // Get the parameters
 $show_icon 		 = abs($params->def( 'show_icon', 1 ));
 $show_counter	 = abs($params->def( 'show_counter', 1 ));

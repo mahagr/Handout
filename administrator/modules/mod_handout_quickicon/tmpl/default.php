@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access');
 	}
 </style>
 <div id="hadminpanel">
-	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
+	<div style="float:<?php echo (JFactory::getLanguage()->isRTL()) ? 'right' : 'left'; ?>;">
 		<div class="icon">
 			<a href="index.php?option=com_handout">
 				<img src="components/com_handout/images/icon-48-home.png" />

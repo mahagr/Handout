@@ -15,6 +15,11 @@ include_once dirname(__FILE__) . '/logs.html.php';
 
 $handout = &HandoutFactory::getHandout();
 require_once $handout->getPath('classes', 'plugins');
+
+$cid = $cid;
+$option = $option;
+$task = $task;
+
 JArrayHelper::toInteger(( $cid ));
 
 switch ($task) {

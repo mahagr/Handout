@@ -21,6 +21,9 @@ require_once $handout->getPath('classes', 'utils');
 // retrieve some expected url (or form) arguments
 $old_filename = JRequest::getInt( 'old_filename', 1);
 
+$cid = $cid;
+$task = $task;
+
 switch ($task)
 {
 	case "new": // make a new document using the selected file

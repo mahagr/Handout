@@ -15,6 +15,8 @@ include_once dirname(__FILE__) . '/handout.html.php';
 
 $handout = &HandoutFactory::getHandout();
 
+$task = $task;
+
 switch ($task) {
 	case 'stats':
 		showStatistics();

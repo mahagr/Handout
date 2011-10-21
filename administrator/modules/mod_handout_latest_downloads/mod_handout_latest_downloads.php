@@ -15,5 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once dirname(__FILE__).'/helper.php';
 
+$params = $params;
+
 $docs = modHandoutLatestDownloadsHelper::getDocs($params);
 require(JModuleHelper::getLayoutPath('mod_handout_latest_downloads'));

@@ -11,6 +11,12 @@
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/categories.html.php';
+
+$cid = $cid;
+$id = $id;
+$option = $option;
+$task = $task;
+
 JArrayHelper::toInteger($cid);
 
 switch ($task) {
@@ -122,9 +128,11 @@ function showCategories()
 	$javascript = 'onchange="document.adminForm.submit();"';
 
 	if (JRequest::getString('task') == 'element') {
+		// FIXME: bug?
 		HTML_HandoutCategories::showToSelect($list, $pageNav, $lists);
 	}
 	else {
+		// FIXME: bug?
 		HTML_HandoutCategories::show($list, $user->id, $pageNav, $lists, 'other');
 	}
 }
