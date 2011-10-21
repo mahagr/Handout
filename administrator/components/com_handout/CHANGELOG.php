@@ -28,6 +28,7 @@ Legend:
 ^ Fix problems reported by Zend Studio
 ^ Improve Joomla! 1.7 compatibility (remove DS)
 ^ Always use HandoutFactory::getHandout() instead of new HandoutMainFrame()
+# Replace global $_HANDOUT and $_HANDOUT_USER with local variables
 
 18-Jul-2011 Severdia
 # Fixed language codes

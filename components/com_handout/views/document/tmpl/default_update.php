@@ -3,13 +3,13 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 	{
 		$Itemid = JRequest::getInt('Itemid');
          $groupid=JRequest::getVar('groupid');
-         
+
 		JFilterOutput::objectHTMLSafe( $row );
-	
+
 		ob_start();
 		?>
 		<form action="index.php" method="post" name="adminForm" onsubmit="javascript:setgood();" id="hform-edit" class="hform">
-			
+
 			 <ul>
 						<li><input type="button" name="cancel" onclick="submitbutton('cancel');" value="<?php echo JText::_('COM_HANDOUT_CANCEL');?>"></li>
 						<li><input type="submit" name="sub" value="<?php echo JText::_('COM_HANDOUT_SAVE');?>"></li>
@@ -61,7 +61,7 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 			<input type="hidden" name="doccounter" value="<?php echo $row->doccounter;?>" />
 			<input type="hidden" name="doclastupdateon" value="<?php echo date('Y-m-d H:i:s') ?>" />
 			<?php echo HANDOUT_token::render();?>
-			
+
 			<ul>
 						<li><input type="button" name="cancel" onclick="submitbutton('cancel');" value="<?php echo JText::_('COM_HANDOUT_CANCEL');?>"></li>
 						<li><input type="submit" name="sub" value="<?php echo JText::_('COM_HANDOUT_SAVE');?>"></li>
@@ -75,7 +75,7 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 
 	function _showTabDocument(&$row, &$lists, $last, $created)
 	{
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 		JHTML::_('behavior.calendar');
 		?>
 		<table class="adminform">
@@ -98,7 +98,7 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 							<label for="hform-thumb"><?php echo JText::_('COM_HANDOUT_THUMBNAIL');?></label><br />
 							<?php echo $lists['docthumbnail'];?>
 							<?php $previewfull = $lists['docthumbnail_preview'] ? "images/stories/".$lists['docthumbnail_preview'] : "images/M_images/blank.png";?>
-							
+
 						</p>
 						<p>
 							<label for="hform-filename"><?php echo JText::_('COM_HANDOUT_FILE');?></label><br />
@@ -129,7 +129,7 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 							<div><em>(<?php echo JText::_('COM_HANDOUT_MAKE_SURE');?>)</em></div>
 						</p>
 						<?php
-						if ($_HANDOUT_USER->canPublish()) : ?>
+						if ($handout_user->canPublish()) : ?>
 						<p>
 							<label><?php echo JText::_('COM_HANDOUT_PUBLISHED');?></label><br />
 							<?php echo $lists['published']; ?>
@@ -137,8 +137,8 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 						<?php
 						endif;
 						?>
-						
-						
+
+
 						<p>
 								<label for="hform-filename"><?php echo JText::_('DOWNLOAD_LIMIT');?></label><br />
 								<input class="inputbox" type="text" name="download_limit" size="15" maxlength="200" value="<?php echo $row->download_limit; ?>" />
@@ -148,12 +148,12 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 
 		                </p>
 						<p>
-							<input type="checkbox" <?php if($row->allow_single_download==1)echo 'checked="checked"';?> name="allow_single_download"  value="1"/> <?php echo JText::_('ALLOW_SINGLE_DOWNLOAD');?> 
-	
-							
+							<input type="checkbox" <?php if($row->allow_single_download==1)echo 'checked="checked"';?> name="allow_single_download"  value="1"/> <?php echo JText::_('ALLOW_SINGLE_DOWNLOAD');?>
+
+
 							<span class="hasTip" title="<?php echo JText::_('ALLOW_SINGLE_DOWNLOAD');?>::<?php echo JText::_('ALLOW_SINGLE_DOWNLOAD_TOOLTIP');?>">
 								<img border="0" alt="Tooltip" src="media/com_handout/images/icon-16-tooltip.png" /></span>
-							
+
 						</p>
 					</td>
 				</tr>
@@ -164,7 +164,6 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 
 	function _showTabPermissions(&$row, &$lists, $last, $created)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout(); $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
 		?>
 		<fieldset class="input">
 			<p>
@@ -212,7 +211,6 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 
 	function _showTabLicense(&$row, &$lists, $last, $created)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout(); $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
 		?>
 		<fieldset class="input">
 			<p>
@@ -237,11 +235,9 @@ function editDocumentForm(&$row, &$lists, $last, $created, &$params)
 
 	function _showTabDetails(&$row, &$lists, $last, $created, &$params)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout(); $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
 		?>
 		<fieldset class="input">
 			<?php echo $params->render('params', 'Tableless');?>
 		</fieldset>
 		<?php
 	}
-	

@@ -25,7 +25,8 @@ class HTML_HandoutConfig
 	{
 		JHTML::_('behavior.tooltip');
 
-		global $_HANDOUT;
+		$handout = &HandoutFactory::getHandout();
+
 		$tabs = new JPaneTabs(1);
 		?>
 		<script language="javascript" src="<?php echo JURI::root();?>/includes/js/overlib_mini.js" type="text/javascript"></script>
@@ -113,7 +114,7 @@ class HTML_HandoutConfig
 			<td>
 				<?php
 					$newpath = JPATH_ROOT.'/handouts';
-					$path = $_HANDOUT->getCfg('handoutpath') ? $_HANDOUT->getCfg('handoutpath') : $newpath;
+					$path = $handout->getCfg('handoutpath') ? $handout->getCfg('handoutpath') : $newpath;
 				?>
 				<input size="50" type="text" name="handoutpath" value="<?php echo $path?>" />&nbsp;&nbsp;<input type="button" value="<?php echo JText::_('COM_HANDOUT_RESETDEFAULT_LABEL');?>" name="Reset" onclick="document.adminForm.handoutpath.value='<?php echo addslashes($newpath);?>';" />
 
@@ -135,7 +136,7 @@ class HTML_HandoutConfig
 		 <tr >
 			<td><?php echo JText::_('COM_HANDOUT_ANALYTICS_LABEL');?></td>
 
-			<td> <input size="10" type="text" name="ga_code" value="<?php echo $_HANDOUT->getCfg('ga_code') ?>"  /></td>
+			<td> <input size="10" type="text" name="ga_code" value="<?php echo $handout->getCfg('ga_code') ?>"  /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_ANALYTICS_LABEL');?>::<?php echo JText::_('COM_HANDOUT_ANALYTICS_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -148,7 +149,7 @@ class HTML_HandoutConfig
 		</tr>
 		 <tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_DAYSFORNEW_LABEL');?></td>
-			<td class="col2"><input type="text" name="days_for_new" value="<?php echo $_HANDOUT->getCfg('days_for_new', 5);?>" /></td>
+			<td class="col2"><input type="text" name="days_for_new" value="<?php echo $handout->getCfg('days_for_new', 5);?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_DAYSFORNEW_LABEL');?>::<?php echo JText::_('COM_HANDOUT_DAYSFORNEW_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -156,7 +157,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_HANDOUT_HOT_LABEL');?></td>
-			<td><input type="text" name="hot" value="<?php echo $_HANDOUT->getCfg('hot', 100);?>" /></td>
+			<td><input type="text" name="hot" value="<?php echo $handout->getCfg('hot', 100);?>" /></td>
 			<td>
 
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_HOT_LABEL');?>::<?php echo JText::_('COM_HANDOUT_HOT_DESC');?>">
@@ -183,7 +184,7 @@ class HTML_HandoutConfig
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_EXTENSIONSVIEWING_LABEL');?>:</td>
 			<td class="col2"><input type="text" name="viewtypes" value="<?php
-		echo $_HANDOUT->getCfg('viewtypes', "pdf|doc|txt|jpg|jpeg|gif|png")?>" style="width: 200px" /></td>
+		echo $handout->getCfg('viewtypes', "pdf|doc|txt|jpg|jpeg|gif|png")?>" style="width: 200px" /></td>
 			<td>
 
 		<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_EXTENSIONSVIEWING_LABEL');?>::<?php echo JText::_('COM_HANDOUT_EXTENSIONSVIEWING_DESC');?>">
@@ -193,7 +194,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_HANDOUT_NUMBEROFDOCS_LABEL');?></td>
-			<td><input type="text" name="perpage" value="<?php echo $_HANDOUT->getCfg('perpage', 5);?>" /></td>
+			<td><input type="text" name="perpage" value="<?php echo $handout->getCfg('perpage', 5);?>" /></td>
 			<td>
 
 			<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_NUMBEROFDOCS_LABEL');?>::<?php echo JText::_('COM_HANDOUT_NUMBER_DESC');?>">
@@ -610,7 +611,7 @@ class HTML_HandoutConfig
 			 <?php
 				$author_checked = '';
 				$editor_checked = '';
-				$assign = $_HANDOUT->getCfg('reader_assign');
+				$assign = $handout->getCfg('reader_assign');
 				if (($assign == 1) || ($assign == 3)) {
 					$author_checked = 'checked';
 				}
@@ -640,7 +641,7 @@ class HTML_HandoutConfig
 		<?php
 			$author_checked = '';
 			$editor_checked = '';
-			$assign = $_HANDOUT->getCfg('editor_assign');
+			$assign = $handout->getCfg('editor_assign');
 			if (($assign == 1) || ($assign == 3)) {
 				$author_checked = 'checked';
 			}
@@ -700,7 +701,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_HANDOUT_MAXFILESIZE_LABEL');?></td>
-			<td><input type="text" name="maxAllowed" onkeyup="javascript:handoutFilesize(this)" value="<?php echo HANDOUT_Utils::number2text($_HANDOUT->getCfg('maxAllowed', 1024000));?>" /></td>
+			<td><input type="text" name="maxAllowed" onkeyup="javascript:handoutFilesize(this)" value="<?php echo HANDOUT_Utils::number2text($handout->getCfg('maxAllowed', 1024000));?>" /></td>
 			<td>
 	   			<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_MAXFILESIZE_LABEL');?>::<?php echo JText::_('COM_HANDOUT_MAXFILESIZE_DESC'). ini_get('upload_max_filesize');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -721,7 +722,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_EXTALLOWED_LABEL');?></td>
-			<td class="col2"><input type="text" name="extensions" value="<?php echo $_HANDOUT->getCfg('extensions', "zip|rar|pdf|txt")?>" /></td>
+			<td class="col2"><input type="text" name="extensions" value="<?php echo $handout->getCfg('extensions', "zip|rar|pdf|txt")?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_EXTALLOWED_LABEL');?>::<?php echo JText::_('COM_HANDOUT_EXTALLOWED_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -758,7 +759,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_HANDOUT_REJECTFILENAMES_LABEL');?>:</td>
-			<td><input type="text" name="fname_reject" value="<?php echo htmlentities( $_HANDOUT->getCfg('fname_reject', ''), ENT_QUOTES);?>" /></td>
+			<td><input type="text" name="fname_reject" value="<?php echo htmlentities($handout->getCfg('fname_reject', ''), ENT_QUOTES);?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_REJECTFILENAMES_LABEL');?>::<?php echo JText::_('COM_HANDOUT_REJECTFILENAMES_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -784,7 +785,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_HANDOUT_ALLOWEDHOSTS_LABEL');?></td>
-			<td><input type="text" name="security_allowed_hosts" value="<?php echo $_HANDOUT->getCfg('security_allowed_hosts' , $_SERVER["HTTP_HOST"])?>" />&nbsp;&nbsp;<input type="button" value="<?php echo JText::_('COM_HANDOUT_RESETDEFAULT_LABEL');?>" name="Reset" onclick="document.adminForm.security_allowed_hosts.value='<?php echo $_SERVER['HTTP_HOST'];?>';" /></td>
+			<td><input type="text" name="security_allowed_hosts" value="<?php echo $handout->getCfg('security_allowed_hosts' , $_SERVER["HTTP_HOST"])?>" />&nbsp;&nbsp;<input type="button" value="<?php echo JText::_('COM_HANDOUT_RESETDEFAULT_LABEL');?>" name="Reset" onclick="document.adminForm.security_allowed_hosts.value='<?php echo $_SERVER['HTTP_HOST'];?>';" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_ALLOWEDHOSTS_LABEL');?>::<?php echo JText::_('COM_HANDOUT_ALLOWEDHOSTS_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -883,7 +884,7 @@ class HTML_HandoutConfig
 	<table class="adminform">
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_NOTIFY_SENDTO_LABEL');?></td>
-			<td class="col2"><textarea name="notify_sendto" rows="5" cols="30" ><?php echo $_HANDOUT->getCfg('notify_sendto');?></textarea></td>
+			<td class="col2"><textarea name="notify_sendto" rows="5" cols="30" ><?php echo $handout->getCfg('notify_sendto');?></textarea></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_NOTIFY_SENDTO_LABEL');?>::<?php echo JText::_('COM_HANDOUT_NOTIFY_SENDTO_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -929,7 +930,7 @@ class HTML_HandoutConfig
 	<table class="adminform">
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_THUMBS_EXTENSIONS_LABEL');?></td>
-			<td class="col2"><input name="thumbs_extensions" size="30" value="<?php echo $_HANDOUT->getCfg('thumbs_extensions');?>" /></td>
+			<td class="col2"><input name="thumbs_extensions" size="30" value="<?php echo $handout->getCfg('thumbs_extensions');?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_THUMBS_EXTENSIONS_LABEL');?>::<?php echo JText::_('COM_HANDOUT_THUMBS_EXTENSIONS_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -937,7 +938,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_THUMBS_WIDTH_LABEL');?></td>
-			<td class="col2"><input name="thumbs_width" size="5" value="<?php echo $_HANDOUT->getCfg('thumbs_width', 64);?>" /></td>
+			<td class="col2"><input name="thumbs_width" size="5" value="<?php echo $handout->getCfg('thumbs_width', 64);?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_THUMBS_WIDTH_LABEL');?>::<?php echo JText::_('COM_HANDOUT_THUMBS_WIDTH_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -945,7 +946,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_THUMBS_HEIGHT_LABEL');?></td>
-			<td class="col2"><input name="thumbs_height" size="5" value="<?php echo $_HANDOUT->getCfg('thumbs_height', 64);?>" /></td>
+			<td class="col2"><input name="thumbs_height" size="5" value="<?php echo $handout->getCfg('thumbs_height', 64);?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_THUMBS_HEIGHT_LABEL');?>::<?php echo JText::_('COM_HANDOUT_THUMBS_HEIGHT_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -961,7 +962,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_THUMBS_JPEG_QUALITY_LABEL');?></td>
-			<td class="col2"><input name="thumbs_jpeg_quality" size="5" value="<?php echo $_HANDOUT->getCfg('thumbs_jpeg_quality', 75);?>" /></td>
+			<td class="col2"><input name="thumbs_jpeg_quality" size="5" value="<?php echo $handout->getCfg('thumbs_jpeg_quality', 75);?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_THUMBS_JPEG_QUALITY_LABEL');?>::<?php echo JText::_('COM_HANDOUT_THUMBS_JPEG_QUALITY_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>
@@ -969,7 +970,7 @@ class HTML_HandoutConfig
 		</tr>
 		<tr>
 			<td class="col1"><?php echo JText::_('COM_HANDOUT_THUMBS_BGCOLOR_LABEL');?></td>
-			<td class="col2"><input name="thumbs_bgcolor" size="5" value="<?php echo $_HANDOUT->getCfg('thumbs_bgcolor', 'FFFFFF');?>" /></td>
+			<td class="col2"><input name="thumbs_bgcolor" size="5" value="<?php echo $handout->getCfg('thumbs_bgcolor', 'FFFFFF');?>" /></td>
 			<td>
 				<span class="hasTip" title="<?php echo JText::_('COM_HANDOUT_THUMBS_BGCOLOR_LABEL');?>::<?php echo JText::_('COM_HANDOUT_THUMBS_BGCOLOR_DESC');?>">
 					<img border="0" alt="Tooltip" src="../media/com_handout/images/icon-16-tooltip.png" /></span>

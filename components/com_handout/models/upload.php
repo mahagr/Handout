@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Handout - The Joomla Download Manager
@@ -20,21 +20,21 @@ class HandoutModelUpload extends JModel
 {
 	function __construct()
 	{
-		
-		$_HANDOUT = &HandoutFactory::getHandout ();
 
-        require_once $_HANDOUT->getPath ( 'classes', 'plugins' );
-        require_once $_HANDOUT->getPath ( 'classes', 'file' );
-		
+		$handout = &HandoutFactory::getHandout ();
+
+        require_once $handout->getPath ( 'classes', 'plugins' );
+        require_once $handout->getPath ( 'classes', 'file' );
+
 		parent::__construct();
 	}
-	
+
 function fetchDocumentUploadForm($uid, $step, $method, $update) {
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		//preform permission check
 
-		if ($_HANDOUT_USER->canPreformTask ( null, 'Upload' )) {
+		if ($handout_user->canPreformTask ( null, 'Upload' )) {
 			HandoutHelper::_returnTo ( '', JText::_('COM_HANDOUT_NOLOG_UPLOAD') );
 		}
 		//check to see if method is available
@@ -69,9 +69,9 @@ function fetchDocumentUploadForm($uid, $step, $method, $update) {
 	}
 
 	function fetchMethodForm($uid, $step, $method, $update) {
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 		$task = JRequest::getCmd('task');
-		$method_file = $_HANDOUT->getPath ( 'helpers', 'upload.' . $method );
+		$method_file = $handout->getPath ( 'helpers', 'upload.' . $method );
 		if (! file_exists ( $method_file )) {
 			HandoutHelper::_returnTo ( $task, "Protocol " . $method . " not supported", '', array ('step' => 1 ) );
 		}
@@ -81,23 +81,23 @@ function fetchDocumentUploadForm($uid, $step, $method, $update) {
 	}
 
 	function methodAvailable($method) {
-		$_HANDOUT = &HandoutFactory::getHandout();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout = &HandoutFactory::getHandout();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
-		if ($_HANDOUT_USER->isSpecial || is_null ( $method )) {
+		if ($handout_user->isSpecial || is_null ( $method )) {
 			return true;
 		}
 
-		$methods = $_HANDOUT->getCfg ( 'methods', array ('http' ) );
+		$methods = $handout->getCfg ( 'methods', array ('http' ) );
 		if (! in_array ( $method, $methods )) {
 			return false;
 		}
 		return true;
 	}
-	
-	
-	
-	
+
+
+
+
 }
 
 

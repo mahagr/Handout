@@ -17,8 +17,9 @@ else {
 	define('_HANDOUT_MODEL', 1);
 }
 
-require_once $_HANDOUT->getPath('classes', 'utils');
-require_once $_HANDOUT->getPath('classes', 'user');
+$handout = &HandoutFactory::getHandout();
+require_once $handout->getPath('classes', 'utils');
+require_once $handout->getPath('classes', 'user');
 
 class HANDOUT_Model
 {
@@ -90,8 +91,8 @@ class HANDOUT_Model
 
 	function _formatLink($task, $params = array(), $sef = true, $token = false)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
-		require_once $_HANDOUT->getPath('classes', 'token');
+		$handout = &HandoutFactory::getHandout();
+		require_once $handout->getPath('classes', 'token');
 
 		if ($token) {
 			$params[HANDOUT_token::get(false)] = 1;
@@ -129,9 +130,9 @@ class HANDOUT_Category extends HANDOUT_Model
 
 	function _format(&$objDBCat)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 
-		$user = $_HANDOUT->getUser();
+		$user = $handout->getUser();
 		// format category data
 		$this->objFormatData = HANDOUT_Utils::get_object_vars($objDBCat);
 
@@ -191,12 +192,12 @@ class HANDOUT_Document extends HANDOUT_Model
 
 	function _format(&$objDBDoc)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
-		require_once $_HANDOUT->getPath('classes', 'file');
-		require_once $_HANDOUT->getPath('classes', 'params');
-		require_once $_HANDOUT->getPath('classes', 'plugins');
+		$handout = &HandoutFactory::getHandout();
+		require_once $handout->getPath('classes', 'file');
+		require_once $handout->getPath('classes', 'params');
+		require_once $handout->getPath('classes', 'plugins');
 
-		$file = new HANDOUT_file($objDBDoc->docfilename, $_HANDOUT->getCfg('handoutpath'));
+		$file = new HANDOUT_file($objDBDoc->docfilename, $handout->getCfg('handoutpath'));
 		$params = new HandoutParametersHandler($objDBDoc->attribs, '', 'params');
 
 		// format document data
@@ -252,9 +253,9 @@ class HANDOUT_Document extends HANDOUT_Model
 	//  @return string Contains the user name in string format
 	function _formatUserName($userid)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
-		require_once $_HANDOUT->getPath('classes', 'user');
-		require_once $_HANDOUT->getPath('classes', 'groups');
+		$handout = &HandoutFactory::getHandout();
+		require_once $handout->getPath('classes', 'user');
+		require_once $handout->getPath('classes', 'groups');
 
 		switch ($userid) {
 			case '-1':
@@ -291,8 +292,8 @@ class HANDOUT_Document extends HANDOUT_Model
 
 	function _formatNew(&$objDBDoc)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
-		$days = $_HANDOUT->getCfg('days_for_new');
+		$handout = &HandoutFactory::getHandout();
+		$days = $handout->getCfg('days_for_new');
 		$result = null;
 
 		if ($days > 0 && (HANDOUT_Utils::Daysdiff($objDBDoc->docdate_published) > ($days - 2 * $days))
@@ -304,8 +305,8 @@ class HANDOUT_Document extends HANDOUT_Model
 
 	function _formatHot(&$objDBDoc)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
-		$hot = $_HANDOUT->getCfg('hot');
+		$handout = &HandoutFactory::getHandout();
+		$hot = $handout->getCfg('hot');
 		$result = null;
 
 		if ($hot > 0 && $objDBDoc->doccounter >= $hot) {
@@ -317,13 +318,13 @@ class HANDOUT_Document extends HANDOUT_Model
 
 	function _formatFilename(&$objDBDoc)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
-		$_HANDOUT_USER = $_HANDOUT->getUser();
+		$handout = &HandoutFactory::getHandout();
+		$handout_user = $handout->getUser();
 
 		$filename = $objDBDoc->docfilename;
 		$is_link = (substr($filename, 0, strlen(COM_HANDOUT_DOCUMENT_LINK)) == COM_HANDOUT_DOCUMENT_LINK);
-		$hide_remote = $_HANDOUT->getCfg('hide_remote', 1);
-		$can_edit = $_HANDOUT_USER->canEdit($objDBDoc);
+		$hide_remote = $handout->getCfg('hide_remote', 1);
+		$can_edit = $handout_user->canEdit($objDBDoc);
 
 		if ($is_link AND $hide_remote AND !$can_edit) {
 			// strip 'Link: '

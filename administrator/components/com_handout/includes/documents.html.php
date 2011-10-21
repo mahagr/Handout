@@ -24,7 +24,7 @@ class HTML_HandoutDocuments
 	{
 		$database = &JFactory::getDBO();
 		$user = &JFactory::getUser();
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 
 		JHTML::_('behavior.tooltip');
 
@@ -98,7 +98,7 @@ class HTML_HandoutDocuments
 			$img = $row->published ? 'publish_g.png' : 'publish_x.png';
 			$alt = $row->published ? JText::_('COM_HANDOUT_PUBLISHED') : JText::_('COM_HANDOUT_UNPUBLISH') ;
 
-			$file = new HANDOUT_File($row->docfilename, $_HANDOUT->getCfg('handoutpath'));
+			$file = new HANDOUT_File($row->docfilename, $handout->getCfg('handoutpath'));
 
 			?><tr class="row<?php echo $k;?>">
 				<td width="20">
@@ -180,7 +180,7 @@ function showDocumentsToSelect($rows, $lists, $search, $pageNav, $number_unpubli
 	{
 		$database = &JFactory::getDBO();
 		$user = &JFactory::getUser();
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 
 
 		$link = 'index.php?option=com_handout&section=documents&task=element&tmpl=component&object=' . JRequest::getString('object').'&sort=';
@@ -225,7 +225,7 @@ function showDocumentsToSelect($rows, $lists, $search, $pageNav, $number_unpubli
 			$img = $row->published ? 'publish_g.png' : 'publish_x.png';
 			$alt = $row->published ? JText::_('COM_HANDOUT_PUBLISHED') : JText::_('COM_HANDOUT_UNPUBLISH') ;
 
-			$file = new HANDOUT_File($row->docfilename, $_HANDOUT->getCfg('handoutpath'));
+			$file = new HANDOUT_File($row->docfilename, $handout->getCfg('handoutpath'));
 
 			?><tr class="row<?php echo $k;?>">
 				<td width="15%">

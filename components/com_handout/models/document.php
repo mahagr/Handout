@@ -14,14 +14,13 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 class HandoutModelDocument extends JModel
-{      public $_HANDOUT=null;
-	
+{
 	function __construct(){
 
                          parent::__construct();
 	                   }
-	                   
-	                   
+
+
 
 	function getDocument($id) {
 
@@ -132,7 +131,7 @@ class HandoutModelDocument extends JModel
 	function getEditDocumentForm($uid, $filename = null, $catid = 0) {
 		$database = &JFactory::getDBO ();
 
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser ();
+		$handout_user = &HandoutFactory::getHandoutUser ();
 
 		$doc = new HandoutDocument ( $database );
 		if ($uid) {
@@ -142,7 +141,7 @@ class HandoutModelDocument extends JModel
 
 			//check user permissions
 
-			$err = $_HANDOUT_USER->canPreformTask ( $doc, 'Edit' );
+			$err = $handout_user->canPreformTask ( $doc, 'Edit' );
 			if ($err) {
 				$this->_returnTo ( 'cat_view', $err, $doc->catid );
 			}
@@ -153,7 +152,7 @@ class HandoutModelDocument extends JModel
 
 			//check user permissions
 
-			$err = $_HANDOUT_USER->canPreformTask ( $doc, 'Upload' );
+			$err = $handout_user->canPreformTask ( $doc, 'Upload' );
 			if ($err) {
 			      $this->_returnTo ( 'cat_view', $err, $doc->catid );
 			}
@@ -161,7 +160,7 @@ class HandoutModelDocument extends JModel
 
 		//checkout the document
 
-		$doc->checkout ( $_HANDOUT_USER->userid );
+		$doc->checkout ( $handout_user->userid );
 
 		// Set document filename
 
@@ -248,7 +247,7 @@ class HandoutModelDocument extends JModel
 		$prebot = new HANDOUT_plugin ( 'onBeforeEditDocument' );
 		$prebot->setParm ( 'document', $doc );
 		$prebot->setParm ( 'filename', $filename );
-		$prebot->setParm ( 'user', $_HANDOUT_USER );
+		$prebot->setParm ( 'user', $handout_user );
 
 		if (! $uid) {
 			$prebot->copyParm ( 'process', 'new document' );
@@ -269,13 +268,13 @@ class HandoutModelDocument extends JModel
 	function checkMoveDocument($gid) {
 		//check if user can move documents
 		$database = &JFactory::getDBO ();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser ();
+		$handout_user = &HandoutFactory::getHandoutUser ();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $gid );
 
 		//check user permissions
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, 'Move' );
+		$err = $handout_user->canPreformTask ( $doc, 'Move' );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
@@ -295,14 +294,14 @@ class HandoutModelDocument extends JModel
 		HANDOUT_token::check () or die ( 'Invalid Token' );
 
 		$database = &JFactory::getDBO ();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser ();
+		$handout_user = &HandoutFactory::getHandoutUser ();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $uid );
 
 		//check user permissions
 
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, 'Move' );
+		$err = $handout_user->canPreformTask ( $doc, 'Move' );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
@@ -332,7 +331,7 @@ class HandoutModelDocument extends JModel
 		HANDOUT_token::check () or die ( 'Invalid Token' );
 
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $cid [0] );
@@ -340,7 +339,7 @@ class HandoutModelDocument extends JModel
 		//check user permissions
 
 		$task = $publish ? 'Publish' : 'UnPublish';
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, $task );
+		$err = $handout_user->canPreformTask ( $doc, $task );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
@@ -356,7 +355,7 @@ class HandoutModelDocument extends JModel
 		//HANDOUT_token::check () or die ( 'Invalid Token' );
 
 		$database = &JFactory::getDBO ();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser ();
+		$handout_user = &HandoutFactory::getHandoutUser ();
 
 		//fetch params
 
@@ -383,7 +382,7 @@ class HandoutModelDocument extends JModel
 		$postbot = new HANDOUT_plugin ( 'onAfterEditDocument' );
 		$logbot->setParm ( 'document', $doc );
 		$logbot->setParm ( 'file', $_POST ['docfilename'] );
-		$logbot->setParm ( 'user', $_HANDOUT_USER );
+		$logbot->setParm ( 'user', $handout_user );
 
 		if (! $uid) {
 			$logbot->copyParm ( 'process', 'new document' );
@@ -420,14 +419,14 @@ class HandoutModelDocument extends JModel
 		 * $this->_returnTo('cat_view', JText::_('COM_HANDOUT_THANKSHANDOUT') . $message ? "<br />" . $message : '', $doc->catid);
 
 		 */
-			
+
 			$mainframe=& JFactory::getApplication();
 			  if($doc->js_group_id>0)
 			  { $mainframe->redirect('index.php?option=com_community&view=groups&task=viewgroup&groupid='.$doc->js_group_id,'Document Submitted Successfully');
-			  
-			  
+
+
 			  }else{
-     
+
 			$this->_returnTo ( 'cat_view', JText::_('COM_HANDOUT_THANKS_FOR_SUBMISSION'), $doc->catid );
 			  }
 		}
@@ -461,14 +460,14 @@ class HandoutModelDocument extends JModel
 
 	function checkinDocument($uid) {
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $uid );
 
 		//check user permissions
 
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, 'CheckIn' );
+		$err = $handout_user->canPreformTask ( $doc, 'CheckIn' );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
@@ -483,21 +482,21 @@ class HandoutModelDocument extends JModel
 
 	function checkoutDocument($uid) {
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $uid );
 
 		//check user permissions
 
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, 'CheckOut' );
+		$err = $handout_user->canPreformTask ( $doc, 'CheckOut' );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
 
 		//checkout the document
 
-		$doc->checkout ( $_HANDOUT_USER->userid );
+		$doc->checkout ( $handout_user->userid );
 		$msg = "&quot;" . $doc->docname . "&quot; " . JText::_('COM_HANDOUT_CHECKED_OUT');
 
 		$this->_returnTo ( 'cat_view', $msg, $doc->catid );
@@ -505,14 +504,14 @@ class HandoutModelDocument extends JModel
 
 	function resetDocument($uid) {
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $uid );
 
 		//check user permissions
 
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, 'Reset' );
+		$err = $handout_user->canPreformTask ( $doc, 'Reset' );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
@@ -527,14 +526,14 @@ class HandoutModelDocument extends JModel
 
 	function deleteDocument($uid) {
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		$doc = new HandoutDocument ( $database );
 		$doc->load ( $uid );
 
 		//check user permissions
 
-		$err = $_HANDOUT_USER->canPreformTask ( $doc, 'Delete' );
+		$err = $handout_user->canPreformTask ( $doc, 'Delete' );
 		if ($err) {
 			$this->_returnTo ( 'cat_view', $err, $doc->catid );
 		}
@@ -656,16 +655,16 @@ class HandoutModelDocument extends JModel
 		$list = JHTML::_ ( 'select.genericlist', $options, 'doclicense_display', $std_opt, 'value', 'text', $selected );
 		return $list;
 	}
-	
+
 	function _taskLink($task, $gid = '', $params = null, $sef = true) {
 		return HANDOUT_Utils::taskLink ( $task, $gid, $params, $sef );
 	}
-	
-	
-	
+
+
+
 	function _returnTo($task, $msg = '', $gid = '', $params = null) {
 		return HANDOUT_Utils::returnTo ( $task, $msg, $gid, $params );
 	}
-	
-	
+
+
 }

@@ -129,9 +129,9 @@ class HANDOUT_CleardataItem_files extends HANDOUT_CleardataItem{
 		if(!$this->check()) {
 			return false;
 		}
-		global $_HANDOUT;
-		require_once $_HANDOUT->getPath('classes', 'file');
-		$folder = new HANDOUT_Folder( $_HANDOUT->getCfg('handoutpath' ));
+		$handout = HandoutFactory::getHandout();
+		require_once $handout->getPath('classes', 'file');
+		$folder = new HANDOUT_Folder( $handout->getCfg('handoutpath' ));
 		$files = $folder->getFiles();
 		$this->msg = JText::_('COM_HANDOUT_CLEARDATA_CLEARED').$this->friendlyname;
 		if( count($files)){
@@ -171,7 +171,6 @@ class HANDOUT_CleardataItem_thumbs extends HANDOUT_CleardataItem{
 			return false;
 		}
 
-		global $_HANDOUT;
 		jimport( 'joomla.filesystem.file' );
 		jimport( 'joomla.filesystem.folder' );
 		$path = JPATH_ROOT . '/images/stories/handout';

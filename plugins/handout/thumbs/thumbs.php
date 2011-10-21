@@ -17,28 +17,24 @@ class plgHandoutThumbs extends JPlugin
 {
 	public function onFetchDocument($params)
 	{
-		global $_HANDOUT;
-		if(!is_object($_HANDOUT)){
-			$handoutBase = JPATH_ROOT . '/administrator/components/com_handout/';
-			require_once $handoutBase . 'helpers/factory.php';
-			$_HANDOUT = &HandoutFactory::getHandout();
-		}
+		require_once JPATH_ROOT . '/administrator/components/com_handout/helpers/factory.php';
+		$handout = &HandoutFactory::getHandout();
 
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('handout', 'thumbs');
 	 	$pluginParams = new JParameter( $plugin->params );
 
 		//set parameters from Handout config
-		$pluginParams->set('extensions', $_HANDOUT->getCfg('thumbs_extensions'));
-		$pluginParams->set('width', $_HANDOUT->getCfg('thumbs_width', '64'));
-		$pluginParams->set('height', $_HANDOUT->getCfg('thumbs_height', '64'));
-		$pluginParams->set('output_format', $_HANDOUT->getCfg('thumbs_output_format', 'png'));
-		$pluginParams->set('jpeg_quality', $_HANDOUT->getCfg('thumbs_jpeg_quality', '75'));
-		$pluginParams->set('background_color', $_HANDOUT->getCfg('thumbs_background_color', 'FFFFFF'));
-		$pluginParams->set('grayscale', $_HANDOUT->getCfg('thumbs_grayscale', '0'));
+		$pluginParams->set('extensions', $handout->getCfg('thumbs_extensions'));
+		$pluginParams->set('width', $handout->getCfg('thumbs_width', '64'));
+		$pluginParams->set('height', $handout->getCfg('thumbs_height', '64'));
+		$pluginParams->set('output_format', $handout->getCfg('thumbs_output_format', 'png'));
+		$pluginParams->set('jpeg_quality', $handout->getCfg('thumbs_jpeg_quality', '75'));
+		$pluginParams->set('background_color', $handout->getCfg('thumbs_background_color', 'FFFFFF'));
+		$pluginParams->set('grayscale', $handout->getCfg('thumbs_grayscale', '0'));
 
 		// Handout config
-		$handoutpath = $_HANDOUT->getCfg('handoutpath', JPATH_ROOT.'/handouts');
+		$handoutpath = $handout->getCfg('handoutpath', JPATH_ROOT.'/handouts');
 
 		// Parameters
 		$id	 = $params['id'];

@@ -18,7 +18,8 @@ if (defined('_HANDOUT_button')) {
 	define('_HANDOUT_button', 1);
 }
 
-require_once $_HANDOUT->getPath('classes', 'params');
+$handout = &HandoutFactory::getHandout();
+require_once $handout->getPath('classes', 'params');
 
 /**
  * @abstract

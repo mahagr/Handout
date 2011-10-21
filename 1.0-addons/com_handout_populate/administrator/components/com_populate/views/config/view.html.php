@@ -16,11 +16,6 @@ class PopulateViewConfig extends JView
 {
 	public function display($tpl = null)
 	{
-		// preload
-		global $_HANDOUT, $_DMUSER;
-		$_HANDOUT = PopulateDocman::get();
-		$_DMUSER = $_HANDOUT->getUser();
-
 		require_once PopulateDocman::get()->getPath('classes', 'html');
 
 

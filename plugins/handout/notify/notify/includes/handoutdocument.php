@@ -44,9 +44,9 @@ class NotifyDocument  extends NotifyHandoutData
 		$this->link = JRoute::_('index.php?option=com_handout&task=doc_details&gid='.$this->id, 0, $ssl);
 
 		// Category
-		global $_HANDOUT;
+		$handout = &HandoutFactory::getHandout();
 
-		require_once $_HANDOUT->getPath('classes', 'model');
+		require_once $handout->getPath('classes', 'model');
 		$cat = new HANDOUT_Category($this->catid);
 		$this->category = $cat->objDBTable->title;
 	}

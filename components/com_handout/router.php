@@ -15,9 +15,6 @@ require_once JPATH_ADMINISTRATOR.'/components/com_handout/handout.class.php';
 require_once JPATH_ADMINISTRATOR.'/components/com_handout/classes/HANDOUT_utils.class.php';
 require_once JPATH_ADMINISTRATOR.'/components/com_handout/helpers/factory.php';
 
-$_HANDOUT = &HandoutFactory::getHandout();
-$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
-
 class HandoutRouterHelper {
 	function getDoc($id) {
 

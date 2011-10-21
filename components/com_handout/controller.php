@@ -15,8 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 jimport('joomla.environment.browser');
 //require_once JPATH_COMPONENT_HELPERS . '/documents.php';
- $_HANDOUT = &HandoutFactory::getHandout();
-require_once $_HANDOUT->getPath('classes', 'html');
+ $handout = &HandoutFactory::getHandout();
+require_once $handout->getPath('classes', 'html');
 //component constants
 define('COM_HANDOUT_IMAGESPATH', JURI::root(true) . '/components/com_handout/media/images/');
 define('COM_HANDOUT_CSSPATH', 'components/com_handout/media/css/');

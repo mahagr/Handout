@@ -152,7 +152,7 @@ defined('_JEXEC') or die;
 
 	function _showTabDocument(&$row, &$lists, $last, $created)
 	{
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 		JHTML::_('behavior.calendar');
 		?>
 		<table class="adminform">
@@ -206,7 +206,7 @@ defined('_JEXEC') or die;
 							<div><em>(<?php echo JText::_('COM_HANDOUT_MAKE_SURE');?>)</em></div>
 						</p>
 						<?php
-						if ($_HANDOUT_USER->canPublish()) : ?>
+						if ($handout_user->canPublish()) : ?>
 						<p>
 							<label><?php echo JText::_('COM_HANDOUT_PUBLISHED');?></label><br />
 							<?php echo $lists['published']; ?>
@@ -241,7 +241,6 @@ defined('_JEXEC') or die;
 
 	function _showTabPermissions(&$row, &$lists, $last, $created)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout(); $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
 		?>
 		<fieldset class="input">
 			<p>
@@ -289,7 +288,6 @@ defined('_JEXEC') or die;
 
 	function _showTabLicense(&$row, &$lists, $last, $created)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout(); $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
 		?>
 		<fieldset class="input">
 			<p>
@@ -314,7 +312,6 @@ defined('_JEXEC') or die;
 
 	function _showTabDetails(&$row, &$lists, $last, $created, &$params)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout(); $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
 		?>
 		<fieldset class="input">
 			<?php echo $params->render('params', 'Tableless');?>

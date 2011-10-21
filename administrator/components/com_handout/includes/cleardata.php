@@ -12,7 +12,9 @@
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/cleardata.html.php';
-require_once $_HANDOUT->getPath('classes', 'cleardata');
+
+$handout = &HandoutFactory::getHandout();
+require_once $handout->getPath('classes', 'cleardata');
 /*
 switch ($task) {
 	case 'remove':

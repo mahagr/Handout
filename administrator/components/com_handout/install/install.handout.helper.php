@@ -14,9 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once dirname(__FILE__) . '/../handout.class.php';
 
-$_HANDOUT = HandoutFactory::getHandout();
-$_HANDOUT_USER = $_HANDOUT->getUser();
-
 define('COM_HANDOUT_INSTALLER_ICONPATH', JURI::root() . 'administrator/components/com_handout/images/');
 
 /**
@@ -265,16 +262,16 @@ class HandoutInstallHelper
 	 */
 	function cntFiles ()
 	{
-		$_HANDOUT = HandoutFactory::getHandout();
+		$handout = HandoutFactory::getHandout();
 		$files = HandoutInstallHelper::getDefaultFiles();
-		$dir = JFolder::files($_HANDOUT->getCfg('handoutpath'));
+		$dir = JFolder::files($handout->getCfg('handoutpath'));
 		return count(array_diff($dir, $files));
 	}
 
 	function removeHandoutDocuments ()
 	{
-		$_HANDOUT = HandoutFactory::getHandout();
-		$handoutpath = $_HANDOUT->getCfg('handoutpath');
+		$handout = HandoutFactory::getHandout();
+		$handoutpath = $handout->getCfg('handoutpath');
 
 		$files = HandoutInstallHelper::getDefaultFiles();
 

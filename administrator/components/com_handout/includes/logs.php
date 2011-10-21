@@ -12,7 +12,9 @@
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/logs.html.php';
-require_once $_HANDOUT->getPath('classes', 'plugins');
+
+$handout = &HandoutFactory::getHandout();
+require_once $handout->getPath('classes', 'plugins');
 JArrayHelper::toInteger(( $cid ));
 
 switch ($task) {
@@ -110,7 +112,7 @@ function removeLog($cid)
 	$app = &JFactory::getApplication();
 
 	$database = &JFactory::getDBO();
-	$_HANDOUT_USER = &HandoutFactory::getHandout();
+	$handout_user = &HandoutFactory::getHandout();
 
 	$log = new HandoutLog($database);
 	$rows = $log->loadRows($cid); // For log plugins
@@ -118,7 +120,7 @@ function removeLog($cid)
 	if ($log->remove($cid)) {
 		if ($rows) {
 			$logbot = new HANDOUT_plugin('onLogDelete');
-			$logbot->setParm('user' , $_HANDOUT_USER);
+			$logbot->setParm('user' , $handout_user);
 			$logbot->copyParm('process' , 'delete log');
 			$logbot->setParm('rows' , $rows);
 			$logbot->trigger(); // Delete the logs

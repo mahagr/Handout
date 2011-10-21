@@ -55,8 +55,8 @@ class HandoutUploadMethod
 	function transferFileProcess($uid, $step, $url, &$file)
 	{
 		HANDOUT_token::check() or die('Invalid Token');
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout_user = &HandoutFactory::getHandoutUser();
+		$handout = &HandoutFactory::getHandout();
 
 
 
@@ -74,7 +74,7 @@ class HandoutUploadMethod
 		$prebot = new HANDOUT_plugin('onBeforeUpload');
 		$postbot = new HANDOUT_plugin('onAfterUpload');
 		$logbot->setParm('filename' , $file);
-		$logbot->setParm('user' , $_HANDOUT_USER);
+		$logbot->setParm('user' , $handout_user);
 		$logbot->copyParm('process' , 'upload');
 		$prebot->setParmArray ($logbot->getParm()); // Copy the parms over
 		$postbot->setParmArray($logbot->getParm());
@@ -98,13 +98,13 @@ class HandoutUploadMethod
 	 	*   Upload						*
 	 	* ------------------------------ */
 
-		$path = $_HANDOUT->getCfg('handoutpath').'/';
+		$path = $handout->getCfg('handoutpath').'/';
 
    		//get file validation settings
-   		if ($_HANDOUT_USER->isSpecial) {
+   		if ($handout_user->isSpecial) {
 	  		$validate = COM_HANDOUT_VALIDATE_ADMIN;
    		} else {
-	 		if ($_HANDOUT->getCfg('user_all', false)) {
+	 		if ($handout->getCfg('user_all', false)) {
 				$validate = COM_HANDOUT_VALIDATE_USER_ALL ;
 	  		} else {
 		   		$validate = COM_HANDOUT_VALIDATE_USER;

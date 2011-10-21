@@ -71,13 +71,13 @@ class xmap_com_handout
 
 		// Handout core interaction API
 		require_once (JPATH_SITE . "/administrator/components/com_handout/handout.class.php");
-		$_HANDOUT = HandoutFactory::getHandout();
-		$_HANDOUT->setType(COM_HANDOUT_TYPE_MODULE);
-		$_HANDOUT->loadLanguage('modules');
+		$handout = HandoutFactory::getHandout();
+		$handout->setType(COM_HANDOUT_TYPE_MODULE);
+		$handout->loadLanguage('modules');
 
-		require_once $_HANDOUT->getPath('classes', 'utils');
-		require_once $_HANDOUT->getPath('classes', 'file');
-		require_once $_HANDOUT->getPath('classes', 'model');
+		require_once $handout->getPath('classes', 'utils');
+		require_once $handout->getPath('classes', 'file');
+		require_once $handout->getPath('classes', 'model');
 
 		xmap_com_handout::getCategoryTree($xmap, $parent, $params, $catid);
 		return true;

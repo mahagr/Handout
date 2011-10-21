@@ -46,7 +46,7 @@ class HandoutUploadMethod
 				$catid = $update ? 0 : $uid;
 				$docid = $update ? $uid : 0;
                     $model=& JModel::getInstance('Document','HandoutModel');
-  				
+
 				return $model->getEditDocumentForm($docid , $uploaded, $catid);
 			} break;
 
@@ -60,8 +60,8 @@ class HandoutUploadMethod
 	{
 		HANDOUT_token::check() or die('Invalid Token');
 
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout_user = &HandoutFactory::getHandoutUser();
+		$handout = &HandoutFactory::getHandout();
 
 		if ($url == '') {
 			return array(
@@ -70,13 +70,13 @@ class HandoutUploadMethod
 		 	);
 		}
 
-		$path = $_HANDOUT->getCfg('handoutpath');
+		$path = $handout->getCfg('handoutpath');
 
    		//get file validation settings
-   		if ($_HANDOUT_USER->isSpecial) {
+   		if ($handout_user->isSpecial) {
 	  		$validate = COM_HANDOUT_VALIDATE_ADMIN;
    		} else {
-	 		if ($_HANDOUT->getCfg('user_all', false)) {
+	 		if ($handout->getCfg('user_all', false)) {
 				$validate = COM_HANDOUT_VALIDATE_USER_ALL ;
 	  		} else {
 		   		$validate = COM_HANDOUT_VALIDATE_USER;

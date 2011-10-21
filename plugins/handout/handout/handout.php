@@ -111,20 +111,20 @@ class plgHandoutHandout extends JPlugin
 
 
 		/* Handout User Object */
-       $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+       $handout_user = &HandoutFactory::getHandoutUser();
 
 		/* Including Handout libraries to upload file through Plugin */
-  	   $_HANDOUT = &HandoutFactory::getHandout();
+  	   $handout = &HandoutFactory::getHandout();
 
 		/* Handout Upload Path */
-	    $path = $_HANDOUT->getCfg('handoutpath');
+	    $path = $handout->getCfg('handoutpath');
 
 
 		/* Validate Handout User */
-   	if ($_HANDOUT_USER->isSpecial) {
+   	if ($handout_user->isSpecial) {
 	  		$validate = COM_HANDOUT_VALIDATE_ADMIN;
    		} else {
-	 		if ($_HANDOUT->getCfg('user_all', false)) {
+	 		if ($handout->getCfg('user_all', false)) {
 				$validate = COM_HANDOUT_VALIDATE_ALL ;
 	  		} else {
 		   		$validate = COM_HANDOUT_VALIDATE_USER;

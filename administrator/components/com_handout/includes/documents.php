@@ -14,9 +14,11 @@ defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/documents.html.php';
 
-require_once $_HANDOUT->getPath('classes' , 'file');
-require_once $_HANDOUT->getPath('classes', 'plugins');
-include_once $_HANDOUT->getPath('classes', 'params');
+$handout = &HandoutFactory::getHandout();
+
+require_once $handout->getPath('classes' , 'file');
+require_once $handout->getPath('classes', 'plugins');
+include_once $handout->getPath('classes', 'params');
 
 $task = JRequest::getCmd('task');
 
@@ -68,8 +70,9 @@ switch ($task) {
 
 function showDocuments($pend, $sort, $view_type)
 {
-	global $_HANDOUT;
-	require_once $_HANDOUT->getPath('classes', 'utils');
+	$handout = &HandoutFactory::getHandout();
+
+	require_once $handout->getPath('classes', 'utils');
 
 	$database = &JFactory::getDBO();
 	$app = &JFactory::getApplication();
@@ -176,7 +179,9 @@ function editDocument($uid)
 
 	$database = &JFactory::getDBO();
 	$user = &JFactory::getUser();
-	global $_HANDOUT, $_HANDOUT_USER;
+	$handout = &HandoutFactory::getHandout();
+
+	$handout_user = $handout->getUser();
 
 	// disable the main menu to force user to use buttons
 	$_REQUEST['hidemainmenu']=1;
@@ -255,8 +260,8 @@ function editDocument($uid)
 	if ($uploaded_file == '')
 	{
 		// Create docs List
-		$handout_path	  = $_HANDOUT->getCfg('handoutpath');
-		$fname_reject = $_HANDOUT->getCfg('fname_reject');
+		$handout_path	  = $handout->getCfg('handoutpath');
+		$fname_reject = $handout->getCfg('fname_reject');
 
 		$docFiles = JFolder::files($handout_path);
 		$docs = array(JHTML::_('select.option','', JText::_('COM_HANDOUT_SELECT_FILE')));
@@ -337,7 +342,7 @@ function editDocument($uid)
 	$prebot = new HANDOUT_plugin('onBeforeEditDocument');
 	$prebot->setParm('document' , $doc);
 	$prebot->setParm('filename' , $filename);
-	$prebot->setParm('user'	 , $_HANDOUT_USER);
+	$prebot->setParm('user'	 , $handout_user);
 
 	 if (!$uid) {
 		$prebot->copyParm('process' , 'new document');
@@ -404,7 +409,8 @@ function saveDocument()
 
 	$database = &JFactory::getDBO();
 	$task = JRequest::getCmd('task');
-	global $_HANDOUT_USER;
+	$handout = HandoutFactory::getHandout();
+	$handout_user = $handout->getUser();
 
 
 	//fetch current id
@@ -431,7 +437,7 @@ function saveDocument()
 	$postbot = new HANDOUT_plugin('onAfterEditDocument');
 	$logbot->setParm('document' , $doc);
 	$logbot->setParm('file'	 , HANDOUT_Utils::stripslashes($_POST['docfilename']));
-	$logbot->setParm('user'	 , $_HANDOUT_USER);
+	$logbot->setParm('user'	 , $handout_user);
 
 	 if (!$cid) {
 		$logbot->copyParm('process' , 'new document');
@@ -475,12 +481,13 @@ function saveDocument()
 
 function downloadDocument($bid)
 {
-	$database = &JFactory::getDBO(); $_HANDOUT = &HandoutFactory::getHandout();
+	$database = &JFactory::getDBO();
+	$handout = &HandoutFactory::getHandout();
 	// load document
 	$doc = new HandoutDocument($database);
 	$doc->load($bid);
 	// download file
-	$file = new HANDOUT_File($doc->docfilename, $_HANDOUT->getCfg('handoutpath'));
+	$file = new HANDOUT_File($doc->docfilename, $handout->getCfg('handoutpath'));
 	$file->download();
 	die; // Important!
 }

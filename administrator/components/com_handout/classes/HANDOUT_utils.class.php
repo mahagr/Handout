@@ -53,7 +53,7 @@ class HANDOUT_Utils
 	function categoryArray()
 	{
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
 		// get a list of the menu items
 		$query = "SELECT c.*, c.parent_id AS parent"
@@ -61,7 +61,7 @@ class HANDOUT_Utils
 		. COM_HANDOUT_FIELD_SECTION . "='com_handout'"
 		// @TODO J1.6 access levels.
 		. "\n AND published AND access <= "
-		. (int) $_HANDOUT_USER->gid
+		. (int) $handout_user->gid
 		. "\n ORDER BY " . COM_HANDOUT_FIELD_CATEGORY_ORDERING;
 
 		$database->setQuery($query);
@@ -96,14 +96,14 @@ class HANDOUT_Utils
 	function pathIcon($icon, $type = null, $size = null)
 	{
 
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 
-		$icon_path = $_HANDOUT->_path->themes . '/' . $_HANDOUT->getCfg('icon_theme') . "/images/";
+		$icon_path = $handout->_path->themes . '/' . $handout->getCfg('icon_theme') . "/images/";
 
 		// set icon size
 		if (!isset($size)) {
-			//$icon_path .= $_HANDOUT->getCfg('icon_size') ? "64x64/" : "32x32/";
-			$icon_path_size = $_HANDOUT->getCfg('icon_size') ? "icon-64-" : "icon-32-";
+			//$icon_path .= $handout->getCfg('icon_size') ? "64x64/" : "32x32/";
+			$icon_path_size = $handout->getCfg('icon_size') ? "icon-64-" : "icon-32-";
 		}
 		else {
 			//$icon_path .= $size . "/";
@@ -414,9 +414,9 @@ class HANDOUT_Utils
 	function checkDomainAuthorization()
 	{
 
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 
-		if (!$_HANDOUT->getCfg('security_anti_leech')) {
+		if (!$handout->getCfg('security_anti_leech')) {
 			return true;
 		}
 
@@ -449,7 +449,7 @@ class HANDOUT_Utils
 
 		// If the connection is NOT local, check if the remote host is allowed.
 		if (!$localhost) {
-			$allowed_hosts = explode('|', $_HANDOUT->getCfg('security_allowed_hosts'));
+			$allowed_hosts = explode('|', $handout->getCfg('security_allowed_hosts'));
 
 			//  If the $allowed_hosts list is empty, the remote host is not allowed by default.
 			if (count($allowed_hosts > 0)) {
@@ -507,9 +507,9 @@ class HANDOUT_Utils
 
 	function processContentPlugins(&$doc)
 	{
-		$_HANDOUT = HandoutFactory::getHandout();
+		$handout = HandoutFactory::getHandout();
 
-		if (!$_HANDOUT->getCfg('process_bots', 0)) {
+		if (!$handout->getCfg('process_bots', 0)) {
 			return;
 		}
 
@@ -555,7 +555,6 @@ class HANDOUT_Utils
 	 * Does the browser support PNG Alpha transparency?
 	 */
 	//  function supportPng() {
-	//	$_HANDOUT = &HandoutFactory::getHandout();
 	//	jimport( 'joomla.environment.browser' );
 	//	$browser = & JBrowser::getInstance();
 	//	return !$browser->getQuirk('png_transparency');
@@ -656,10 +655,10 @@ class HANDOUT_Cats
 	function getChildsByUserAccess($parent_id = 0, $ordering = "ordering ASC", $userID = null)
 	{
 		$database = &JFactory::getDBO();
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 
 		if (!$userID) {
-			$user = $_HANDOUT->getUser();
+			$user = $handout->getUser();
 		}
 		else {
 			$user = &$userID;
@@ -689,7 +688,7 @@ class HANDOUT_Cats
 	// -- Dirty solution - Arrays needs to be merged.
 	function countDocsInCatByUser($catid, $user, $include_childs = false)
 	{
-		$_HANDOUT = &HandoutFactory::getHandout();
+		$handout = &HandoutFactory::getHandout();
 		$database = &JFactory::getDBO();
 
 		/*
@@ -698,7 +697,7 @@ class HANDOUT_Cats
 
 		$query = "SELECT catid, count( d.id ) AS count " . "\n FROM #__handout AS d";
 
-		if (!$user->userid/*&& !$_HANDOUT->getCfg('registered')*/) {
+		if (!$user->userid/*&& !$handout->getCfg('registered')*/) {
 			$query .= "\n   WHERE docowner=" . COM_HANDOUT_PERMIT_EVERYONE . "\n   AND d.published=1 ";
 		}
 		elseif ($user->isSpecial) {
@@ -829,12 +828,12 @@ class HANDOUT_Docs
 	function getDocsByUserAccess($catid = 0, $ordering = '', $direction = '', $limit = '', $limitstart = 0, $where = '')
 	{
 		$database = &JFactory::getDBO();
-		$_HANDOUT = &HandoutFactory::getHandout();
-		$user = $_HANDOUT->getUser();
+		$handout = &HandoutFactory::getHandout();
+		$user = $handout->getUser();
 		// get ordering
 		$ordering = trim($ordering);
 		if ($ordering == '')
-			$ordering = $_HANDOUT->getCfg('default_order');
+			$ordering = $handout->getCfg('default_order');
 
 		switch ($ordering) {
 			case 'name':
@@ -852,7 +851,7 @@ class HANDOUT_Docs
 		// get direction
 		$direction = (string) strtoupper(trim($direction));
 		if ($direction == '') {
-			$direction = $_HANDOUT->getCfg('default_order2');
+			$direction = $handout->getCfg('default_order2');
 		}
 		if (!in_array($direction, array('ASC', 'DESC'))) {
 			$direction = 'ASC';
@@ -860,13 +859,13 @@ class HANDOUT_Docs
 
 		// get limit
 		if ($limit == '') {
-			$limit = $_HANDOUT->getCfg('perpage');
+			$limit = $handout->getCfg('perpage');
 		}
 		// preform query
 		$query = "SELECT d.*, c.title AS cat_title FROM #__handout AS d" . "\n LEFT JOIN #__categories AS c ON d.catid = c.id ";
 
 		if (!$user->userid) {
-			if (!$_HANDOUT->getCfg('registered')) {
+			if (!$handout->getCfg('registered')) {
 				return array();
 			}
 
@@ -889,7 +888,7 @@ class HANDOUT_Docs
 					$query .= "\n OR d.docowner IN (" . $user->groupsIn . ")";
 					$query .= "\n OR d.docmaintainedby IN (" . $user->groupsIn . ")";
 				}
-				if ($_HANDOUT->getCfg('author_can') != COM_HANDOUT_AUTHOR_NONE) {
+				if ($handout->getCfg('author_can') != COM_HANDOUT_AUTHOR_NONE) {
 					$query .= "\n OR d.docsubmittedby = " . $user->userid;
 				}
 				$query .= ")";
@@ -908,9 +907,9 @@ class HANDOUT_Docs
 	function getFilesByUserAccess($extra_files = null)
 	{
 		$database = &JFactory::getDBO();
-		$_HANDOUT_USER = &HandoutFactory::getHandoutUser();
+		$handout_user = &HandoutFactory::getHandoutUser();
 
-		if (!$_HANDOUT_USER->userid) {
+		if (!$handout_user->userid) {
 			return null;
 		}
 
@@ -919,9 +918,9 @@ class HANDOUT_Docs
 		$query = "SELECT * FROM #__handout " . "\n WHERE " . "\n	( ";
 
 		$where = '';
-		if (!$_HANDOUT_USER->isSpecial) {
+		if (!$handout_user->isSpecial) {
 			$doq = true;
-			$where .= "\n  docsubmittedby=" . $_HANDOUT_USER->userid . "\n  ";
+			$where .= "\n  docsubmittedby=" . $handout_user->userid . "\n  ";
 		}
 		if ($extra_files) {
 			if ($doq) {
@@ -964,15 +963,13 @@ class HANDOUT_Docs
 	 * 		(Array is 'column-name' => 'return name'.)
 	 * @param array $ List of options for searching
 	 *
-	 * NOTE: We are NOT assured that we have $_HANDOUT and all the other goodies.
-	 * 		(we may be just from plugin)
 	 */
 	function search(&$searchArray, $ordering = '', $cats = '', $columns = '', $options = array())
 	{
 		$database = &JFactory::getDBO();
 		$user = &JFactory::getUser();
-		$_HANDOUT = &HandoutFactory::getHandout();
-		$_HANDOUT_USER = $_HANDOUT->getUser();
+		$handout = &HandoutFactory::getHandout();
+		$handout_user = $handout->getUser();
 
 		$searchterms = array_pop($searchArray); // Only do one (for now)
 		if (empty($options)) {
@@ -983,12 +980,12 @@ class HANDOUT_Docs
 			$ordering = 'newest';
 		}
 
-		$registered = $_HANDOUT->getCfg('registered');
-		$perpage = $_HANDOUT->getCfg('perpage');
-		$authorCan = $_HANDOUT->getCfg('author_can', '9999');
+		$registered = $handout->getCfg('registered');
+		$perpage = $handout->getCfg('perpage');
+		$authorCan = $handout->getCfg('author_can', '9999');
 
 		$userid = intval($user->id);
-		$isAdmin = $_HANDOUT_USER->isAdmin;
+		$isAdmin = $handout_user->isAdmin;
 
 		// -------------------------------------
 		// Fetch the search options. Passed in options array

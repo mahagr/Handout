@@ -23,7 +23,7 @@ class NotifyFile extends NotifyHandoutData
 	protected function _loadParams()
 	{
 
-		global $_HANDOUT;
+		$handout = &HandoutFactory::getHandout();
 
 		$vars = array( 'name', 'mime', 'ext', 'size', 'date');
 
@@ -36,8 +36,8 @@ class NotifyFile extends NotifyHandoutData
 			if( is_string( $this->_params['file'] ))
 			{
 				$this->name = $this->_params['file'];
-				require_once $_HANDOUT->getPath('classes', 'file');
-				$full = new HANDOUT_File($this->name, $_HANDOUT->getCfg('handoutpath'));
+				require_once $handout->getPath('classes', 'file');
+				$full = new HANDOUT_File($this->name, $handout->getCfg('handoutpath'));
 				$this->mime 	= $full->mime;
 				$this->ext 		= $full->ext;
 				$this->size 	= $full->size;

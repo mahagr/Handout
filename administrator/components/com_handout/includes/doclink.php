@@ -14,12 +14,12 @@ defined('_JEXEC') or die('Restricted access');
 include_once dirname(__FILE__).'/doclink.html.php';
 include_once dirname(__FILE__).'/defines.php';
 
-global $_HANDOUT;
+$handout = &HandoutFactory::getHandout();
 
 // Load classes and language
-require_once $_HANDOUT->getPath('classes', 'utils');
-require_once $_HANDOUT->getPath('classes', 'file');
-require_once $_HANDOUT->getPath('classes', 'model');
+require_once $handout->getPath('classes', 'utils');
+require_once $handout->getPath('classes', 'file');
+require_once $handout->getPath('classes', 'model');
 
 JRequest::setVar('tmpl', 'component');
 
@@ -45,8 +45,6 @@ function showDoclink()
 
 function showListview()
 {
-	global $_HANDOUT;
-
 	$assets = COM_HANDOUT_MEDIA;
 	// add styles and scripts
 	$doc =& JFactory::getDocument();

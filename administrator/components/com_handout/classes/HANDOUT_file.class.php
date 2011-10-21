@@ -17,10 +17,9 @@ else {
 	define('_HANDOUT_FILE', 1);
 }
 
-$_HANDOUT = &HandoutFactory::getHandout();
-
-require_once $_HANDOUT->getPath('classes', 'mime');
-require_once $_HANDOUT->getPath('includes', 'defines');
+$handout = &HandoutFactory::getHandout();
+require_once $handout->getPath('classes', 'mime');
+require_once $handout->getPath('includes', 'defines');
 // define JText::_('COM_HANDOUT_VALIDATE_')xxxx
 
 class HANDOUT_File
@@ -336,17 +335,15 @@ class HANDOUT_FileUpload
 
 	function HANDOUT_FileUpload()
 	{
-		global $_HANDOUT;
-		if (!is_object($_HANDOUT)) {
-			$_HANDOUT = &HandoutFactory::getHandout();
-		}
-		$this->max_file_size = 0 + trim($_HANDOUT->getCfg('maxAllowed'));
-		$this->ext_array = explode('|', strtolower($_HANDOUT->getCfg('extensions')));
+		$handout = &HandoutFactory::getHandout();
+
+		$this->max_file_size = 0 + trim($handout->getCfg('maxAllowed'));
+		$this->ext_array = explode('|', strtolower($handout->getCfg('extensions')));
 		$this->_err = '';
 
-		$this->fname_blank = $_HANDOUT->getCfg('fname_blank');
-		$this->fname_reject = $_HANDOUT->getCfg('fname_reject');
-		$this->fname_lc = $_HANDOUT->getCfg('fname_lc');
+		$this->fname_blank = $handout->getCfg('fname_blank');
+		$this->fname_reject = $handout->getCfg('fname_reject');
+		$this->fname_lc = $handout->getCfg('fname_lc');
 		$this->proto_reject = array('file', 'php', 'zlib', 'asp', 'pl', 'compress.zlib', 'compress.bzip2', 'ogg');
 		$this->proto_accept = array('http', 'https', 'ftp');
 	}
@@ -647,8 +644,9 @@ function _clearError()
 
 	function validateExists($name, $path)
 	{
-		global $_HANDOUT;
-		if (!$_HANDOUT->getCfg('overwrite') && file_exists($path . "/" . $name)) {
+		$handout = &HandoutFactory::getHandout();
+
+		if (!$handout->getCfg('overwrite') && file_exists($path . "/" . $name)) {
 			$this->_err .= JText::_('COM_HANDOUT_FILE') . " &quot;" . $name . "&quot; " . JText::_('COM_HANDOUT_ALREADYEXISTS');
 			return false;
 		}
@@ -747,11 +745,11 @@ class HANDOUT_Folder
 	 */
 	function getFiles($match_filter = null, $ignore_filter = null, $filter = null)
 	{
-		global $_HANDOUT;
+		$handout = &HandoutFactory::getHandout();
 
 		// Don't show the 'ignore files'. They are...er, magic.
 		if (empty($ignore_filter)) {
-			$ignore_filter = $_HANDOUT->getCfg('fname_reject');
+			$ignore_filter = $handout->getCfg('fname_reject');
 		}
 
 		$arr = array();

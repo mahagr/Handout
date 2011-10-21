@@ -15,8 +15,9 @@ class NotifyConfig extends JParameter
 	{
 		//parent::__construct( JPluginHelper::getPlugin('handout', 'notify')->params );
 		//set params from main handout component config file
-		global $_HANDOUT;
-		$config = $_HANDOUT->getAllCfg();
+		$handout = &HandoutFactory::getHandout();
+
+		$config = $handout->getAllCfg();
 		$this->set('cc', $config->notify_sendto);
 		$this->set('ondownload_site', $config->notify_ondownload);
 		$this->set('onedit_site', $config->notify_onedit);

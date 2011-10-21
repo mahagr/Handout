@@ -194,8 +194,6 @@ class HTML_HandoutDoclink {
 
 	function createItems($rows)
 	{
-		global $_HANDOUT;
-
 		$html = '';
 		foreach($rows as $row)
 		{

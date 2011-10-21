@@ -20,12 +20,9 @@ JHTML::stylesheet('handout.css', 'components/com_handout/media/css/');
 
 require_once JPATH_ROOT . '/administrator/components/com_handout/handout.class.php';
 
-global $_HANDOUT;
-if (!$_HANDOUT) {
-	$_HANDOUT = HandoutFactory::getHandout();
-}
+$handout = &HandoutFactory::getHandout();
 
-require_once $_HANDOUT->getPath('classes', 'model');
+require_once $handout->getPath('classes', 'model');
 
 // Get the parameters
 $show_icon 		 = abs($params->def( 'show_icon', 1 ));
@@ -52,7 +49,7 @@ if ($is_mtree_listing) {
 	}
 }
 
-$menuid = $_HANDOUT->getMenuId();
+$menuid = $handout->getMenuId();
 
 if ($can_display) {
 	$rows = modHandoutdocsHelper::getDocs($params);

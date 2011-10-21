@@ -20,7 +20,6 @@ class PopulateControllerDocuments extends JController
 {
 	public function assign()
 	{
-		$_HANDOUT = PopulateDocman::get();
 		$my 		= JFactory::getUser();
 		$db 	= JFactory::getDBO();
 

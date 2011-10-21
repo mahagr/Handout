@@ -586,8 +586,6 @@ class HANDOUT_User
 	 */
 	function canReset($doc = null)
 	{
-		global $_HANDOUT;
-
 		//Make sure we have a document object
 
 		$this->isDocument($doc);

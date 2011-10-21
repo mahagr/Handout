@@ -19,19 +19,13 @@ class PopulateDocman
 	public static function get()
 	{
 		require_once JPATH_ADMINISTRATOR.'/components/com_handout/handout.class.php';
-		global $_HANDOUT, $_DMUSER;
-		if(!is_object($_HANDOUT)) {
-			$_HANDOUT = HandoutFactory::getHandout();
-			$_DMUSER = $_HANDOUT->getUser();
-		}
-
-		return $_HANDOUT;
+		return HandoutFactory::getHandout();
 	}
 
 	public static function checkVersion()
 	{
 		self::get();
-		return (version_compare(_DM_VERSION, '1.5', '>=') && version_compare(_DM_VERSION, '1.6', '<'));
+		return (version_compare(COM_HANDOUT_VERSION_NUMBER, '1.0', '>') && version_compare(COM_HANDOUT_VERSION_NUMBER, '1.1', '<'));
 	}
 
 	public static function getVersion()
@@ -39,7 +33,7 @@ class PopulateDocman
 		if(self::isInstalled())
 		{
 			self::get();
-			return _DM_VERSION;
+			return COM_HANDOUT_VERSION_NUMBER;
 		}
 		return 0;
 	}

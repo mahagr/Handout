@@ -24,7 +24,7 @@ if (!$user->authorize( 'com_users', 'manage' )) {
 // version
 $app = JFactory::getApplication();
 if(!PopulateDocman::isInstalled() || !PopulateDocman::checkVersion()) {
-	$app->redirect('index.php', 'You need Handout 1.5 for Handout Populate to work. Please vist http://joomlahandout.com for information.');
+	$app->redirect('index.php', 'You need Handout 1.0 for Handout Populate to work. Please vist http://joomlahandout.com for information.');
 	exit;
 }
 

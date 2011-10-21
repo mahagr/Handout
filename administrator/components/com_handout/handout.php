@@ -13,11 +13,9 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/handout.class.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/handout.php';
 
-global $_HANDOUT, $_HANDOUT_USER;
-
 $task = JRequest::getCmd('task');
 
-$_HANDOUT = HandoutFactory::getHandout();
+$handout = HandoutFactory::getHandout();
 $lang = &JFactory::getLanguage();
 $lang->load('com_handout', JPATH_ADMINISTRATOR);
 
@@ -30,11 +28,10 @@ if ($task == 'migration') {
 
 $database = &JFactory::getDBO();
 $user = &JFactory::getUser();
-$_HANDOUT_USER = $_HANDOUT->getUser();
 
-require_once $_HANDOUT->getPath('classes', 'html');
-require_once $_HANDOUT->getPath('classes', 'utils');
-require_once $_HANDOUT->getPath('classes', 'token');
+require_once $handout->getPath('classes', 'html');
+require_once $handout->getPath('classes', 'utils');
+require_once $handout->getPath('classes', 'token');
 
 $cid = JRequest::getVar('cid', array());
 if (!is_array($cid)) {
@@ -66,11 +63,11 @@ if (($task == 'cpanel') || ($section == null)) {
 	if (J16PLUS) {
 		HandoutHelper::addSubmenu('handout');
 	}
-	include_once $_HANDOUT->getPath('includes', 'handout');
+	include_once $handout->getPath('includes', 'handout');
 }
 else {
 	if (J16PLUS) {
 		HandoutHelper::addSubmenu($section);
 	}
-	include_once $_HANDOUT->getPath('includes', $section);
+	include_once $handout->getPath('includes', $section);
 }

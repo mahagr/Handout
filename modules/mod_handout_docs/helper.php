@@ -16,8 +16,9 @@ class modHandoutdocsHelper
 {
 	function getDocs(&$params)
 	{
-		global $_HANDOUT;
-		require_once $_HANDOUT->getPath('classes', 'utils');
+		$handout = &HandoutFactory::getHandout();
+
+		require_once $handout->getPath('classes', 'utils');
 
 		$limits 	= abs($params->def('limits', ''));
 		$cat_ids	= $params->def( 'cat_ids', '' );

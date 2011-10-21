@@ -36,9 +36,6 @@ class HTML_HandoutHandout
 
 	function showCPanel()
 	{
-
-		global $_HANDOUT;
-
 		?><script language="JavaScript" src="<?php echo JURI::root();?>/administrator/components/com_handout/includes/js/handout.js"></script>
 
 		<?php

@@ -17,7 +17,10 @@ if (defined('_HANDOUT_HTML_GROUPS')) {
 } else {
 	define('_HANDOUT_HTML_GROUPS', 1);
 }
-require_once $_HANDOUT->getPath('classes', 'file');
+
+$handout = &HandoutFactory::getHandout();
+
+require_once $handout->getPath('classes', 'file');
 
 class HTML_HandoutGroups
 {

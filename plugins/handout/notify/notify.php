@@ -9,12 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-global $_HANDOUT;
-if(!is_object($_HANDOUT)){
-	$handoutBase = JPATH_ROOT . '/administrator/components/com_handout/';
-	require_once $handoutBase . 'helpers/factory.php';
-	$_HANDOUT = &HandoutFactory::getHandout();
-}
+require_once JPATH_ROOT . '/administrator/components/com_handout/helpers/factory.php';
 
 // requires
 define('NOTIFY_PATH', dirname(__FILE__).'/notify');

@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/handout.html.php';
 
+$handout = &HandoutFactory::getHandout();
+
 switch ($task) {
 	case 'stats':
 		showStatistics();
@@ -28,12 +30,12 @@ switch ($task) {
 
 	// DOClink
 	case "doclink":
-		require_once $_HANDOUT->getPath('includes', 'doclink');
+		require_once $handout->getPath('includes', 'doclink');
 		showDoclink();
 		break;
 
 	case "doclink-listview":
-		require_once $_HANDOUT->getPath('includes', 'doclink');
+		require_once $handout->getPath('includes', 'doclink');
 		showListview();
 		break;
 

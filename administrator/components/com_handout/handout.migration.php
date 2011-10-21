@@ -62,7 +62,7 @@ class HandoutMigration
 	 */
 	protected function init ()
 	{
-		global $_HANDOUT;
+		$handout = &HandoutFactory::getHandout();
 
 		$this->categoriesIds = array();
 		$this->docsIds = array();
@@ -71,7 +71,7 @@ class HandoutMigration
 		$this->logsIds = array();
 		$this->historyIds = array();
 		$this->tables = array();
-		$this->handoutPath = $_HANDOUT->getCfg('handoutpath');
+		$this->handoutPath = $handout->getCfg('handoutpath');
 	}
 
 	/**
@@ -1205,11 +1205,11 @@ class HandoutMigration_Folder extends HandoutMigration
 	 private function validateFileName(&$name, &$error="")
 	 {
 	 	//validate file name
-		global $_HANDOUT;
+		$handout = &HandoutFactory::getHandout();
 
-		$fname_blank   = $_HANDOUT->getCfg('fname_blank');
-		$fname_reject  = $_HANDOUT->getCfg('fname_reject');
-		$fname_lc	  = $_HANDOUT->getCfg('fname_lc'   );
+		$fname_blank   = $handout->getCfg('fname_blank');
+		$fname_reject  = $handout->getCfg('fname_reject');
+		$fname_lc	  = $handout->getCfg('fname_lc'   );
 
 		//change to lowercase
 		if($fname_lc ) {
@@ -1257,10 +1257,11 @@ class HandoutMigration_Folder extends HandoutMigration
 	function validateExtension($name, &$error)
 	{
 	 	//validate extension
-		global $_HANDOUT;
-		require_once $_HANDOUT->getPath('classes', 'mime');
+		$handout = &HandoutFactory::getHandout();
 
-		if ($_HANDOUT->getCfg('user_all')) {
+		require_once $handout->getPath('classes', 'mime');
+
+		if ($handout->getCfg('user_all')) {
 			return true;
 		}
 
@@ -1268,7 +1269,7 @@ class HandoutMigration_Folder extends HandoutMigration
 			return false;
 		}
 
-		$ext_array   = explode('|', strtolower( $_HANDOUT->getCfg('extensions')));
+		$ext_array   = explode('|', strtolower( $handout->getCfg('extensions')));
 
 		if(!$ext_array ) {
 			return true;

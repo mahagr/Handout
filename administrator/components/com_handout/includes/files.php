@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 
 include_once dirname(__FILE__) . '/files.html.php';
 
-require_once $_HANDOUT->getPath('classes', 'file');
-require_once $_HANDOUT->getPath('classes', 'utils');
+$handout = &HandoutFactory::getHandout();
+
+require_once $handout->getPath('classes', 'file');
+require_once $handout->getPath('classes', 'utils');
 
 // retrieve some expected url (or form) arguments
 $old_filename = JRequest::getInt( 'old_filename', 1);
@@ -27,7 +29,7 @@ switch ($task)
 		$_REQUEST['uploaded_file']  = $cid[0];
 		$GLOBALS['section']		= 'documents';
 		$GLOBALS['uploaded_file']  = $cid[0];
-		include_once($_HANDOUT -> getPath('includes', 'documents'));
+		include_once($handout -> getPath('includes', 'documents'));
 		break;
 	case "upload" :
 		{
@@ -61,7 +63,7 @@ function showFiles()
 	$section = JRequest::getCmd('option');
 	$app = &JFactory::getApplication();
 	$list_limit = $app->getCfg('list_limit');
-	global $_HANDOUT;
+	$handout = &HandoutFactory::getHandout();
 
 	$limit	  = $app->getUserStateFromRequest("viewlistlimit", 'limit', $list_limit);
 	$limitstart = $app->getUserStateFromRequest("view{$option}{$section}limitstart", 'limitstart', 0);
@@ -71,7 +73,7 @@ function showFiles()
 	$search = $app->getUserStateFromRequest( "search{$option}{$section}", 'search', '' );
 
 	// read directory content
-	$folder = new HANDOUT_Folder($_HANDOUT->getCfg('handoutpath'));
+	$folder = new HANDOUT_Folder($handout->getCfg('handoutpath'));
 	$files = $folder->getFiles($search);
 
 	for ($i = 0, $n = count($files);$i < $n;$i++)
@@ -123,7 +125,7 @@ function removeFile($cid)
 	$app = &JFactory::getApplication();
 	$database = &JFactory::getDBO();
 
-	global $_HANDOUT;
+	$handout = &HandoutFactory::getHandout();
 
 	foreach($cid as $name) {
 		$database->setQuery("SELECT COUNT(docfilename) FROM #__handout WHERE docfilename='" . $database->getEscaped($name) . "'");
@@ -137,7 +139,7 @@ function removeFile($cid)
 		if ($result != 0)
 			$app->redirect("index.php?option=com_handout&section=files", JText::_('COM_HANDOUT_ORPHANS_LINKED'));
 
-		$file = $_HANDOUT->getCfg('handoutpath') . "/" . $name;
+		$file = $handout->getCfg('handoutpath') . "/" . $name;
 
 		if (!unlink($file)) {
 			$app->redirect("index.php?option=com_handout&section=files", JText::_('COM_HANDOUT_ORPHANS_PROBLEM'));
@@ -149,7 +151,8 @@ function removeFile($cid)
 
 function uploadWizard($step = 1, $method = 'http', $old_filename)
 {
-	$_HANDOUT = &HandoutFactory::getHandout(); $database = &JFactory::getDBO();
+	$handout = &HandoutFactory::getHandout();
+	$database = &JFactory::getDBO();
 	$app = &JFactory::getApplication();
 	switch ($step) {
 		case 1:
@@ -180,7 +183,7 @@ function uploadWizard($step = 1, $method = 'http', $old_filename)
 			HANDOUT_token::check() or die('Invalid Token');
 			switch ($method) {
 				case 'http':
-					$path = $_HANDOUT->getCfg('handoutpath');
+					$path = $handout->getCfg('handoutpath');
 
 					$upload = new HANDOUT_FileUpload();
 					$hash = HANDOUT_Utils::stripslashes($_FILES);
@@ -199,7 +202,7 @@ function uploadWizard($step = 1, $method = 'http', $old_filename)
 								$app->redirect("index.php?option=com_handout&section=files", JText::_('COM_HANDOUT_ZLIB_ERROR'));
 							}
 
-							$target_directory = $_HANDOUT->getCfg('handoutpath');
+							$target_directory = $handout->getCfg('handoutpath');
 							$zip = new PclZip($target_directory . "/" . $result->name);
 							$file_to_unzip = preg_replace('/(.+)\..*$/', '$1', $target_directory . "/" . $result->name);
 
@@ -212,7 +215,7 @@ function uploadWizard($step = 1, $method = 'http', $old_filename)
 
 						if ($old_filename) {
 
-							$file = $_HANDOUT->getCfg('handoutpath') . "/" . $old_filename;
+							$file = $handout->getCfg('handoutpath') . "/" . $old_filename;
 							@unlink($file);
 
 							$database->setQuery("UPDATE #__handout SET docfilename='". $database->getEscaped($result->name) ."' WHERE docfilename='". $database->getEscaped($old_filename) ."'");
@@ -237,7 +240,7 @@ function uploadWizard($step = 1, $method = 'http', $old_filename)
 
 					$url  = stripslashes(JRequest::getVar( 'url', null));
 					$name = stripslashes(JRequest::getVar( 'localfile', null));
-					$path = $_HANDOUT->getCfg('handoutpath') . "/";
+					$path = $handout->getCfg('handoutpath') . "/";
 
 					$upload = new HANDOUT_FileUpload();
 					$result = $upload->uploadURL($url, $path, COM_HANDOUT_VALIDATE_ADMIN, $name);
