@@ -28,6 +28,7 @@ Legend:
 ^ Replace global $section with local variables
 # Fix setUserState() bug where option was used instead of section
 # HandoutConfig class doesn't exist
+# Fix undefined variables during upload
 
 20-Oct-2011 Matias
 ^ Fix many problems reported by Zend Studio

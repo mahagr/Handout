@@ -1,6 +1,5 @@
 <?php
 
-
 jimport('joomla.plugin.plugin');
 
 JPlugin::loadLanguage( 'plg_handout_handout' );
@@ -8,19 +7,15 @@ JPlugin::loadLanguage( 'plg_handout_handout' );
 class plgHandoutHandout extends JPlugin
 {
 
-
 	function plgHandoutHandout(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 
 	}
 
-
-
 	function getUploadForm($class="handoutfile",$id="handoutfile",$istable,$listingid)
 	{
            $progressImg = JURI::root().'/administrator/components/com_handout/images/uploader.gif';
-
 
 		if($listingid>0){
 
@@ -51,25 +46,19 @@ class plgHandoutHandout extends JPlugin
 		{
 				$handhtml='<input type="file" name="handout_file" class="'.$class.'"   id="'.$id.'">';
 
-
-
 		}
 
 		$html = '<tr><td>'.$this->params->get('inputlabel','Handout File').'</td><td>'.$handhtml.'</td><td><div id="progress" style="display:none;"><img src="'.$progressImg.'" alt="Upload Progress" />&nbsp;'.JText::_('File Uploading ...').'</div></td></tr>';
 		$html.='<tr><td></td><td>'.$linkhtml.'</td></tr>';
 		$html.='<tr><td></td><td><input type="button" onclick="setCount(\''.$count.'\');addRow();" value=" + New"></td></tr>';
 
-
-
 		}
 		else{
 			$html="";
 
-
 		$label='<label>'.$this->params->get('inputlabel', 'Handout File').'</label>';
 
 		$input='<input type="file" name="handout_file" class="'.$class.'"   id="'.$id.'">';
-
 
 			if($istable){
 		$label='<tr><td>'.$label.'</td>';
@@ -77,7 +66,6 @@ class plgHandoutHandout extends JPlugin
 			}
 
 	   $html=$label.$input;
-
 
 		}
 //$html=$listingid."Habib";
@@ -96,19 +84,12 @@ class plgHandoutHandout extends JPlugin
        require_once INTEGRATE_ADMINISTRATOR . '/handout.class.php';
        require_once JPATH_COMPONENT_HELPERS . '/helper.php';
 
-
 		/* Handout Object */
        $handout = &HandoutFactory::getHandout ();
-
-
-
-
 
 		/* Including Handout File librarry to upload file through Plugin */
        define ( 'C_HANDOUT_FILE', $handout->getPath ( 'classes', 'file' ) );
        require_once C_HANDOUT_FILE;
-
-
 
 		/* Handout User Object */
        $handout_user = &HandoutFactory::getHandoutUser();
@@ -118,7 +99,6 @@ class plgHandoutHandout extends JPlugin
 
 		/* Handout Upload Path */
 	    $path = $handout->getCfg('handoutpath');
-
 
 		/* Validate Handout User */
    	if ($handout_user->isSpecial) {
@@ -137,11 +117,8 @@ class plgHandoutHandout extends JPlugin
 		/* Document Table Object */
     $db= & JFactory::getDBO();
 
-
    	//File Object to upload File
     $upload = new HANDOUT_FileUpload();
-
-
 
    	 	/* if mtree link editing */
 
@@ -160,7 +137,7 @@ class plgHandoutHandout extends JPlugin
 			$ext='handout_file';
 
 			$filename="";
-			$filename=$files[$ext]['name'];
+			$filename= isset($files[$ext]) ? $files[$ext]['name'] : null;
 			if($filename)
 			{
 				$error=null;
@@ -180,7 +157,6 @@ class plgHandoutHandout extends JPlugin
 					$document->doclastupdateon=$row->link_modified;
 					$document->store();
 
-
 				}else{
 					$err[]=$error;
 
@@ -188,30 +164,20 @@ class plgHandoutHandout extends JPlugin
 
 			}
 
-
-
-
   	}
 
 	}
 
-
-
-	if($count>0)
-	  $ext='handout_file_'.$count;
-		else
-	  $ext='handout_file';
-
-		// adding new file with mtree link
-	while(($filename=$files[$ext]['name'])){
+	// adding new file with mtree link
+	foreach ($files as $file) {
+		$filename = $file['name'];
 
 			$error=null;
 			$upload->_clearError();
-			$upload->uploadHTTP($files[$ext], $path, $validate);
+			$upload->uploadHTTP($file, $path, $validate);
 			$error=$upload->_getError();
 			if(!$error)
 			{
-
 
   		     	$document = new HandoutDocument ( $db );
   	            $mdoc=new stdClass();
@@ -229,32 +195,13 @@ class plgHandoutHandout extends JPlugin
 				$document->bind($mdoc);
 				$document->store();
 
-
-
-
-
-
-
 			}else{
 
 				$err[]=$error;
 			}
 
-
-
-		$filename="";
 		$count++;
-
-	$ext='handout_file_'.$count;
-
-
 	}
-
-
-
-
-
-
 
 		return $err;
 	}
@@ -262,7 +209,7 @@ class plgHandoutHandout extends JPlugin
 	function onDisplayMtreeListing($listingid)
 	{
 
-			 $db=& JFactory::getDBO();
+		$db=& JFactory::getDBO();
          $query="select * from #__handout where mtree_id=".$listingid;
          $db->setQuery($query);
          $docs=$db->loadObjectList();
@@ -281,12 +228,4 @@ class plgHandoutHandout extends JPlugin
          return $html;
     }
 
-
-
-
-
-
 }
-
-
-?>
