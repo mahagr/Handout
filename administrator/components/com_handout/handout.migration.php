@@ -84,7 +84,7 @@ class HandoutMigration
 
 		//check if source component is installed
 		$componentFile = ($sourceComponent == 'com_rubberdoc') ? 'rubberdoc.php' : 'admin.'.str_replace('com_', '', $sourceComponent).'.php';
-		$oldComponentBase = JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . $sourceComponent . DS . $componentFile;
+		$oldComponentBase = JPATH_ROOT . '/administrator/components/' . $sourceComponent . '/' . $componentFile;
 
 		if (! file_exists($oldComponentBase)) {
 			$this->error(JText::sprintf('COM_HANDOUT_MGR_OLD_INSTALL_NO_EXISTS', $sourceComponent), false);
@@ -497,7 +497,7 @@ class HandoutMigration
 			return;
 
 		$i=0;
-		while (file_exists($this->handoutPath . DS . $file) && $i<=100)
+		while (file_exists($this->handoutPath . '/' . $file) && $i<=100)
 		{
  			$i++;
 			$file = preg_replace('/(.+)\.([a-zA-Z]{2,4})/', '${1}1.$2', $file);
@@ -523,7 +523,7 @@ class HandoutMigration_Docman extends HandoutMigration
 
 		$this->tablePrefix = '#__docman';
 		$this->tables = array('categories' , 'docman' , 'docman_groups' , 'docman_history' , 'docman_licenses' , 'docman_log');
-		$this->configFile =	JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_docman' . DS . 'docman.config.php';
+		$this->configFile =	JPATH_ADMINISTRATOR . '/components/com_docman/docman.config.php';
 		$this->setDocumentsPath();
 	}
 
@@ -675,12 +675,12 @@ class HandoutMigration_Docman extends HandoutMigration
 
 		//get all files to copy
 		while (false !== ($file = readdir($dir))) {
-			if (is_file($this->documentsPath . DS . $file)) { //no copy links, directories and no file links
+			if (is_file($this->documentsPath . '/' . $file)) { //no copy links, directories and no file links
 				$oldFile = $newFile = $file;
 				$this->renameDuplicate($newFile);
 
-				$source = $this->documentsPath . DS . $oldFile; //old destination
-				$target = $this->handoutPath . DS . $newFile; //new destination
+				$source = $this->documentsPath . '/' . $oldFile; //old destination
+				$target = $this->handoutPath . '/' . $newFile; //new destination
 
 				if (! copy($source, $target)) { //unable copy - maybe permision denied
 					$noCopy[] = $source;
@@ -827,7 +827,7 @@ class HandoutMigration_Joomdoc extends HandoutMigration_Docman
 
 		$this->tablePrefix = '#__joomdoc';
 		$this->tables = array('categories' , 'joomdoc' , 'joomdoc_groups' , 'joomdoc_history' , 'joomdoc_licenses' , 'joomdoc_log');
-		$this->configFile =	JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_joomdoc' . DS . 'docman.config.php';
+		$this->configFile =	JPATH_ADMINISTRATOR . '/components/com_joomdoc/docman.config.php';
 		$this->setDocumentsPath();
 	}
 }
@@ -846,7 +846,7 @@ class HandoutMigration_Rokdownloads extends HandoutMigration
 
 		$this->tablePrefix = '#__rokdownloads';
 		$this->tables = array('categories' , 'rokdownloads');
-		$this->configFile =	JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_rokdownloads' . DS . 'admin_config.xml';
+		$this->configFile =	JPATH_ADMINISTRATOR . '/components/com_rokdownloads/admin_config.xml';
 		$this->setDocumentsPath();
 	}
 
@@ -975,7 +975,7 @@ class HandoutMigration_Rokdownloads extends HandoutMigration
 			$oldFile = $file;
 			$newFile = basename($file);
 			$this->renameDuplicate($newFile);
-			@copy($oldFile, $this->handoutPath . DS . $newFile);
+			@copy($oldFile, $this->handoutPath . '/' . $newFile);
 		}
 	}
 
@@ -999,7 +999,7 @@ class HandoutMigration_Rubberdoc extends HandoutMigration_Docman
 
 		$this->tablePrefix = '#__rubberdoc';
 		$this->tables = array('categories' , 'rubberdoc_docs');
-		$this->configFile =	JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_rubberdoc' . DS . 'config.xml';
+		$this->configFile =	JPATH_ADMINISTRATOR . '/components/com_rubberdoc/config.xml';
 		$this->setDocumentsPath();
 	}
 
@@ -1074,7 +1074,7 @@ class HandoutMigration_Folder extends HandoutMigration
 	protected function init()
 	{
 		$this->tmpFolder = urldecode(JRequest::getVar('folder', ''));
-		$this->tmpFolderPath = JPATH_ROOT . DS . $this->tmpFolder;
+		$this->tmpFolderPath = JPATH_ROOT . '/' . $this->tmpFolder;
 		parent::init();
 	}
 
@@ -1130,7 +1130,7 @@ class HandoutMigration_Folder extends HandoutMigration
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..')) {
-				$dir =  $path . DS . $file;
+				$dir =  $path . '/' . $file;
 				if (is_dir($dir)) {
 					//add category
 					$category = new HandoutCategory($db);
@@ -1158,7 +1158,7 @@ class HandoutMigration_Folder extends HandoutMigration
 						$this->renameDuplicate($file);
 
 						//copy file
-						copy($path . DS . $oldFname, $this->handoutPath . DS . $file);
+						copy($path . '/' . $oldFname, $this->handoutPath . '/' . $file);
 
 						//add document
 						$doc = new HandoutDocument($db);

@@ -78,7 +78,7 @@ function showLogs($option) {
 
 	// NAvigation
 
-	require_once JPATH_ROOT.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'pagination.php';
+	require_once JPATH_ROOT.'/libraries/joomla/html/pagination.php';
 	$pageNav = new JPagination($total, $limitstart, $limit);
 
 	// Query

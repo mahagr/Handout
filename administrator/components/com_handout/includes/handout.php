@@ -79,8 +79,8 @@ function installSampleData(){
 	$user = &JFactory::getUser();
 
 	$app = &JFactory::getApplication();
-	$handoutdoc  = JPATH_ROOT.DS.'handouts';
-	$img	= JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_handout'.DS.'images';
+	$handoutdoc  = JPATH_ROOT.'/handouts';
+	$img	= JPATH_ROOT.'/administrator/components/com_handout/images';
 	$now = date('Y-m-d H:i:s');
 
 	// get all super admins
@@ -110,8 +110,8 @@ function installSampleData(){
 	$licenseid = $database->insertid();
 
 	// add a sample file
-	if ( !file_exists($handoutdoc.DS.'sample_file.png')) {
-	   @copy($img.DS.'logo.png', $handoutdoc.DS.JText::_('COM_HANDOUT_SAMPLE_FILENAME'));
+	if ( !file_exists($handoutdoc.'/sample_file.png')) {
+	   @copy($img.'/logo.png', $handoutdoc.'/'.JText::_('COM_HANDOUT_SAMPLE_FILENAME'));
 	}
 
 	// add sample category

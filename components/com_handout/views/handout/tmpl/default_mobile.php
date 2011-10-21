@@ -27,20 +27,20 @@ $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pageti
 ?>
 
 <!-- <div id="handout">
-	
+
  subcategories
 	<?php //echo $this->loadTemplate('categories_list'); ?>
 
- documents 
+ documents
 	<?php //echo $this->loadTemplate('documents_list'); ?>
 
-	
 
-	<?php //include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
-	
-	
+
+	<?php //include_once(JPATH_COMPONENT . '/footer.php'); ?>
+
+
 </div>-->
-<?php 
+<?php
 
 
 
@@ -58,7 +58,7 @@ $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pageti
 		<?php } ?>
 			<h1>Handout Documents</h1>
 		</div><!-- /header -->
-		<div data-role="content">	
+		<div data-role="content">
 			<div class="main">
 				<!-- AddThis Button BEGIN -->
 				<?php echo  $this->loadTemplate('addthis'); ?>
@@ -72,7 +72,7 @@ $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pageti
 				<?php }?>
 				<!-- AddThis Button END -->
 				<div class="relax">&nbsp;</div>
-			
+
 				<?php echo $this->loadTemplate('categories_list_mobile'); ?>
 				<div class="relax">&nbsp;</div>
 								<?php if(count($this->doc_list->items)) { ?>
@@ -82,10 +82,10 @@ $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pageti
 		<?php } ?>
 				<!-- <h3 class="title topped">Various Documents</h3>
 				<p class="title">This is a category header description</p>-->
-			
-				
-				
-		
+
+
+
+
 			</div>
 			<ul class="bottom clear">
 				<li><a href="http://extensions.kontentdesign.com" rel="external">Handout for Joomla</a></li>

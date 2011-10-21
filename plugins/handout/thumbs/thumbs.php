@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // requires
-require_once dirname(__FILE__).DS.'thumbs'.DS.'defines.php';
+require_once dirname(__FILE__).'/thumbs/defines.php';
 
 jimport( 'joomla.plugin.plugin' );
 class plgHandoutThumbs extends JPlugin
@@ -19,8 +19,8 @@ class plgHandoutThumbs extends JPlugin
 	{
 		global $_HANDOUT;
 		if(!is_object($_HANDOUT)){
-			$handoutBase = JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_handout' . DS;
-			require_once $handoutBase . 'helpers' . DS . 'factory.php';
+			$handoutBase = JPATH_ROOT . '/administrator/components/com_handout/';
+			require_once $handoutBase . 'helpers/factory.php';
 			$_HANDOUT = &HandoutFactory::getHandout();
 		}
 
@@ -38,7 +38,7 @@ class plgHandoutThumbs extends JPlugin
 		$pluginParams->set('grayscale', $_HANDOUT->getCfg('thumbs_grayscale', '0'));
 
 		// Handout config
-		$handoutpath = $_HANDOUT->getCfg('handoutpath', JPATH_ROOT.DS.'handouts');
+		$handoutpath = $_HANDOUT->getCfg('handoutpath', JPATH_ROOT.'/handouts');
 
 		// Parameters
 		$id	 = $params['id'];
@@ -52,7 +52,7 @@ class plgHandoutThumbs extends JPlugin
 
 		// docfilename exists?
 		if(!file_exists($handoutpath)) { return; }
-		if(!file_exists($handoutpath.DS.$doc->objDBTable->docfilename)) { return; }
+		if(!file_exists($handoutpath.'/'.$doc->objDBTable->docfilename)) { return; }
 
 		// check extension
 		$extensions = $pluginParams->get( 'extensions', _AT_FILETYPE_LIST );
@@ -62,21 +62,21 @@ class plgHandoutThumbs extends JPlugin
 		if (!file_exists(_AT_PATH_IMAGES)){
 			mkdir(_AT_PATH_IMAGES);
 			chmod(_AT_PATH_IMAGES, 0755);
-			copy (JPATH_ROOT . DS . 'tmp' . DS . 'index.html', _AT_PATH_IMAGES . DS . 'index.html');
+			copy (JPATH_ROOT . '/tmp/index.html', _AT_PATH_IMAGES . '/index.html');
 		}
 
 		if(!is_writable(_AT_PATH_IMAGES)) { return; }
 
 		// build target filename
 		$output_format  = $pluginParams->get('output_format', 'png');
-		$target = _AT_PATH_IMAGES.DS.$doc->objDBTable->docfilename.'_'.$doc->objDBTable->id.'.'.$output_format;
+		$target = _AT_PATH_IMAGES.'/'.$doc->objDBTable->docfilename.'_'.$doc->objDBTable->id.'.'.$output_format;
 
 		// phpThumb
-		require_once _AT_PATH_LIBRARIES.DS.'phpthumb'.DS.'phpthumb.class.php';
+		require_once _AT_PATH_LIBRARIES.'/phpthumb/phpthumb.class.php';
 		$phpThumb  = new phpThumb();
 
 		// parameters
-		$phpThumb->setSourceFilename( $handoutpath.DS.$doc->objDBTable->docfilename );
+		$phpThumb->setSourceFilename( $handoutpath.'/'.$doc->objDBTable->docfilename );
 		$phpThumb->setParameter('w',	$pluginParams->get('width', 64));
 		$phpThumb->setParameter('h',	$pluginParams->get('height', 64));
 		$phpThumb->setParameter('far',  'C');

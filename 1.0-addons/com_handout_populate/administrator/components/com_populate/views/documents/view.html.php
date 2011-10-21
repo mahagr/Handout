@@ -10,8 +10,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
-require_once JPATH_COMPONENT.DS.'models'.DS.'categories.php';
-JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+require_once JPATH_COMPONENT.'/models/categories.php';
+JHTML::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 class PopulateViewDocuments extends JView
 {

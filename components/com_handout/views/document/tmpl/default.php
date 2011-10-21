@@ -44,7 +44,7 @@ $document->setMetaData('language', $this->data->doclanguage);
 
 ?>
 <div id="handout" class="hdetails">
-	<?php $this->_addPath( 'template', JPATH_COMPONENT . DS . 'views' . DS . 'handout' . DS . 'tmpl' );?>
+	<?php $this->_addPath( 'template', JPATH_COMPONENT . '/views/handout/tmpl' );?>
 	<?php echo $this->loadTemplate('menu'); ?>
 
 	<div id="hdoc-details">
@@ -195,5 +195,5 @@ $document->setMetaData('language', $this->data->doclanguage);
 	?>
 
 	<div class="clr"></div>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>

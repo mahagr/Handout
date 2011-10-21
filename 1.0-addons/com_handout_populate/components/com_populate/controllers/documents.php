@@ -9,10 +9,10 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_populate'.DS.'models'.DS.'files.php';
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_populate'.DS.'helpers'.DS.'formatter.php';
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_populate'.DS.'tables'.DS.'config.php';
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_populate'.DS.'tables'.DS.'params.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_populate/models/files.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_populate/helpers/formatter.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_populate/tables/config.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_populate/tables/params.php';
 
 
 jimport( 'joomla.application.component.controller' );

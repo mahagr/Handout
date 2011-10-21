@@ -70,12 +70,8 @@ class xmap_com_handout
 		$params['doc_task'] = $task;
 
 		// Handout core interaction API
-		include_once (JPATH_SITE . "/administrator/components/com_handout/handout.class.php");
-		global $_HANDOUT;
-		if (! is_object($_HANDOUT)) {
-			$_HANDOUT = new HandoutMainFrame();
-		}
-
+		require_once (JPATH_SITE . "/administrator/components/com_handout/handout.class.php");
+		$_HANDOUT = HandoutFactory::getHandout();
 		$_HANDOUT->setType(_DM_TYPE_MODULE);
 		$_HANDOUT->loadLanguage('modules');
 

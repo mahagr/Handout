@@ -10,7 +10,7 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_BASE . DS . 'components' . DS . 'com_handout' . DS . 'elements' . DS . 'helper.php';
+require_once JPATH_BASE . '/components/com_handout/elements/helper.php';
 
 class JElementDocument extends JElement
 {

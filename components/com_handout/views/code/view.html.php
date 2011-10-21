@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport ( 'joomla.application.component.view' );
 
-//require_once JPATH_COMPONENT_HELPERS . DS . 'helper.php';
-//require_once JPATH_COMPONENT_HELPERS . DS . 'codes.php';
+//require_once JPATH_COMPONENT_HELPERS . '/helper.php';
+//require_once JPATH_COMPONENT_HELPERS . '/codes.php';
 
 class HandoutViewCode extends JView {
 	function display() {
@@ -27,17 +27,17 @@ class HandoutViewCode extends JView {
 
 		$usertype = JRequest::getVar('usertype', 0);
 		$code = JRequest::getVar('code', '');
-		
+
 		$handoutUser = &HandoutFactory::getHandoutUser ();
 		if ($usertype==1 && $handoutUser->userid == 0) {
-			//needs to be registered or logged on 
-			$tmpl = 'restricted';				
+			//needs to be registered or logged on
+			$tmpl = 'restricted';
 		}
 		else {
 			$tmpl = null;
 		}
 
-		
+
 		$model=$this->getModel();
 		if ($code) {
 			//process the code

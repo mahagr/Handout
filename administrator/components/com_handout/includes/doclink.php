@@ -11,8 +11,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-include_once dirname(__FILE__).DS.'doclink.html.php';
-include_once dirname(__FILE__).DS.'defines.php';
+include_once dirname(__FILE__).'/doclink.html.php';
+include_once dirname(__FILE__).'/defines.php';
 
 global $_HANDOUT;
 

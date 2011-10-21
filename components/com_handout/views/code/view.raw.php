@@ -7,4 +7,4 @@
  * @link 		http://www.sharehandouts.com
  */
 
-require_once JPATH_COMPONENT.DS.'views'.DS.'code'.DS.'view.html.php';
+require_once JPATH_COMPONENT.'/views/code/view.html.php';

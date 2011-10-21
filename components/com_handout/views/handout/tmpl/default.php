@@ -59,5 +59,5 @@ $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pageti
 	</div>
 	<?php endif; ?>
 
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>

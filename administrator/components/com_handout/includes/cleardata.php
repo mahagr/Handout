@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__) . DS.'cleardata.html.php';
+include_once dirname(__FILE__) . '/cleardata.html.php';
 require_once $_HANDOUT->getPath('classes', 'cleardata');
 /*
 switch ($task) {

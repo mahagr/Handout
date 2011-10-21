@@ -11,16 +11,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_handout'.DS.'handout.class.php';
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_handout'.DS.'classes'.DS.'HANDOUT_utils.class.php';
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_handout'.DS.'helpers'.DS.'factory.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_handout/handout.class.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_handout/classes/HANDOUT_utils.class.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_handout/helpers/factory.php';
 
 $_HANDOUT = &HandoutFactory::getHandout();
 $_HANDOUT_USER = &HandoutFactory::getHandoutUser();
-if(!is_object($_HANDOUT)) {
-	$_HANDOUT = new HandoutMainFrame();
-	$_HANDOUT_USER = $_HANDOUT->getUser();
-}
 
 class HandoutRouterHelper {
 	function getDoc($id) {

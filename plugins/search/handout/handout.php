@@ -11,11 +11,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$handoutBase = JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_handout' . DS;
+$handoutBase = JPATH_ROOT . '/administrator/components/com_handout/';
 
-require_once $handoutBase . 'classes' . DS . 'HANDOUT_user.class.php';
-require_once $handoutBase . 'classes' . DS . 'HANDOUT_utils.class.php';
-require_once $handoutBase . 'helpers' . DS . 'factory.php';
+require_once $handoutBase . 'classes/HANDOUT_user.class.php';
+require_once $handoutBase . 'classes/HANDOUT_utils.class.php';
 require_once $handoutBase . 'handout.class.php';
 
 $app = JFactory::getApplication();

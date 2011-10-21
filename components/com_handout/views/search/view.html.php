@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 jimport ( 'joomla.application.component.view' );
 
-//require_once JPATH_COMPONENT_HELPERS . DS . 'helper.php';
-//require_once JPATH_COMPONENT_HELPERS . DS . 'search.php';
+//require_once JPATH_COMPONENT_HELPERS . '/helper.php';
+//require_once JPATH_COMPONENT_HELPERS . '/search.php';
 
 class HandoutViewSearch extends JView {
 	function display($tpl = null) {
@@ -23,7 +23,7 @@ class HandoutViewSearch extends JView {
 		$action = HandoutHelper::_taskLink('search_result');
 
 		list($links, $perms) = HandoutHelper::fetchMenu ( 0 );
-		
+
 		$model=$this->getModel();
 		list($lists, $search_phrase) = $model->getSearchForm ( $gid, $Itemid );
 

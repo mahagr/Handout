@@ -174,7 +174,7 @@ class HANDOUT_CleardataItem_thumbs extends HANDOUT_CleardataItem{
 		global $_HANDOUT;
 		jimport( 'joomla.filesystem.file' );
 		jimport( 'joomla.filesystem.folder' );
-		$path = JPATH_ROOT . DS . 'images' . DS . 'stories' . DS . 'handout';
+		$path = JPATH_ROOT . '/images/stories/handout';
 		if (!file_exists($path)){
 			$this->msg = JText::_('COM_HANDOUT_CLEARDATA_FAILED').$this->friendlyname;
 			return false;

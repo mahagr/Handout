@@ -35,7 +35,7 @@ $app->appendPathway(JText::_('COM_HANDOUT_TITLE_SEARCH'));
 $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_SEARCH'));
 ?>
 <div id="handout">
-	<?php $this->_addPath( 'template', JPATH_COMPONENT . DS . 'views' . DS . 'handout' . DS . 'tmpl' );?>
+	<?php $this->_addPath( 'template', JPATH_COMPONENT . '/views/handout/tmpl' );?>
 	<?php echo $this->loadTemplate('menu'); ?>
 
 	<h2><?php echo JText::_('COM_HANDOUT_TITLE_SEARCH') ?></h2>
@@ -106,5 +106,5 @@ $app->setPageTitle( JText::_('COM_HANDOUT_TITLE_SEARCH'));
 		endforeach;
 		?>
 	</ul>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>

@@ -11,8 +11,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__) . DS . 'install.handout.helper.php';
-require_once dirname(__FILE__) . DS . '..' . DS . 'helpers' . DS . 'factory.php';
+require_once dirname(__FILE__) . '/install.handout.helper.php';
+require_once dirname(__FILE__) . '/../helpers/factory.php';
 
 // Load the component language file
 $language = JFactory::getLanguage();

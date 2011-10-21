@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname ( __FILE__ ) . DS . 'install.handout.helper.php';
+require_once dirname ( __FILE__ ) . '/install.handout.helper.php';
 
 $language = JFactory::getLanguage();
 $language->load('com_handout', JPATH_ADMINISTRATOR.'/components/com_handout');
@@ -64,9 +64,9 @@ function com_install() {
 
 	// index.html files
 
-	$paths = array ('components' . DS . 'com_handout', 'administrator' . DS . 'components' . DS . 'com_handout', 'handouts' );
+	$paths = array ('components/com_handout', 'administrator/components/com_handout', 'handouts' );
 	foreach ( $paths as $path ) {
-		$path = $absolute_path . DS . $path;
+		$path = $absolute_path . '/' . $path;
 		HandoutInstallHelper::createIndex ( $path );
 	}
 

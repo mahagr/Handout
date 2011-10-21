@@ -142,7 +142,7 @@ function showCodes($option)
 
 	$id = JRequest::getVar('id', 0);
 
-	require_once JPATH_ROOT . DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'pagination.php';
+	require_once JPATH_ROOT . '/libraries/joomla/html/pagination.php';
 	$pageNav = new JPagination($total, $limitstart, $limit);
 
 	$query = "SELECT c.id, c.name, c.published, c.usage, h.docname, cat.".COM_HANDOUT_FIELD_CATEGORY_NAME." as category"

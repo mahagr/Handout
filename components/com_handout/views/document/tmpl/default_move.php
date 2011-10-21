@@ -38,7 +38,7 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 	JHTML::_('behavior.tooltip');
 ?>
 <div id="handout" class="hmove">
-	<?php $this->_addPath( 'template', JPATH_COMPONENT . DS . 'views' . DS . 'handout' . DS . 'tmpl' );?>
+	<?php $this->_addPath( 'template', JPATH_COMPONENT . '/views/handout/tmpl' );?>
 	<?php echo $this->loadTemplate('menu'); ?>
 
 	<h2><?php echo JText::_('COM_HANDOUT_TITLE_MOVE');?></h2>
@@ -51,5 +51,5 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 		<?php echo $this->token; ?>
  	</form>
 	<div class="clr"></div>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>

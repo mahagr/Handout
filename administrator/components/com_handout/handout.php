@@ -12,13 +12,12 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/handout.class.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/handout.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/factory.php';
 
 global $_HANDOUT, $_HANDOUT_USER;
 
 $task = JRequest::getCmd('task');
 
-$_HANDOUT = new HandoutMainFrame();
+$_HANDOUT = HandoutFactory::getHandout();
 $lang = &JFactory::getLanguage();
 $lang->load('com_handout', JPATH_ADMINISTRATOR);
 

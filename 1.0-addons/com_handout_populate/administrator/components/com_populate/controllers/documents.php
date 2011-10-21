@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT.DS.'helpers'.DS.'formatter.php';
+require_once JPATH_COMPONENT.'/helpers/formatter.php';
 
 jimport( 'joomla.application.component.controller' );
 class PopulateControllerDocuments extends JController

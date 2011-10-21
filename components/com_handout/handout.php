@@ -11,12 +11,12 @@
 
 defined('_JEXEC') or die;
 
-define ( 'JPATH_COMPONENT_HELPERS', JPATH_COMPONENT_SITE . DS . 'helpers' );
-define ( 'JPATH_COMPONENT_AHELPERS', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' );
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'handout.class.php';
-require_once JPATH_COMPONENT_HELPERS . DS . 'helper.php';
-require_once JPATH_COMPONENT_AHELPERS . DS . 'factory.php';
-require_once JPATH_COMPONENT_SITE . DS . 'controller.php';
+define ( 'JPATH_COMPONENT_HELPERS', JPATH_COMPONENT_SITE . '/helpers' );
+define ( 'JPATH_COMPONENT_AHELPERS', JPATH_COMPONENT_ADMINISTRATOR . '/helpers' );
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/handout.class.php';
+require_once JPATH_COMPONENT_HELPERS . '/helper.php';
+require_once JPATH_COMPONENT_AHELPERS . '/factory.php';
+require_once JPATH_COMPONENT_SITE . '/controller.php';
 
 $handout = &HandoutFactory::getHandout ();
 

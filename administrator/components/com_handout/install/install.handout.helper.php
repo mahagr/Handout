@@ -12,12 +12,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-if (! defined('DS'))
-	define('DS', DIRECTORY_SEPARATOR);
+require_once dirname(__FILE__) . '/../handout.class.php';
 
-require_once dirname(__FILE__) . DS . '..' . DS. 'handout.class.php';
-
-$_HANDOUT = new HandoutMainFrame();
+$_HANDOUT = HandoutFactory::getHandout();
 $_HANDOUT_USER = $_HANDOUT->getUser();
 
 define('COM_HANDOUT_INSTALLER_ICONPATH', JURI::root() . 'administrator/components/com_handout/images/');
@@ -34,7 +31,7 @@ class HandoutInstallHelper
 	function checkWritable ()
 	{
 		$absolute_path = JPATH_ROOT;
-		$paths = array(DS , DS . 'administrator' . DS . 'modules' . DS , DS . 'plugins' . DS);
+		$paths = array('/', '/administrator/modules/' , '/plugins/');
 		clearstatcache();
 		$msgs = array();
 		foreach ($paths as $path) {
@@ -71,17 +68,17 @@ class HandoutInstallHelper
 	{
 
 		$root = JPATH_ROOT;
-		$site = $root . DS . 'components' . DS . 'com_handout';
-		$admin = $root . DS . 'administrator' . DS . 'components' . DS . 'com_handout';
-		$handoutdoc = $root . DS . 'handouts';
+		$site = $root . '/components/com_handout';
+		$admin = $root . '/administrator/components/com_handout';
+		$handoutdoc = $root . '/handouts';
 
 		@mkdir($handoutdoc, 0755);
-		@rename($admin . DS . 'htaccess.txt', $handoutdoc . DS . '.htaccess');
-		@copy($site . DS . 'index.html', $handoutdoc . DS . 'index.html');
+		@rename($admin . '/htaccess.txt', $handoutdoc . '/.htaccess');
+		@copy($site . '/index.html', $handoutdoc . '/index.html');
 
 		@chmod($site, 0755);
-		@chmod($admin . DS . 'classes' . DS . 'HANDOUT_download.class.php', 0755);
-		@chmod($admin . DS . 'classes' . DS . 'HANDOUT_utils.php', 0755);
+		@chmod($admin . '/classes/HANDOUT_download.class.php', 0755);
+		@chmod($admin . '/classes/HANDOUT_utils.php', 0755);
 	}
 
 	function showLogo ()
@@ -268,13 +265,7 @@ class HandoutInstallHelper
 	 */
 	function cntFiles ()
 	{
-		global $_HANDOUT;
-		if (! is_object($_HANDOUT)) {
-			$_HANDOUT = new HandoutMainFrame();
-		}
-		if (! is_object($_HANDOUT)) {
-			$_HANDOUT = new HandoutMainFrame();
-		}
+		$_HANDOUT = HandoutFactory::getHandout();
 		$files = HandoutInstallHelper::getDefaultFiles();
 		$dir = JFolder::files($_HANDOUT->getCfg('handoutpath'));
 		return count(array_diff($dir, $files));
@@ -282,17 +273,13 @@ class HandoutInstallHelper
 
 	function removeHandoutDocuments ()
 	{
-		global $_HANDOUT;
-		if (! is_object($_HANDOUT)) {
-			$_HANDOUT = new HandoutMainFrame();
-		}
-
+		$_HANDOUT = HandoutFactory::getHandout();
 		$handoutpath = $_HANDOUT->getCfg('handoutpath');
 
 		$files = HandoutInstallHelper::getDefaultFiles();
 
 		foreach ($files as $file) {
-			@unlink($handoutpath . DS . $file);
+			@unlink($handoutpath . '/' . $file);
 		}
 		@rmdir($handoutpath);
 	}
@@ -316,7 +303,7 @@ class HandoutInstallHelper
 		$handle = opendir($path);
 		while (false !== ($file = @readdir($handle))) {
 			if ($file != '.' and $file != '..') {
-				$dir = $path . DS . $file;
+				$dir = $path . '/' . $file;
 				if (is_dir($dir)) {
 					HandoutInstallHelper::createIndex($dir);
 				}
@@ -326,7 +313,7 @@ class HandoutInstallHelper
 
 	function _createIndexFile ($dir)
 	{
-		@$handle = fopen($dir . DS . 'index.html', 'w');
+		@$handle = fopen($dir . '/index.html', 'w');
 		@fwrite($handle, 'Restricted access');
 	}
 
@@ -689,7 +676,7 @@ endif; ?>
 						$installer->parent->abort(JText::_('J_INSTALL_PLUGIN').' '.JText::_('J_INSTALL_INSTALL').': '.JText::sprintf('J_INSTALL_PLUGIN_PATH_CREATE_FAILURE', $installer->parent->getPath('extension_root')));
 						return false;
 					}
-					@copy(JPATH_ROOT . DS . 'plugins' . DS . 'content' . DS . 'index.html', $installer->parent->getPath('extension_root') . DS . 'index.html');
+					@copy(JPATH_ROOT . '/plugins/content/index.html', $installer->parent->getPath('extension_root') . '/index.html');
 				}
 
 				// If we created the plugin directory and will want to remove it if we

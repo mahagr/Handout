@@ -15,24 +15,24 @@ defined('_JEXEC') or die;
 
 jimport ( 'joomla.application.component.view' );
 
-//require_once JPATH_COMPONENT_HELPERS . DS . 'categories.php';
-//require_once JPATH_COMPONENT_HELPERS . DS . 'documents.php';
-//require_once JPATH_COMPONENT_HELPERS . DS . 'upload.php';
+//require_once JPATH_COMPONENT_HELPERS . '/categories.php';
+//require_once JPATH_COMPONENT_HELPERS . '/documents.php';
+//require_once JPATH_COMPONENT_HELPERS . '/upload.php';
 
 class HandoutViewDocument extends JView {
 	function display() {
-		
-		
-		 
+
+
+
 		  JHTML::stylesheet('mobile.css', COM_HANDOUT_CSSPATH);
 		  JHTML::stylesheet('jquery.mobile-1.0b1.min.css', 'http://code.jquery.com/mobile/1.0b1/');
-		  
+
 		$handout = &HandoutFactory::getHandout ();
 		$document_model=& JModel::getInstance('Document','HandoutModel');
 		$gid =  HandoutHelper::getGid ();
-		
+
 		list($buttons, $paths, $data) = $document_model->getDocument ( $gid );
-		
+
 		list($links, $perms) = HandoutHelper::fetchMenu ( $gid );
 
 		//overwrite home link
@@ -44,7 +44,7 @@ class HandoutViewDocument extends JView {
 		$this->assignRef('links', $links);
 		$this->assignRef('perms', $perms);
 		$this->assignRef('conf', $handout->getAllCfg());
-	
+
 		parent::display('mobile');
 	}
 }

@@ -9,21 +9,19 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-
 class PopulateDocman
 {
 	public static function isInstalled()
 	{
-		return file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_handout'.DS.'handout.class.php');
+		return file_exists(JPATH_ADMINISTRATOR.'/components/com_handout/handout.class.php');
 	}
 
 	public static function get()
 	{
-		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_handout'.DS.'includes'.DS.'defines.php';
-		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_handout'.DS.'handout.class.php';
+		require_once JPATH_ADMINISTRATOR.'/components/com_handout/handout.class.php';
 		global $_HANDOUT, $_DMUSER;
 		if(!is_object($_HANDOUT)) {
-			$_HANDOUT = new HandoutMainFrame();
+			$_HANDOUT = HandoutFactory::getHandout();
 			$_DMUSER = $_HANDOUT->getUser();
 		}
 

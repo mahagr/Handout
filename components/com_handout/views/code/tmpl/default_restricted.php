@@ -19,8 +19,8 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 	?>
 	<div class="hdoc-code-form">
 		<?php $returnUrl = base64_encode(JRoute::_($_SERVER['REQUEST_URI']));?>
-		<?php echo JText::sprintf('COM_HANDOUT_CODE_LOGIN_REQUIRED', $returnUrl, $returnUrl); ?>	 
+		<?php echo JText::sprintf('COM_HANDOUT_CODE_LOGIN_REQUIRED', $returnUrl, $returnUrl); ?>
 	</div>
 	<div class="clr"></div>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>

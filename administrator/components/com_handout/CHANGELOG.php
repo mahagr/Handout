@@ -26,6 +26,8 @@ Legend:
 
 20-Oct-2011 Matias
 ^ Fix problems reported by Zend Studio
+^ Improve Joomla! 1.7 compatibility (remove DS)
+^ Always use HandoutFactory::getHandout() instead of new HandoutMainFrame()
 
 18-Jul-2011 Severdia
 # Fixed language codes

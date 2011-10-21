@@ -8,10 +8,10 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once NOTIFY_PATH.DS.'includes'.DS.'info.php';
-require_once NOTIFY_PATH.DS.'includes'.DS.'site.php';
-require_once NOTIFY_PATH.DS.'includes'.DS.'handoutdocument.php';
-require_once NOTIFY_PATH.DS.'includes'.DS.'handoutfile.php';
+require_once NOTIFY_PATH.'/includes/info.php';
+require_once NOTIFY_PATH.'/includes/site.php';
+require_once NOTIFY_PATH.'/includes/handoutdocument.php';
+require_once NOTIFY_PATH.'/includes/handoutfile.php';
 
 
 class NotifyEmailTemplate
@@ -110,8 +110,8 @@ class NotifyEmailTemplate
 		// get the template
 		ob_start();
 
-		require_once NOTIFY_PATH.DS.'templates'.DS.$this->_template.'.php';
-		require_once NOTIFY_PATH.DS.'templates'.DS.'footer.php';
+		require_once NOTIFY_PATH.'/templates/'.$this->_template.'.php';
+		require_once NOTIFY_PATH.'/templates/footer.php';
 		$this->_body = ob_get_clean();
 
 		if ( !$this->_recipients ) { // if there are no addresses to send to, return

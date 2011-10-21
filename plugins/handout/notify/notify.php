@@ -11,14 +11,14 @@ defined('_JEXEC') or die('Restricted access');
 
 global $_HANDOUT;
 if(!is_object($_HANDOUT)){
-	$handoutBase = JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_handout' . DS;
-	require_once $handoutBase . 'helpers' . DS . 'factory.php';
+	$handoutBase = JPATH_ROOT . '/administrator/components/com_handout/';
+	require_once $handoutBase . 'helpers/factory.php';
 	$_HANDOUT = &HandoutFactory::getHandout();
 }
 
 // requires
-define('NOTIFY_PATH', dirname(__FILE__).DS.'notify');
-require_once NOTIFY_PATH.DS.'includes'.DS.'config.php';
+define('NOTIFY_PATH', dirname(__FILE__).'/notify');
+require_once NOTIFY_PATH.'/includes/config.php';
 
 jimport( 'joomla.plugin.plugin' );
 class plgHandoutNotify extends JPlugin
@@ -46,7 +46,7 @@ class plgHandoutNotify extends JPlugin
 
 	protected function _notify($params)
 	{
-		require_once NOTIFY_PATH.DS.'includes'.DS.'emailtemplate.php';
+		require_once NOTIFY_PATH.'/includes/emailtemplate.php';
 
 		$email = new NotifyEmailTemplate( $params );
 

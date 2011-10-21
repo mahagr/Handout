@@ -19,9 +19,9 @@ if($pw !== md5(JFactory::getApplication()->getCfg('secret')))
 	die('Bad password');
 }
 
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_populate'.DS. 'helpers'.DS.'handout.php' ;
+require_once JPATH_ADMINISTRATOR.'/components/com_populate/helpers/handout.php' ;
 
-require_once JPATH_COMPONENT.DS.'controllers'.DS.'documents.php';
+require_once JPATH_COMPONENT.'/controllers/documents.php';
 $controller	= new PopulateControllerDocuments;
 $controller->execute('assign');
 die;

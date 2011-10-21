@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once NOTIFY_PATH.DS.'includes'.DS.'handoutdata.php';
+require_once NOTIFY_PATH.'/includes/handoutdata.php';
 
 class NotifyDocument  extends NotifyHandoutData
 {

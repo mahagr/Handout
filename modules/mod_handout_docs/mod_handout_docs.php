@@ -13,13 +13,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).DS.'helper.php';
+require_once dirname(__FILE__).'/helper.php';
 
 // Attach the Handout stylesheet to the document head
 JHTML::stylesheet('handout.css', 'components/com_handout/media/css/');
 
-require_once JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_handout' . DS . 'helpers' . DS . 'factory.php';
-require_once JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_handout' . DS . 'handout.class.php';
+require_once JPATH_ROOT . '/administrator/components/com_handout/handout.class.php';
 
 global $_HANDOUT;
 if (!$_HANDOUT) {

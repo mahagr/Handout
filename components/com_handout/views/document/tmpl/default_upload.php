@@ -28,7 +28,7 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 JHTML::_('behavior.tooltip');
 
 ?>
-<?php $this->_addPath( 'template', JPATH_COMPONENT . DS . 'views' . DS . 'handout' . DS . 'tmpl' );?>
+<?php $this->_addPath( 'template', JPATH_COMPONENT . '/views/handout/tmpl' );?>
 <?php echo $this->loadTemplate('menu'); ?>
 
 <div id="handout" class="hupload">
@@ -82,7 +82,7 @@ JHTML::_('behavior.tooltip');
 				break;
 		endswitch;
 	?>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>
 
 <?php

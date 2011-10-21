@@ -15,9 +15,9 @@ defined('_JEXEC') or die;
 
 jimport ( 'joomla.application.component.view' );
 
-//require_once JPATH_COMPONENT_HELPERS . DS . 'categories.php';
-//require_once JPATH_COMPONENT_HELPERS . DS . 'documents.php';
-//require_once JPATH_COMPONENT_HELPERS . DS . 'upload.php';
+//require_once JPATH_COMPONENT_HELPERS . '/categories.php';
+//require_once JPATH_COMPONENT_HELPERS . '/documents.php';
+//require_once JPATH_COMPONENT_HELPERS . '/upload.php';
 
 class HandoutViewDocument extends JView {
 	function display() {
@@ -47,7 +47,7 @@ class HandoutViewDocument extends JView {
 		$gid =  HandoutHelper::getGid ();
 		list($buttons, $paths, $data) = $document_model->getDocument ( $gid );
 		list($links, $perms) =  HandoutHelper::fetchMenu ( $gid );
-		
+
 		list($edit_doc, $edit_lists, $edit_last, $edit_created, $edit_params) = $document_model->getEditDocumentForm ( $gid );
 
 		$this->assignRef('data', $data);
@@ -69,8 +69,8 @@ class HandoutViewDocument extends JView {
 		$handout = &HandoutFactory::getHandout ();
 		$document_model= JModel::getInstance('Document','HandoutModel');
 		$gid =  HandoutHelper::getGid ();
-		
-		
+
+
 		$document_model->checkMoveDocument ( $gid );
 
 		list($buttons, $paths, $data) = $document_model->getDocument ( $gid );
@@ -103,9 +103,9 @@ class HandoutViewDocument extends JView {
 		$doc->addStylesheet('components/com_handout/asset/tab.css');
 		$document_model=& JModel::getInstance('Document','HandoutModel');
 		$gid =  HandoutHelper::getGid ();
-				
-		
-		
+
+
+
 	list($links, $perms) =  HandoutHelper::fetchMenu ( $gid );
 		$upload_model=& JModel::getInstance('Upload','HandoutModel');
 		$lists = $upload_model->fetchDocumentUploadForm ( $gid, $step, $method, $update );
@@ -133,8 +133,8 @@ class HandoutViewDocument extends JView {
 		$this->assignRef('edit_lists', $edit_lists);
 		$this->assignRef('edit_last', $edit_last);
 		$this->assignRef('edit_created', $edit_created);
-		$this->assignRef('edit_params', $edit_params);	
-		
+		$this->assignRef('edit_params', $edit_params);
+
 			//}
 			HandoutViewDocument::importScript ();
 		}

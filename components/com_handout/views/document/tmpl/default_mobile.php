@@ -195,7 +195,7 @@ $document->setMetaData('language', $this->data->doclanguage);
 	?>
 
 	<div class="clr"></div>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>
 <?php */ ?>
 

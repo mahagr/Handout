@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/includes/defines.php';
+require_once dirname(__FILE__) . '/helpers/factory.php';
 
 /**
  * Handout Mainframe class using a singleton pattern
@@ -222,7 +223,7 @@ class HandoutMainFrame
 
 		// Get the path (ignore result) ... this sets a default value
 		if (is_null($this->_config->getCfg('handoutpath'))) {
-			$this->_config->setCfg('handoutpath', $root_path . DS . 'handouts', true);
+			$this->_config->setCfg('handoutpath', $root_path . '/handouts', true);
 			$save = true;
 		}
 
@@ -370,8 +371,8 @@ class HandoutMainFrame
 		$path = trim($path);
 		// remove '..'
 		$path = str_replace('..', '', $path);
-		// Remove double slashes and backslahses and convert all slashes and backslashes to DS
-		$path = preg_replace('#[/\\\\]+#', DIRECTORY_SEPARATOR, $path);
+		// Remove double slashes and backslahses and convert all slashes and backslashes to /
+		$path = preg_replace('#[/\\]+#', '/', $path);
 
 		return $path;
 	}
@@ -417,7 +418,7 @@ class HandoutDocument extends JTable
 	var $js_group_id=null;
 	var $multi_file_no=null;
 	var $cattype=null;
-	
+
 
 	function __construct(&$db)
 	{
@@ -745,7 +746,7 @@ class HandoutDocument extends JTable
 			$attribs = $this->attribs;
 		}
 		if (!isset($this->_params) && $attribs) {
-			$this->_params = new mosParameters($attribs);
+			$this->_params = new JParameter($attribs);
 		}
 		if (isset($this->_params->$field)) {
 			return ($this->_params->$field);

@@ -364,7 +364,7 @@ function publishCategories($section, $categoryid = null, $cid = null, $publish =
 	}
 
 	if (count($cid) == 1) {
-		require_once JPATH_ROOT . DS . 'libraries' . DS . 'joomla' . DS . 'database' . DS . 'table' . DS . 'category.php';
+		require_once JPATH_ROOT . '/libraries/joomla/database/table/category.php';
 		$row = new JTableCategory($database);
 		$row->checkin($cid[0]);
 	}

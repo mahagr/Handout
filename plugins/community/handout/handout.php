@@ -5,7 +5,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_ROOT . DS . 'components' . DS . 'com_community' . DS . 'libraries' . DS . 'core.php');
+require_once( JPATH_ROOT . '/components/com_community/libraries/core.php');
 
 
 
@@ -15,7 +15,7 @@ if(!class_exists('plgCommunityHandout'))
 	{
 		var $name		= 'Handout';
 		var $_name		= 'handout';
-		
+
 	    function plgCommunityHandout(& $subject, $config)
 	    {
 			parent::__construct($subject, $config);
@@ -39,20 +39,20 @@ if(!class_exists('plgCommunityHandout'))
 				$filename=$doc->docname;
 				$linkhtml=$linkhtml.'<tr><td><a href="index.php?option=com_handout&task=doc_details&gid='.$doc->id.'&groupid='.$groupid.'">'.$filename.'</a></td><td></td><td><a href="index.php?option=com_handout&task=doc_download&gid='.$doc->id.'">Download</a></td></tr>';
 			}
-			
+
 		}
 		$linkhtml.="</table>";
 		$linkhtml.='<table><tr><td><a href="index.php?option=com_handout&task=upload&groupid='.$groupid.'">Submit Document</td></tr></table>';
 		$html = $linkhtml;
-         return $html;   
-	    
-	    
+         return $html;
+
+
 	    }
-	
-		
-		
-		
-	}	
+
+
+
+
+	}
 }
 
 

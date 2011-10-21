@@ -9,9 +9,9 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT.DS.'tables'.DS.'config.php';
-require_once JPATH_COMPONENT.DS.'tables'.DS.'params.php';
-require_once JPATH_COMPONENT.DS. 'helpers'.DS.'handout.php' ;
+require_once JPATH_COMPONENT.'/tables/config.php';
+require_once JPATH_COMPONENT.'/tables/params.php';
+require_once JPATH_COMPONENT.'/helpers/handout.php' ;
 
 // auth
 $user = & JFactory::getUser();
@@ -33,7 +33,7 @@ $view = JRequest::getCmd('view', 'documents', 'get');
 JRequest::setVar('view', $view); // set in case default is used
 
 
-require_once JPATH_COMPONENT.DS.'controllers'.DS.$view.'.php';
+require_once JPATH_COMPONENT.'/controllers/'.$view.'.php';
 $controllerName = 'PopulateController'.$view;
 $controller		= new $controllerName;
 

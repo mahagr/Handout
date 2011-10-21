@@ -16,7 +16,7 @@ define('_AT_VERSION', '1.0');
 // Paths
 define('_AT_PATH', dirname(__FILE__));
 define('_AT_PATH_IMAGES', JPATH_ROOT. '/images/stories/handout');
-define('_AT_PATH_LIBRARIES', _AT_PATH.DS.'libraries');
+define('_AT_PATH_LIBRARIES', _AT_PATH.'/libraries');
 
 // Urls
 define('_AT_URL_IMAGES', JURI::root(true).'/images/stories/handout');

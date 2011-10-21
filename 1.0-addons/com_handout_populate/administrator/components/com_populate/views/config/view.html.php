@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
-JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+JHTML::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 class PopulateViewConfig extends JView
 {

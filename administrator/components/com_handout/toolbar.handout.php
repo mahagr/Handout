@@ -16,6 +16,9 @@ require_once JPATH_COMPONENT.'/toolbar.handout.class.php';
 
 global $section;
 
+// Remove some Zend notices
+$task = $task;
+
 if ($task == "cpanel") {
 	TOOLBAR_handout::CPANEL_MENU ();
 } else {

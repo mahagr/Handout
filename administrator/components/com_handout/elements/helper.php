@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_BASE . DS . 'components' . DS . 'com_handout' . DS . 'handout.class.php';
+require_once JPATH_BASE . '/components/com_handout/handout.class.php';
 
 class JElementHandoutHelper
 {

@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).DS.'helper.php';
+require_once dirname(__FILE__).'/helper.php';
 
 $docs = modHandoutApprovalHelper::getDocs($params);
 require(JModuleHelper::getLayoutPath('mod_handout_approval'));

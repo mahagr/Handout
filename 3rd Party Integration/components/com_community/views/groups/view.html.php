@@ -17,48 +17,48 @@ class CommunityViewGroups extends CommunityView
 		CFactory::load( 'models' , 'groups' );
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $groupId );
-        
+
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') , CRoute::_('index.php?option=com_community&view=groups') );
-		$this->addPathway( $group->name , CRoute::_('index.php?option=com_community&view=groups&task=viewgroup&groupid=' . $group->id) ); 
+		$this->addPathway( $group->name , CRoute::_('index.php?option=com_community&view=groups&task=viewgroup&groupid=' . $group->id) );
 	}
-	
+
 	public function sendmail()
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_COMMUNITY_SEND_EMAIL_TO_GROUP_MEMBERS'));
-        
+
 		$id	=   JRequest::getInt( 'groupid' , 0 );
 
 		$group	=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $id );
-        
+
 		if( $id == 0 )
 		{
 			echo JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN');
 			return;
 		}
-		
+
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') , CRoute::_('index.php?option=com_community&view=groups') );
 		$this->addPathway( $group->name , CRoute::_('index.php?option=com_community&view=groups&task=viewgroup&groupid=' . $group->id ) );
 		$this->addPathway( JText::_('COM_COMMUNITY_SEND_EMAIL_TO_GROUP_MEMBERS') );
-		
+
 		if(!$this->accessAllowed('registered'))
 		{
 			return;
 		}
-		
+
 		// Display the submenu
 		$this->showSubmenu();
-		
-		CFactory::load( 'helpers', 'owner' );		
+
+		CFactory::load( 'helpers', 'owner' );
 		CFactory::load( 'models' , 'events' );
-		
+
 		$my			= CFactory::getUser();
 		$config		= CFactory::getConfig();
 
 		CFactory::load( 'libraries' , 'editor' );
 		$editor	    =	new CEditor( $config->get( 'htmleditor' ) );
-		
+
 		if( !$group->isAdmin($my->id) && !COwnerHelper::isCommunityAdmin() )
 		{
 			$this->noAccess();
@@ -67,16 +67,16 @@ class CommunityViewGroups extends CommunityView
 
 		$message	= JRequest::getVar( 'message' , '' , 'post' , 'string' , JREQUEST_ALLOWRAW );
 		$title		= JRequest::getVar( 'title'	, '' );
-		
+
 		$tmpl		= new CTemplate();
 		$tmpl->set( 'editor'	, $editor );
 		$tmpl->set( 'group' , $group );
 		$tmpl->set( 'message' , $message );
 		$tmpl->set( 'title' , $title );
 		echo $tmpl->fetch( 'groups.sendmail' );
-	
+
 	}
-	
+
 	public function _addSubmenu()
 	{
 
@@ -86,41 +86,41 @@ class CommunityViewGroups extends CommunityView
 		$categoryid	=   JRequest::getInt( 'categoryid' , '' , 'GET' );
 		$my			=&  CFactory::getUser();
 
-		
+
 		$backLink	=   array( 'sendmail','invitefriends', 'viewmembers' , 'viewdiscussion' , 'viewdiscussions' , 'editdiscussion' ,'viewbulletins', 'adddiscussion' , 'addnews' , 'viewbulletin', 'uploadavatar' , 'edit', 'banlist');
 
 		$groupsModel	=&  CFactory::getModel( 'groups' );
 		$isAdmin	=   $groupsModel->isAdmin( $my->id , $groupid );
 		$isSuperAdmin	=   COwnerHelper::isCommunityAdmin();
-		
+
 		// Load the group table.
 		$group		=&  JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $groupid );
 		$isBanned		=   $group->isBanned( $my->id );
-		
+
 		if( in_array( $task , $backLink) )
 		{
 			$this->addSubmenuItem('index.php?option=com_community&view=groups&task=viewgroup&groupid=' . $groupid, JText::_('COM_COMMUNITY_GROUPS_BACK_TO_GROUP'));
 			$this->addSubmenuItem('index.php?option=com_community&view=groups&task=viewmembers&groupid=' . $groupid, JText::_('COM_COMMUNITY_GROUPS_ALL_MEMBERS'));
-			
+
 			if( $isAdmin || $isSuperAdmin )
 				$this->addSubmenuItem('index.php?option=com_community&view=groups&task=banlist&list=' . COMMUNITY_GROUP_BANNED . '&groupid=' . $groupid, JText::_('COM_COMMUNITY_GROUPS_BAN_LIST'));
-				
+
 			if( $task == 'viewdiscussions' && !$isBanned )
 				$this->addSubmenuItem('index.php?option=com_community&view=groups&groupid=' . $groupid . '&task=adddiscussion', JText::_('COM_COMMUNITY_GROUPS_DISCUSSION_CREATE') , '' , SUBMENU_RIGHT );
-				
+
 			if( $task == 'viewmembers' && !$isBanned )
 				$this->addSubmenuItem('index.php?option=com_community&view=groups&task=invitefriends&groupid=' . $groupid, JText::_('COM_COMMUNITY_TAB_INVITE') , '' , SUBMENU_RIGHT );
 		}
 		else
 		{
 			$this->addSubmenuItem('index.php?option=com_community&view=groups&task=display', JText::_('COM_COMMUNITY_GROUPS_ALL_GROUPS'));
-			
+
 			if(COwnerHelper::isRegisteredUser())
 			{
 				$this->addSubmenuItem('index.php?option=com_community&view=groups&task=mygroups&userid=' . $my->id , JText::_('COM_COMMUNITY_GROUPS_MY_GROUPS'));
 				$this->addSubmenuItem('index.php?option=com_community&view=groups&task=myinvites&userid=' . $my->id , JText::_('COM_COMMUNITY_GROUPS_PENDING_INVITES'));
-			}	
+			}
 
 			if( $config->get('creategroups')  &&  ( $isSuperAdmin || (COwnerHelper::isRegisteredUser() && $my->canCreateGroups() ) ) )
 			{
@@ -157,9 +157,9 @@ class CommunityViewGroups extends CommunityView
 		{
 			return;
 		}
-		
+
 		$this->showSubmenu();
-		
+
 		$my				= CFactory::getUser();
 		$groupId		= JRequest::getInt( 'groupid' , '' , 'GET' );
 		$this->_addGroupInPathway( $groupId );
@@ -167,11 +167,11 @@ class CommunityViewGroups extends CommunityView
 
 		$friendsModel	= CFactory::getModel( 'Friends' );
 		$groupsModel	= CFactory::getModel( 'Groups' );
-						
-		$tmpFriends		= $friendsModel->getFriends( $my->id , 'name' , false);				
-		
+
+		$tmpFriends		= $friendsModel->getFriends( $my->id , 'name' , false);
+
 		$friends		= array();
-		
+
 		for( $i = 0; $i < count( $tmpFriends ); $i++ )
 		{
 			$friend			=& $tmpFriends[ $i ];
@@ -187,7 +187,7 @@ class CommunityViewGroups extends CommunityView
 
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $groupId );
-		
+
 		$tmpl			= new CTemplate();
 		$tmpl->set( 'friends' , $friends );
 		$tmpl->set( 'group' , $group );
@@ -202,19 +202,19 @@ class CommunityViewGroups extends CommunityView
 		$config		= CFactory::getConfig();
 		$document 	= JFactory::getDocument();
 		$document->setTitle( JText::_('COM_COMMUNITY_GROUPS_EDIT_TITLE') );
-        
+
 
 		$this->showSubmenu();
-  		
+
 		$js	= 'assets/validate-1.5'.(( $config->getBool('usepackedjavascript') ) ? '.pack.js' : '.js');
 		CAssets::attach($js, 'js');
-        
+
 		$groupId		= JRequest::getInt( 'groupid' , '' , 'REQUEST' );
 		$groupModel		= CFactory::getModel( 'Groups' );
 		$categories		= $groupModel->getCategories();
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $groupId );
-		
+
 		$this->_addGroupInPathway( $group->id );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_EDIT_TITLE') );
 
@@ -222,7 +222,7 @@ class CommunityViewGroups extends CommunityView
 		$app 		=& CAppPlugins::getInstance();
 		$appFields	= $app->triggerEvent('onFormDisplay' , array('jsform-groups-forms'));
 		$beforeFormDisplay	= CFormElement::renderElements( $appFields , 'before' );
-		$afterFormDisplay	= CFormElement::renderElements( $appFields , 'after' ); 
+		$afterFormDisplay	= CFormElement::renderElements( $appFields , 'after' );
 
 		// Load category tree
 		CFactory::load('helpers','category');
@@ -233,7 +233,7 @@ class CommunityViewGroups extends CommunityView
 
 		CFactory::load( 'libraries' , 'editor' );
 		$editor	    =	new CEditor( $editorType );
-	
+
 		$tmpl	= new CTemplate();
 		$tmpl->set( 'beforeFormDisplay'	, $beforeFormDisplay );
 		$tmpl->set( 'afterFormDisplay'	, $afterFormDisplay );
@@ -244,7 +244,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'params'		, $group->getParams() );
 		$tmpl->set( 'isNew'		, false );
 		$tmpl->set('editor'		, $editor );
-		
+
 		echo $tmpl->fetch( 'groups.forms' );
 	}
 
@@ -256,16 +256,16 @@ class CommunityViewGroups extends CommunityView
 		$config		= CFactory::getConfig();
 		$document	= JFactory::getDocument();
 		$document->setTitle( JText::_('COM_COMMUNITY_GROUPS_CREATE_NEW_GROUP') );
-		
+
 		$js	= 'assets/validate-1.5'.(( $config->getBool('usepackedjavascript') ) ? '.pack.js' : '.js');
 		CAssets::attach($js, 'js');
-        
+
 		$this->showSubmenu();
 
 		$my		= CFactory::getUser();
-		$model		= CFactory::getModel( 'groups' );					
+		$model		= CFactory::getModel( 'groups' );
 		$totalGroup	= $model->getGroupsCreationCount($my->id);
-				
+
 		//initialize default value
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->name 			= JRequest::getVar('name', '', 'POST');
@@ -278,7 +278,7 @@ class CommunityViewGroups extends CommunityView
 		$app 		=& CAppPlugins::getInstance();
 		$appFields	= $app->triggerEvent('onFormDisplay' , array('jsform-groups-form'));
 		$beforeFormDisplay	= CFormElement::renderElements( $appFields , 'before' );
-		$afterFormDisplay	= CFormElement::renderElements( $appFields , 'after' );  
+		$afterFormDisplay	= CFormElement::renderElements( $appFields , 'after' );
 
 		// Load category tree
 		CFactory::load('helpers','category');
@@ -293,12 +293,12 @@ class CommunityViewGroups extends CommunityView
 		$tmpl	= new CTemplate();
 		$tmpl->set( 'beforeFormDisplay'	, $beforeFormDisplay );
 		$tmpl->set( 'afterFormDisplay'	, $afterFormDisplay );
-		$tmpl->set('config'		, $config );  
+		$tmpl->set('config'		, $config );
 		$tmpl->set( 'lists'		, $lists );
 		$tmpl->set('categories' 	, $data->categories );
 		$tmpl->set('group'		, $group );
 		$tmpl->set('groupCreated'	, $totalGroup );
-		$tmpl->set('groupCreationLimit'	, $config->get('groupcreatelimit') );		
+		$tmpl->set('groupCreationLimit'	, $config->get('groupcreatelimit') );
 		$tmpl->set('params'		, $group->getParams() );
 		$tmpl->set('isNew'		, true );
 		$tmpl->set('editor'		, $editor );
@@ -361,7 +361,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'group'		, $group );
 
 		echo $tmpl->fetch( 'groups.save' );
-	} 
+	}
 
 	/**
 	 * Method to display listing of groups from the site
@@ -373,9 +373,9 @@ class CommunityViewGroups extends CommunityView
 
 		// Load required filterbar library that will be used to display the filtering and sorting.
 		CFactory::load( 'libraries' , 'filterbar' );
-		
-		require_once( JPATH_COMPONENT . DS . 'libraries' . DS . 'activities.php');
-		
+
+		require_once( JPATH_COMPONENT . '/libraries/activities.php');
+
 		$model		=&  CFactory::getModel( 'groups' );
  		$avatarModel	=&  CFactory::getModel( 'avatar' );
 		$wallsModel	=&  CFactory::getModel( 'wall' );
@@ -388,11 +388,11 @@ class CommunityViewGroups extends CommunityView
 
 		if ($categoryId!=0)
 		{
-			$this->addPathway( JText::_('COM_COMMUNITY_GROUPS'), CRoute::_('index.php?option=com_community&view=groups') );			
+			$this->addPathway( JText::_('COM_COMMUNITY_GROUPS'), CRoute::_('index.php?option=com_community&view=groups') );
 			$document->setTitle(JText::_('COM_COMMUNITY_GROUPS_CATEGORIES'). ' : ' . JText::_( $this->escape( $category->name ) ) );
 		} else {
-			$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') );			
-			$document->setTitle(JText::_('COM_COMMUNITY_GROUPS_BROWSE_TITLE'));			
+			$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') );
+			$document->setTitle(JText::_('COM_COMMUNITY_GROUPS_BROWSE_TITLE'));
 		}
 
 		// If we are browing by category, add additional breadcrumb and add
@@ -435,15 +435,15 @@ class CommunityViewGroups extends CommunityView
 		$my	=   CFactory::getUser();
 		$uri	=   JURI::base();
 
-		$this->showSubmenu();   
-         
+		$this->showSubmenu();
+
 		$feedLink = CRoute::_('index.php?option=com_community&view=groups&format=feed');
-		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_GROUPS_FEED') .'"  href="'.$feedLink.'"/>'; 
+		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_GROUPS_FEED') .'"  href="'.$feedLink.'"/>';
 		$document->addCustomTag( $feed );
-		
+
 		$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=viewlatestdiscussions&format=feed');
 		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_GROUP_DISCUSSIONS_FEED') .'" href="'.$feedLink.'"/>';
-		$document->addCustomTag( $feed );  
+		$document->addCustomTag( $feed );
 
  		$data	    =	new stdClass();
 		$sorted	    =	JRequest::getVar( 'sort' , 'latest' , 'GET' );
@@ -451,22 +451,22 @@ class CommunityViewGroups extends CommunityView
 
 		//cache groups categories
 		$data->categories  =	$this->_cachedCall('getGroupsCategories', array( $category->id), '', array( COMMUNITY_CACHE_TAG_GROUPS_CAT ) );
-		
+
 		// cache groups list.
 		$user =& JFactory::getUser();
 		$username = $user->get('username');
 		$featured	= (!is_null($username) ) ? true : false;
-		
+
 		$groupsData  =	$this->_cachedCall('getShowAllGroups', array( $category->id, $sorted,$featured), COwnerHelper::isCommunityAdmin($my->id), array( COMMUNITY_CACHE_TAG_GROUPS ) );
 		$groupsHTML  =	$groupsData['HTML'];
 
 		$act = new CActivityStream();
-	
+
 		CFactory::load( 'helpers' , 'owner' );
 
 		//Cache Group Featured List
 		$featuredList  =	$this->_cachedCall('getGroupsFeaturedList', array(), '', array( COMMUNITY_CACHE_TAG_FEATURED ) );
-		
+
 		// getting group's latest discussion activities.
 		$templateParams	= CTemplate::getTemplateParams();
 		$discussions	=	$model->getGroupLatestDiscussion($categoryId , '' , $templateParams->get('sidebarTotalDiscussions') );
@@ -492,7 +492,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'my' 		, $my );
 		$tmpl->set( 'discussionsHTML'	, $this->_getSidebarDiscussions( $discussions ) );
 		echo $tmpl->fetch( 'groups.index' );
-		
+
 	}
 	/**
 	 * showGroupsFeaturedList
@@ -543,7 +543,7 @@ class CommunityViewGroups extends CommunityView
 	{
 		$document		= JFactory::getDocument();
 		$document->setTitle( JText::_('COM_COMMUNITY_GROUPS_DISCUSSION_REPLY') );
-			
+
 		$applicationName	= JString::strtolower( JRequest::getVar( 'app' , '' , 'GET' ) );
 
 		if(empty($applicationName))
@@ -559,29 +559,29 @@ class CommunityViewGroups extends CommunityView
 		$discussion->load( $topicId );
 		$group		=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $discussion->groupid );
-		
+
 		$this->addSubmenuItem('index.php?option=com_community&view=groups&task=viewdiscussion&groupid=' . $discussion->groupid . '&topicid=' . $topicId, JText::_('COM_COMMUNITY_BACK_TO_TOPIC'));
 		parent::showSubmenu();
-		
+
 		//@todo: Since group walls doesn't use application yet, we process it manually now.
 		if( $applicationName == 'walls' )
 		{
 			CFactory::load( 'libraries' , 'wall' );
 			$limit		= JRequest::getVar( 'limit' , 5 , 'REQUEST' );
 			$limitstart = JRequest::getVar( 'limitstart', 0, 'REQUEST' );
-			
+
 			$my			= CFactory::getUser();
 			$config		= CFactory::getConfig();
-			
-		
+
+
 			CFactory::load( 'helpers' , 'owner' );
-			
+
 			if( !$config->get('lockgroupwalls') || ($config->get('lockgroupwalls') && $group->isMember( $my->id ) ) || COwnerHelper::isCommunityAdmin() )
-			{   
+			{
 				$outputLock		= '<div class="warning">' . JText::_('COM_COMMUNITY_DISCUSSION_LOCKED_NOTICE') . '</div>';
-				$outputUnLock	= CWallLibrary::getWallInputForm( $discussion->id , 'groups,ajaxSaveDiscussionWall', 'groups,ajaxRemoveWall' ); 
-				$wallForm		= $discussion->lock ? $outputLock : $outputUnLock ; 
-				
+				$outputUnLock	= CWallLibrary::getWallInputForm( $discussion->id , 'groups,ajaxSaveDiscussionWall', 'groups,ajaxRemoveWall' );
+				$wallForm		= $discussion->lock ? $outputLock : $outputUnLock ;
+
 				$output	.= $wallForm;
 			}
 
@@ -589,7 +589,7 @@ class CommunityViewGroups extends CommunityView
 			$output 		.='<div id="wallContent">';
 			$output			.= CWallLibrary::getWallContents( 'discussions' , $discussion->id , ($my->id == $discussion->creator) , $limit , $limitstart , 'wall.content' , 'groups,discussion');
 			$output 		.= '</div>';
-			
+
 			jimport('joomla.html.pagination');
 			$wallModel 		= CFactory::getModel('wall');
 			$pagination		= new JPagination( $wallModel->getCount( $discussion->id , 'discussions' ) , $limitstart , $limit );
@@ -602,23 +602,23 @@ class CommunityViewGroups extends CommunityView
 			$model				= CFactory::getModel('apps');
 			$applications		=& CAppPlugins::getInstance();
 			$applicationId		= $model->getUserApplicationId( $applicationName );
-			
+
 			$application		= $applications->get( $applicationName , $applicationId );
-	
+
 			// Get the parameters
-			$manifest			= CPluginHelper::getPluginPath('community',$applicationName) . DS . $applicationName . DS . $applicationName . '.xml';
-			
+			$manifest			= CPluginHelper::getPluginPath('community',$applicationName) . '/' . $applicationName . '/' . $applicationName . '.xml';
+
 			$params			= new CParameter( $model->getUserAppParams( $applicationId ) , $manifest );
-	
+
 			$application->params	=& $params;
 			$application->id		= $applicationId;
-			
+
 			$output	= $application->onAppDisplay( $params );
 		}
-		
+
 		echo $output;
 	}
-	
+
 	/**
 	 * Application full view
 	 **/
@@ -626,7 +626,7 @@ class CommunityViewGroups extends CommunityView
 	{
 		$document		= JFactory::getDocument();
 		$document->setTitle( JText::_('COM_COMMUNITY_GROUPS_WALL_TITLE') );
-		
+
 		$applicationName	= JString::strtolower( JRequest::getVar( 'app' , '' , 'GET' ) );
 
 		if(empty($applicationName))
@@ -635,7 +635,7 @@ class CommunityViewGroups extends CommunityView
 		}
 
 		$output	= '';
-		
+
 		//@todo: Since group walls doesn't use application yet, we process it manually now.
 		if( $applicationName == 'walls' )
 		{
@@ -645,7 +645,7 @@ class CommunityViewGroups extends CommunityView
 			$groupId	= JRequest::getInt( 'groupid' , '' , 'GET' );
 			$my			= CFactory::getUser();
 			$config		= CFactory::getConfig();
-			
+
 			$groupModel	= CFactory::getModel( 'groups' );
 			$group		=& JTable::getInstance( 'Group' , 'CTable' );
 			$group->load( $groupId );
@@ -653,15 +653,15 @@ class CommunityViewGroups extends CommunityView
 			// Test if the current browser is a member of the group
 			$isMember			= $group->isMember( $my->id );
 			$waitingApproval	= $groupModel->isWaitingAuthorization( $my->id , $group->id );
-		
+
 			CFactory::load( 'helpers' , 'owner' );
-			
+
 			if( !$isMember && !COwnerHelper::isCommunityAdmin() && $group->approvals == COMMUNITY_PRIVATE_GROUP )
 			{
 				$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_PRIVATE_NOTICE') );
 				return;
 			}
-			
+
 			if( !$config->get('lockgroupwalls') || ($config->get('lockgroupwalls') && ($isMember) && !($waitingApproval) ) || COwnerHelper::isCommunityAdmin() )
 			{
 				$output	.= CWallLibrary::getWallInputForm( $group->id , 'groups,ajaxSaveWall', 'groups,ajaxRemoveWall' );
@@ -671,7 +671,7 @@ class CommunityViewGroups extends CommunityView
 			$output 		.='<div id="wallContent">';
 			$output			.= CWallLibrary::getWallContents( 'groups' , $group->id , ($my->id == $group->ownerid) , $limit , $limitstart , 'wall.content' ,'groups,group');
 			$output 		.= '</div>';
-			
+
 			jimport('joomla.html.pagination');
 			$wallModel 		= CFactory::getModel('wall');
 			$pagination		= new JPagination( $wallModel->getCount( $group->id , 'groups' ) , $limitstart , $limit );
@@ -684,28 +684,28 @@ class CommunityViewGroups extends CommunityView
 			$model				= CFactory::getModel('apps');
 			$applications		=& CAppPlugins::getInstance();
 			$applicationId		= $model->getUserApplicationId( $applicationName );
-			
+
 			$application		= $applications->get( $applicationName , $applicationId );
 
 			if( !$application )
 			{
 				JError::raiseError( 500 , 'COM_COMMUNITY_APPS_NOT_FOUND' );
 			}
-			
+
 			// Get the parameters
-			$manifest			= CPluginHelper::getPluginPath('community',$applicationName) . DS . $applicationName . DS . $applicationName . '.xml';
-			
+			$manifest			= CPluginHelper::getPluginPath('community',$applicationName) . '/' . $applicationName . '/' . $applicationName . '.xml';
+
 			$params			= new CParameter( $model->getUserAppParams( $applicationId ) , $manifest );
-	
+
 			$application->params	=& $params;
 			$application->id		= $applicationId;
-			
+
 			$output	= $application->onAppDisplay( $params );
 		}
-		
+
 		echo $output;
 	}
-		 	
+
 
 	public function _getUnapproved($members){
 	   foreach($members as $member){
@@ -713,7 +713,7 @@ class CommunityViewGroups extends CommunityView
 		    return array(1);
 		}
 	    }
-	 
+
 	}
 
 	public function _checkAdmin($members, $myId){
@@ -723,7 +723,7 @@ class CommunityViewGroups extends CommunityView
 		   return true;
 		}
 	    }
-	    
+
 	}
 
 	public function _isMember($members,$myId){
@@ -746,10 +746,10 @@ class CommunityViewGroups extends CommunityView
 	 **/
 
 	public function viewGroup()
-	{               
-		
+	{
+
 		$mainframe =& JFactory::getApplication();
-		
+
 		CFactory::load( 'libraries' , 'tooltip' );
 		CFactory::load( 'libraries' , 'wall' );
 		CFactory::load( 'libraries' , 'window' );
@@ -757,7 +757,7 @@ class CommunityViewGroups extends CommunityView
 		CFactory::load( 'libraries' , 'activities' );
 		CFactory::load( 'helpers' , 'group' );
 		CWindow::load();
-		
+
 		$config			= CFactory::getConfig();
 		$document		= JFactory::getDocument();
 
@@ -768,17 +768,17 @@ class CommunityViewGroups extends CommunityView
 		$discussModel		= CFactory::getModel( 'discussions' );
 		$bulletinModel		= CFactory::getModel( 'bulletins' );
 		$photosModel		= CFactory::getModel( 'photos' );
-		
+
 		/* Start Handout Community Plugin Trigering */
 		$dispatcher	=& JDispatcher::getInstance();
 		JPluginHelper::importPlugin('community','handout');
 		$args=array();
-		
+
 			 $results = $dispatcher->trigger('onGroupDisplay');
-            
+
 		$tmpl	= new CTemplate();
-		
-		
+
+
 		$appobj=new stdClass();
 		$appobj->id=1;
 		$appobj->core=true;
@@ -789,13 +789,13 @@ class CommunityViewGroups extends CommunityView
 				$tmpl->set( 'isOwner'	,false );
 			$handoutapp	=	$tmpl->fetch( 'application.box' );
 			/*End Handout Plugin Triggering */
-		
+
 		$groupid		= JRequest::getInt( 'groupid' , '' );
 		CError::assert( $groupid , '' , '!empty' , __FILE__ , __LINE__ );
 
 		$editGroup		= JRequest::getVar( 'edit' , false , 'GET' );
 		$editGroup		= ( $editGroup == 1 ) ? true : false;
-		
+
 		// Load the group table.
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $groupid );
@@ -805,7 +805,7 @@ class CommunityViewGroups extends CommunityView
 		$document->setMetaData('title', CStringHelper::escape( $group->name) );
 		$document->setMetaData('description', CStringHelper::escape( strip_tags( $group->description) ) );
 		$document->addCustomTag('<link rel="image_src" href="'. JURI::root() . $group->thumb .'" />');
-		
+
 		// @rule: Test if the group is unpublished, don't display it at all.
 		if( !$group->published )
 		{
@@ -819,19 +819,19 @@ class CommunityViewGroups extends CommunityView
 		// Set the group info to contain proper <br>
 		$group->description	= nl2br( $group->description );
 
-		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') , CRoute::_('index.php?option=com_community&view=groups') ); 
+		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') , CRoute::_('index.php?option=com_community&view=groups') );
 		$this->addPathway( JText::sprintf( 'COM_COMMUNITY_GROUPS_TITLE' , $group->name ), '' );
-		
+
 		// Load the current browsers data
 		$my			= CFactory::getUser();
 
 		// If user are invited
 		$isInvited  =	$groupModel->isInvited( $my->id, $groupid );
-		
+
 		// Get members list for display
 		$members	= $groupModel->getAllMember($groupid);
 		$membersCount	= $groupModel->total;
-		
+
 		CError::assert( $members , 'array' , 'istype' , __FILE__ , __LINE__ );
 
 		// Is there any my friend is the member of this group?
@@ -870,7 +870,7 @@ class CommunityViewGroups extends CommunityView
 
 		$admins			= $groupModel->getAdmins( $groupid , 12 , CC_RANDOMIZE );
 		$adminsCount		= $groupModel->total;
-		
+
 		// Get list of unapproved members
 		$unapproved		= $this->_getUnapproved($members);
 		// Attach avatar of the admin
@@ -880,10 +880,10 @@ class CommunityViewGroups extends CommunityView
 
 			$admins[$i]	= CFactory::getUser( $row->id );
 		}
-		
+
 		// Test if the current user is admin
 		$isAdmin	    =	$this->_checkAdmin($members,$my->id);
-		
+
 
 		// Test if the current browser is a member of the group
 		$isMember	    = $this->_isMember($members,$my->id);
@@ -891,7 +891,7 @@ class CommunityViewGroups extends CommunityView
 
 		// Test if the current user is banned from this group
 		$isBanned	    =	$this->_isBanned($members,$my->id);
-		
+
 		// Attach avatar of the member
 		// Pre-load multiple users at once
 		$userids = array();
@@ -903,7 +903,7 @@ class CommunityViewGroups extends CommunityView
 			$row	=& $members[$i];
 			$members[$i]	= CFactory::getUser( $row->id );
 		}
-					
+
 		if( $isBanned )
 		{
 			$mainframe->enqueueMessage( JText::_('COM_COMMUNITY_GROUPS_MEMBER_BANNED'), 'error');
@@ -918,18 +918,18 @@ class CommunityViewGroups extends CommunityView
 		// Get the walls
 		$wallContent	= CWallLibrary::getWallContents( 'groups' , $group->id , $isAdmin , 10 ,0 , 'wall.content' , 'groups,group');
 		$wallCount		= CWallLibrary::getWallCount('groups', $group->id);
-		
+
 		$viewAllLink = false;
 		if(JRequest::getVar('task', '', 'REQUEST') != 'app')
 		{
 			$viewAllLink	= CRoute::_('index.php?option=com_community&view=groups&task=app&groupid=' . $group->id . '&app=walls');
 		}
 		$wallContent	.= CWallLibrary::getViewAllLinkHTML($viewAllLink, $wallCount);
-		
+
 		$wallForm		='';
 
 		CFactory::load( 'helpers' , 'owner' );
-		
+
 		if( !$config->get('lockgroupwalls') || ($config->get('lockgroupwalls') && ($isMember && !$isBanned) && !($waitingApproval) ) || COwnerHelper::isCommunityAdmin() )
 		{
 			$wallForm	= CWallLibrary::getWallInputForm( $group->id , 'groups,ajaxSaveWall', 'groups,ajaxRemoveWall' );
@@ -946,23 +946,23 @@ class CommunityViewGroups extends CommunityView
 		$discussionsHTML = $discussionData['HTML'];
 		$totalDiscussion = $discussionData['total'];
 		$discussions	 = $discussionData['data'];
-		
+
 		// Get bulletins data
 		$bulletinData	 = $this->_cachedCall('_getBulletinListHTML', array($group->id), $group->id, array(COMMUNITY_CACHE_TAG_GROUPS_DETAIL));
 		$totalBulletin	 = $bulletinData['total'];
 		$bulletinsHTML 	 = $bulletinData['HTML'];
 		$bulletins	   	 = $bulletinData['data'];
-		
+
 		// Get album data
 		$albumData	= $this->_cachedCall('_getAlbums', array($params,$group->id), $group->id, array(COMMUNITY_CACHE_TAG_GROUPS_DETAIL));
 		$albums		= $albumData['data'];
 		$totalAlbums	= $albumData['total'];
-		
+
 		// Get video data
 		$videoData	= $this->_getVideos($params,$group->id);
 		$videos		= $videoData['data'];
 		$totalVideos	= $videoData['total'];
-		
+
 		$tmpl		= new CTemplate();
 
 		// Get categories list
@@ -972,7 +972,7 @@ class CommunityViewGroups extends CommunityView
 		{
 			$categories		= $groupModel->getCategories();
 			CError::assert( $categories , 'array', 'istype', __FILE__ , __LINE__ );
-			
+
 			$tmpl->set( 'categories' 		, $categories );
 		}
 
@@ -982,14 +982,14 @@ class CommunityViewGroups extends CommunityView
 		$report		= new CReportingLibrary();
 
 		$reportHTML	= $report->getReportingHTML( JText::_('COM_COMMUNITY_REPORT_GROUP') , 'groups,reportGroup' , array( $group->id ) );
-		
+
 		$isSuperAdmin	= COwnerHelper::isCommunityAdmin();
-		
+
 		if( $group->approvals == '1' && !$isMine && !$isMember && !$isSuperAdmin )
 		{
 			$this->addWarning( JText::_( 'COM_COMMUNITY_GROUPS_PRIVATE_NOTICE' ) );
 		}
-		 		
+
 		$videoThumbWidth	= CVideoLibrary::thumbSize('width');
 		$videoThumbHeight	= CVideoLibrary::thumbSize('height');
 
@@ -1004,35 +1004,35 @@ class CommunityViewGroups extends CommunityView
 			$table->bind( $event );
 			$events[]	= $table;
 		}
-		
-		$allowManagePhotos	= CGroupHelper::allowManagePhoto( $group->id );		
+
+		$allowManagePhotos	= CGroupHelper::allowManagePhoto( $group->id );
 		$allowManageVideos	= CGroupHelper::allowManageVideo( $group->id );
-		$allowCreateEvent	= CGroupHelper::allowCreateEvent( $my->id , $group->id ); 
+		$allowCreateEvent	= CGroupHelper::allowCreateEvent( $my->id , $group->id );
 
 		CFactory::load( 'libraries' , 'bookmarks' );
 		$bookmarks		= new CBookmarks(CRoute::getExternalURL( 'index.php?option=com_community&view=groups&task=viewgroup&groupid=' . $group->id ));
 		$bookmarksHTML	= $bookmarks->getHTML();
 		$isCommunityAdmin	= COwnerHelper::isCommunityAdmin();
-		
+
 		if( $group->approvals=='0' || $isMine || ($isMember && !$isBanned) || $isCommunityAdmin )
 		{
 			// Set feed url
 			$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=viewbulletins&groupid=' . $group->id . '&format=feed');
 			$feed = '<link rel="alternate" type="application/rss+xml" title="' . JText::_('COM_COMMUNITY_SUBSCRIBE_TO_BULLETIN_FEEDS') . '" href="'.$feedLink.'"/>';
 			$document->addCustomTag( $feed );
-			
+
 			$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=viewdiscussions&groupid=' . $group->id . '&format=feed');
 			$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_DISCUSSION_FEEDS') .'" href="'.$feedLink.'"/>';
 			$document->addCustomTag( $feed );
-			
+
 			$feedLink = CRoute::_('index.php?option=com_community&view=photos&groupid=' . $group->id . '&format=feed');
 			$feed = '<link rel="alternate" type="application/rss+xml" title="' . JText::_('COM_COMMUNITY_SUBSCRIBE_TO_GROUP_PHOTOS_FEEDS') . '" href="'.$feedLink.'"/>';
-			$document->addCustomTag( $feed );   
-			
+			$document->addCustomTag( $feed );
+
 			$feedLink  = CRoute::_('index.php?option=com_community&view=videos&groupid=' . $group->id . '&format=feed');
 			$feed      = '<link rel="alternate" type="application/rss+xml" title="' . JText::_('COM_COMMUNITY_SUBSCRIBE_TO_GROUP_VIDEOS_FEEDS') . '"  href="'.$feedLink.'"/>';
-			$document->addCustomTag( $feed ); 
-			
+			$document->addCustomTag( $feed );
+
 			$feedLink  = CRoute::_('index.php?option=com_community&view=events&groupid=' . $group->id . '&format=feed');
 			$feed      = '<link rel="alternate" type="application/rss+xml" title="' . JText::_('COM_COMMUNITY_SUBSCRIBE_TO_GROUP_EVENTS_FEEDS') . '"  href="'.$feedLink.'"/>';
 			$document->addCustomTag( $feed );
@@ -1040,11 +1040,11 @@ class CommunityViewGroups extends CommunityView
 
 		$friendsModel	= CFactory::getModel( 'Friends' );
 		$groupsModel	= CFactory::getModel( 'Groups' );
-						
-		$tmpFriends		= $friendsModel->getFriends( $my->id , 'name' , false);				
-		
+
+		$tmpFriends		= $friendsModel->getFriends( $my->id , 'name' , false);
+
 		$friends		= array();
-		
+
 		for( $i = 0; $i < count( $tmpFriends ); $i++ )
 		{
 			$friend			=& $tmpFriends[ $i ];
@@ -1122,7 +1122,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'bulletinsHTML'		, $bulletinsHTML );
 		$tmpl->set( 'isCommunityAdmin'	, $isCommunityAdmin );
 		$tmpl->set( 'isBanned'			, $isBanned );
-		
+
 		// New Template Variable Added for Handout Document
 		$tmpl->set('handoutApp',$handoutapp);
 		echo $tmpl->fetch( 'groups.viewgroup' );
@@ -1133,8 +1133,8 @@ class CommunityViewGroups extends CommunityView
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_COMMUNITY_GROUPS_AVATAR_UPLOAD'));
-		
-		$this->_addGroupInPathway( $data->id );		
+
+		$this->_addGroupInPathway( $data->id );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_AVATAR_UPLOAD') );
 
 		$this->showSubmenu();
@@ -1142,11 +1142,11 @@ class CommunityViewGroups extends CommunityView
 		$config			= CFactory::getConfig();
 		$uploadLimit	= (double) $config->get('maxuploadsize');
 		$uploadLimit	.= 'MB';
-		
+
 		CFactory::load( 'models' , 'groups' );
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $data->id );
-		
+
 		CFactory::load( 'libraries' , 'apps' );
 		$app 		=& CAppPlugins::getInstance();
 		$appFields	= $app->triggerEvent('onFormDisplay' , array('jsform-groups-uploadavatar'));
@@ -1160,7 +1160,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'avatar'	, $group->getAvatar('avatar') );
 		$tmpl->set( 'thumbnail' , $group->getAvatar() );
 		$tmpl->set( 'uploadLimit'	, $uploadLimit );
-		 
+
 		echo $tmpl->fetch( 'groups.uploadavatar' );
 	}
 
@@ -1176,17 +1176,17 @@ class CommunityViewGroups extends CommunityView
 		$userid   	= JRequest::getInt('userid', null );
 		$user		= CFactory::getUser($userid);
 		$my			= CFactory::getUser();
-		
+
 		$title	= ($my->id == $user->id) ? JText::_('COM_COMMUNITY_GROUPS_MY_GROUPS') : JText::sprintf('COM_COMMUNITY_GROUPS_USER_TITLE', $user->getDisplayName());
 		$document->setTitle($title);
-		
+
 		// Add the miniheader if necessary
 		if($my->id != $user->id) $this->attachMiniHeaderUser($user->id);
-		
+
 		// Load required filterbar library that will be used to display the filtering and sorting.
 		CFactory::load( 'libraries' , 'filterbar' );
 
-		
+
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') , CRoute::_('index.php?option=com_community&view=groups') );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_MY_GROUPS') , '' );
 
@@ -1195,7 +1195,7 @@ class CommunityViewGroups extends CommunityView
 		$uri	= JURI::base();
 
 		//@todo: make mygroups page to contain several admin tools for owner?
-        
+
 		$groupsModel		= CFactory::getModel('groups');
 		$avatarModel		= CFactory::getModel('avatar');
 		$wallsModel		= CFactory::getModel( 'wall' );
@@ -1209,7 +1209,7 @@ class CommunityViewGroups extends CommunityView
 		$groups			= $groupsModel->getGroups( $user->id , $sorted );
 		$pagination		= $groupsModel->getPagination(count($groups));
 
-		require_once( JPATH_COMPONENT . DS . 'libraries' . DS . 'activities.php');
+		require_once( JPATH_COMPONENT . '/libraries/activities.php');
 		$act			= new CActivityStream();
 
  		// Attach additional properties that the group might have
@@ -1224,17 +1224,17 @@ class CommunityViewGroups extends CommunityView
 
 		// Get the template for the group lists
 		$groupsHTML	= $this->_getGroupsHTML( $groups, $pagination );
-		
+
 		// getting group's latest discussion activities.
 		$templateParams	    = CTemplate::getTemplateParams();
 		$discussions	    =	$groupsModel->getGroupLatestDiscussion('',$groupIds , $templateParams->get('sidebarTotalDiscussions') );
 
 		$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=mygroups&userid=' . $userid . '&format=feed');
-		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_MY_GROUPS_FEED') .'"  href="'.$feedLink.'"/>'; 
-		$document->addCustomTag( $feed ); 
-		
+		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_MY_GROUPS_FEED') .'"  href="'.$feedLink.'"/>';
+		$document->addCustomTag( $feed );
+
 		$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=viewmylatestdiscussions&groupids=' . $groupIds . '&userid=' . $userid . '&format=feed');
-		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_MY_GROUP_DISCUSSIONS_FEED') .'"  href="'.$feedLink.'"/>'; 
+		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_LATEST_MY_GROUP_DISCUSSIONS_FEED') .'"  href="'.$feedLink.'"/>';
 		$document->addCustomTag( $feed );
 
 		$sortItems =  array(
@@ -1253,7 +1253,7 @@ class CommunityViewGroups extends CommunityView
 
 		echo $tmpl->fetch('groups.mygroups');
 	}
-	
+
 	public function myinvites()
 	{
 		$mainframe =& JFactory::getApplication();
@@ -1261,19 +1261,19 @@ class CommunityViewGroups extends CommunityView
 
 		// Load required filterbar library that will be used to display the filtering and sorting.
 		CFactory::load( 'libraries' , 'filterbar' );
-		
+
 		$document = JFactory::getDocument();
-		
+
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS') , CRoute::_('index.php?option=com_community&view=groups') );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_PENDING_INVITES') , '' );
 
 		$document->setTitle(JText::_('COM_COMMUNITY_GROUPS_PENDING_INVITES'));
 		$this->showSubmenu();
-        
+
 		$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=mygroups&userid=' . $userId . '&format=feed');
-		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_PENDING_INVITATIONS_FEED') .'"  href="'.$feedLink.'"/>'; 
+		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_SUBSCRIBE_TO_PENDING_INVITATIONS_FEED') .'"  href="'.$feedLink.'"/>';
 		$document->addCustomTag( $feed );
-		
+
 		$my				= CFactory::getUser();
 		$model			= CFactory::getModel('groups');
 		$discussionModel= CFactory::getModel( 'discussions' );
@@ -1290,7 +1290,7 @@ class CommunityViewGroups extends CommunityView
 			{
 				$table	=& JTable::getInstance( 'Group' , 'CTable' );
 				$table->load( $row->groupid );
-				
+
 				$groups[]	= $table;
 				$ids		= (empty($ids)) ? $table->id : $ids . ',' . $table->id;
 			}
@@ -1303,7 +1303,7 @@ class CommunityViewGroups extends CommunityView
  				'mostmembers'	=> JText::_('COM_COMMUNITY_GROUPS_SORT_MOST_MEMBERS'),
  				'mostactive'	=> JText::_('COM_COMMUNITY_GROUPS_SORT_MOST_ACTIVE') );
 		$tmpl	= new CTemplate();
-		
+
 		$tmpl->set( 'groups'	, $groups );
 		$tmpl->set( 'pagination', $pagination );
 		$tmpl->set( 'count'		, $pagination->total );
@@ -1313,7 +1313,7 @@ class CommunityViewGroups extends CommunityView
 		//echo $tmpl->fetch('groups.mygroups');
 		echo $tmpl->fetch('groups.myinvites');
 	}
-	
+
 	public function _getSidebarDiscussions( $discussions )
 	{
 		if(! empty($discussions))
@@ -1334,17 +1334,17 @@ class CommunityViewGroups extends CommunityView
 			    $row->commentorName   	= $commentorName;
 			}
 		}
-		
-		$tmpl	= new CTemplate();		
+
+		$tmpl	= new CTemplate();
 		$tmpl->set( 'discussions' , $discussions );
 
 		return $tmpl->fetch( 'groups.sidebar.discussions' );
 	}
-	
+
 	public function viewbulletin( )
 	{
 		$document		= JFactory::getDocument();
-		
+
 		// Load necessary libraries
 		CFactory::load( 'models' , 	'bulletins' );
 		CFactory::load( 'libraries' , 'apps' );
@@ -1362,29 +1362,29 @@ class CommunityViewGroups extends CommunityView
 			$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_UNPUBLISH_WARNING') );
 			return;
 		}
-		
+
 		CFactory::load( 'helpers' , 'owner' );
-		
+
 		if( $group->approvals == 1 && !($group->isMember($my->id) ) && !COwnerHelper::isCommunityAdmin() )
 		{
 			$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_PRIVATE_NOTICE') );
 			return;
 		}
-		
+
 		$document->setTitle( $bulletin->title );
-		
+
 		// Santinise output
 		CFactory::load( 'helpers' , 'string' );
 		$bulletin->title	= strip_tags($bulletin->title);
 		$bulletin->title	= CStringHelper::escape($bulletin->title);
-		
+
 		// Add pathways
-		$this->_addGroupInPathway( $group->id );		
-		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_BULLETIN') , CRoute::_('index.php?option=com_community&view=groups&task=viewbulletins&groupid=' . $group->id) ); 
+		$this->_addGroupInPathway( $group->id );
+		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_BULLETIN') , CRoute::_('index.php?option=com_community&view=groups&task=viewbulletins&groupid=' . $group->id) );
 		$this->addPathway( JText::sprintf( 'COM_COMMUNITY_GROUPS_BULLETIN_TITLE' , $bulletin->title ) );
 
 		CFactory::load( 'helpers' , 'owner' );
-		
+
 		if( $groupsModel->isAdmin( $my->id , $group->id )  || COwnerHelper::isCommunityAdmin() )
 		{
 			$this->addSubmenuItem( '' , JText::_('COM_COMMUNITY_DELETE') , "joms.groups.removeBulletin('" . JText::_('COM_COMMUNITY_DELETE') . "','" . $bulletin->groupid . "','" . $bulletin->id . "');" , true );
@@ -1396,13 +1396,13 @@ class CommunityViewGroups extends CommunityView
 
 		CFactory::load( 'libraries' , 'editor' );
 		$editor	    =	new CEditor( $config->get('htmleditor' , 'none') );
-		
+
 		$appsLib	=& CAppPlugins::getInstance();
 		$appsLib->loadApplications();
 
 		$args[]		=& $bulletin;
 		$editorMessage	= $bulletin->message;
-		
+
 		// Format the bulletins
 		$appsLib->triggerEvent( 'onBulletinDisplay',  $args );
 		CFactory::load( 'libraries' , 'bookmarks' );
@@ -1434,26 +1434,26 @@ class CommunityViewGroups extends CommunityView
 
 		$id			= JRequest::getInt( 'groupid' , '' , 'GET' );
 		$my			= CFactory::getUser();
-		
+
 		// Load the group
 		$group		=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $id );
-		$this->_addGroupInPathway( $group->id );		
-		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_BULLETIN') ); 
+		$this->_addGroupInPathway( $group->id );
+		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_BULLETIN') );
 
 		if( $group->id == 0 )
 		{
 			echo JText::_('COM_COMMUNITY_GROUPS_ID_NOITEM');
 			return;
 		}
-		
+
 		//display notice if the user is not a member of the group
 		if( $group->approvals == 1 && !($group->isMember($my->id) ) && !COwnerHelper::isCommunityAdmin() )
 		{
 			$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_PRIVATE_NOTICE') );
 			return;
 		}
-		
+
 		// Set page title
 		$document->setTitle( JText::sprintf('COM_COMMUNITY_GROUPS_VIEW_ALL_BULLETINS_TITLE' , $group->name) );
 
@@ -1481,7 +1481,7 @@ class CommunityViewGroups extends CommunityView
 		{
 			$appsLib	=& CAppPlugins::getInstance();
 			$appsLib->loadApplications();
-			
+
 			// Format the bulletins
 			// the bulletins need to be an array or reference to work around
 			// PHP 5.3 pass by value
@@ -1492,7 +1492,7 @@ class CommunityViewGroups extends CommunityView
 			}
 			$appsLib->triggerEvent( 'onBulletinDisplay',  $args );
 		}
-		
+
 		// Process bulletins HTML output
 		$tmpl		= new CTemplate();
 		$tmpl->set( 'bulletins'	, $bulletins );
@@ -1511,7 +1511,7 @@ class CommunityViewGroups extends CommunityView
 	{
 		$this->viewmembers( $data );
 	}
-	
+
 	/**
 	 * View method to display members of the groups
 	 *
@@ -1537,17 +1537,17 @@ class CommunityViewGroups extends CommunityView
 			echo JText::_('COM_COMMUNITY_GROUPS_NOT_FOUND_ERROR');
 			return;
 		}
-		
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::sprintf('COM_COMMUNITY_GROUPS_MEMBERS_TITLE' , $group->name));
 
 		$this->addPathway(JText::_('COM_COMMUNITY_GROUPS'), CRoute::_('index.php?option=com_community&view=groups'));
 		$this->addPathway( $group->name , CRoute::_('index.php?option=com_community&view=groups&task=viewgroup&groupid='.$group->id));
 		$this->addPathway( JText::sprintf('COM_COMMUNITY_GROUPS_MEMBERS_TITLE' , $group->name ), '');
-		
+
 		CFactory::load('helpers' , 'owner' );
 		$isSuperAdmin		= COwnerHelper::isCommunityAdmin();
-		$isAdmin		= $groupsModel->isAdmin( $my->id , $group->id );		
+		$isAdmin		= $groupsModel->isAdmin( $my->id , $group->id );
 		$isMember		= $group->isMember( $my->id );
 		$isMine			= ($my->id == $group->ownerid);
 		$isBanned		= $group->isBanned( $my->id );
@@ -1594,14 +1594,14 @@ class CommunityViewGroups extends CommunityView
 			$user->friendsCount	= $user->getFriendCount();
 			$user->approved		= $member->approved;
 			$user->isMe			= ( $my->id == $member->id ) ? true : false;
-			$user->isAdmin		= $groupsModel->isAdmin( $user->id , $group->id ); 
+			$user->isAdmin		= $groupsModel->isAdmin( $user->id , $group->id );
 			$user->isOwner      = ( $member->id == $group->ownerid ) ? true : false;
 
 			// Check user's permission
 			$groupmember	=&  JTable::getInstance( 'GroupMembers' , 'CTable' );
 			$groupmember->load( $member->id , $group->id );
 			$user->isBanned	    =	( $groupmember->permissions == COMMUNITY_GROUP_BANNED ) ? true : false;
-			
+
 			$membersList[] 		= $user;
 		}
 		$pagination		= $groupsModel->getPagination();
@@ -1641,24 +1641,24 @@ class CommunityViewGroups extends CommunityView
 		// Load the group
 		$group		=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $id );
-		$this->_addGroupInPathway( $group->id );		
+		$this->_addGroupInPathway( $group->id );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_DISCUSSION') );
 		$params		= $group->getParams();
-		
+
 		//check if group is valid
 		if( $group->id == 0 )
 		{
 			echo JText::_('COM_COMMUNITY_GROUPS_ID_NOITEM');
 			return;
 		}
-		
+
 		//display notice if the user is not a member of the group
 		if( $group->approvals == 1 && !($group->isMember($my->id) ) && !COwnerHelper::isCommunityAdmin() )
 		{
 			$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_PRIVATE_NOTICE') );
 			return;
 		}
-		
+
 		// Set page title
 		$document->setTitle( JText::sprintf('COM_COMMUNITY_GROUPS_VIEW_ALL_DISCUSSIONS_TITLE' , $group->name ) );
 
@@ -1668,9 +1668,9 @@ class CommunityViewGroups extends CommunityView
 
 		// Load submenu
 		$this->showSubMenu();
-		
+
 		$discussions	= $model->getDiscussionTopics( $group->id , 0 ,  $params->get('discussordering' , DISCUSSION_ORDER_BYLASTACTIVITY) );
-		
+
 		for( $i = 0; $i < count( $discussions ); $i++ )
 		{
 			$row		=& $discussions[$i];
@@ -1706,7 +1706,7 @@ class CommunityViewGroups extends CommunityView
 		$jconfig	= JFactory::getConfig();
 		// Load window library
 		CFactory::load( 'libraries' , 'window' );
-		
+
 		// Load necessary window css / javascript headers.
 		CWindow::load();
 
@@ -1723,34 +1723,34 @@ class CommunityViewGroups extends CommunityView
 		$discussion		=& JTable::getInstance( 'Discussion' , 'CTable' );
 		$group->load( $groupId );
 		$discussion->load( $topicId );
-		
+
 		$document->addCustomTag('<link rel="image_src" href="'. $group->getThumbAvatar() .'" />');
-		
+
 		// @rule: Test if the group is unpublished, don't display it at all.
 		if( !$group->published )
 		{
 			$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_UNPUBLISH_WARNING') );
 			return;
 		}
-		
+
 		$feedLink = CRoute::_('index.php?option=com_community&view=groups&task=viewdiscussion&topicid=' . $topicId . '&format=feed');
 		$feed = '<link rel="alternate" type="application/rss+xml" title="'. JText::_('COM_COMMUNITY_GROUPS_LATEST_FEED') .'"  href="'.$feedLink.'"/>';
 		$document->addCustomTag( $feed );
-		
+
 		CFactory::load( 'helpers' , 'owner' );
 		if( $group->approvals == 1 && !($group->isMember($my->id) ) && !COwnerHelper::isCommunityAdmin() )
 		{
 			$this->noAccess( JText::_('COM_COMMUNITY_GROUPS_PRIVATE_NOTICE') );
 			return;
 		}
-		
+
 		// Execute discussion onDisplay filter
 		$appsLib	=& CAppPlugins::getInstance();
 		$appsLib->loadApplications();
 		$args = array();
 		$args[]		=& $discussion;
 		$appsLib->triggerEvent( 'onDiscussionDisplay',  $args );
-		
+
 		// Get the discussion creator info
 		$creator		= CFactory::getUser( $discussion->creator );
 
@@ -1762,32 +1762,32 @@ class CommunityViewGroups extends CommunityView
 
 		// Add pathways
 		$this->_addGroupInPathway( $group->id );
-		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_DISCUSSION') , CRoute::_('index.php?option=com_community&view=groups&task=viewdiscussions&groupid=' . $group->id) ); 		
+		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_DISCUSSION') , CRoute::_('index.php?option=com_community&view=groups&task=viewdiscussions&groupid=' . $group->id) );
 		$this->addPathway( JText::sprintf( 'COM_COMMUNITY_GROUPS_DISCUSSION_TITTLE' , $discussion->title ) );
 
 		CFactory::load( 'helpers' , 'owner' );
-		
+
 		$isGroupAdmin	=   $groupModel->isAdmin( $my->id , $group->id );
-		
+
 		if( $my->id==$creator->id || $isGroupAdmin || COwnerHelper::isCommunityAdmin() )
 		{
-			$title	= JText::_('COM_COMMUNITY_DELETE_DISCUSSION');    
-			                                              
-			$titleLock	= $discussion->lock ? JText::_('COM_COMMUNITY_UNLOCK_DISCUSSION') : JText::_('COM_COMMUNITY_LOCK_DISCUSSION'); 
-			$actionLock	= $discussion->lock ? JText::_('COM_COMMUNITY_UNLOCK') : JText::_('COM_COMMUNITY_LOCK'); 
-			                                     
-			$this->addSubmenuItem( '' , $actionLock , "joms.groups.lockTopic('" . $titleLock . "','" . $group->id . "','" . $discussion->id . "');" , SUBMENU_RIGHT );  
+			$title	= JText::_('COM_COMMUNITY_DELETE_DISCUSSION');
+
+			$titleLock	= $discussion->lock ? JText::_('COM_COMMUNITY_UNLOCK_DISCUSSION') : JText::_('COM_COMMUNITY_LOCK_DISCUSSION');
+			$actionLock	= $discussion->lock ? JText::_('COM_COMMUNITY_UNLOCK') : JText::_('COM_COMMUNITY_LOCK');
+
+			$this->addSubmenuItem( '' , $actionLock , "joms.groups.lockTopic('" . $titleLock . "','" . $group->id . "','" . $discussion->id . "');" , SUBMENU_RIGHT );
 			$this->addSubmenuItem( '' , JText::_('COM_COMMUNITY_DELETE') , "joms.groups.removeTopic('" . $title . "','" . $group->id . "','" . $discussion->id . "');" , SUBMENU_RIGHT );
 			$this->addSubmenuItem( 'index.php?option=com_community&view=groups&task=editdiscussion&groupid=' . $group->id . '&topicid=' . $discussion->id , JText::_('COM_COMMUNITY_EDIT') , '' , SUBMENU_RIGHT );
 		}
-	
-		
+
+
 		$this->showSubmenu();
 
 		CFactory::load( 'libraries' , 'wall' );
 		$wallContent	= CWallLibrary::getWallContents( 'discussions' , $discussion->id , $isGroupAdmin , $jconfig->get('list_limit') , 0, 'wall.content','groups,discussion');
 		$wallCount		= CWallLibrary::getWallCount('discussions', $discussion->id);
-		
+
 		$viewAllLink	= CRoute::_('index.php?option=com_community&view=groups&task=discussapp&topicid=' . $discussion->id . '&app=walls');
 		$wallContent	.= CWallLibrary::getViewAllLinkHTML($viewAllLink, $wallCount);
 
@@ -1808,20 +1808,20 @@ class CommunityViewGroups extends CommunityView
 		{
 			$outputLock		= '<div class="warning">' . JText::_('COM_COMMUNITY_DISCUSSION_LOCKED_NOTICE') . '</div>';
 			$outputUnLock	= CWallLibrary::getWallInputForm( $discussion->id , 'groups,ajaxSaveDiscussionWall', 'groups,ajaxRemoveReply' );
-			
-			$wallForm		= $discussion->lock ? $outputLock : $outputUnLock ; 
+
+			$wallForm		= $discussion->lock ? $outputLock : $outputUnLock ;
 		}
 
 		if( empty($wallForm ) )
 		{
 			$wallForm	= JText::_('COM_COMMUNITY_GROUPS_LATEST_DISCUSSION');
 		}
-		
+
 		$config		= CFactory::getConfig();
 
 		// Get creator link
 		$creatorLink	= CRoute::_('index.php?option=com_community&view=profile&userid=' . $creator->id );
-		
+
 		// Get reporting html
 		CFactory::load('libraries', 'reporting');
 		$report		= new CReportingLibrary();
@@ -1864,9 +1864,9 @@ class CommunityViewGroups extends CommunityView
 
 		$groupId		= JRequest::getVar('groupid' , '' , 'GET');
 
-		$this->_addGroupInPathway( $groupId );		
+		$this->_addGroupInPathway( $groupId );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_DISCUSSION_CREATE') );
-		
+
 		$this->showSubmenu();
 
 		$config			= CFactory::getConfig();
@@ -1892,7 +1892,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'editor'	, $editor );
 		$tmpl->set( 'group'		, $group );
 		$tmpl->set( 'discussion', $discussion );
-		
+
 		echo $tmpl->fetch( 'groups.adddiscussion' );
 	}
 
@@ -1909,10 +1909,10 @@ class CommunityViewGroups extends CommunityView
 
 		$groupId		= JRequest::getVar('groupid' , '' , 'GET');
 		$topicId		= JRequest::getVar('topicid' , '' , 'GET');
-		
-		$this->_addGroupInPathway( $groupId );		
+
+		$this->_addGroupInPathway( $groupId );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_EDIT_DISCUSSION') );
-		
+
 		$this->showSubmenu();
 
 		$config			= CFactory::getConfig();
@@ -1920,11 +1920,11 @@ class CommunityViewGroups extends CommunityView
 
 		CFactory::load( 'libraries' , 'editor' );
 		$editor	    =	new CEditor( $editorType );
-        
+
 		CFactory::load( 'models' , 'groups' );
 		$group			=& JTable::getInstance( 'Group' , 'CTable' );
 		$group->load( $groupId );
-		
+
 		// Santinise output
 		CFactory::load( 'helpers' , 'string' );
 		$discussion->title	= strip_tags($discussion->title);
@@ -1943,7 +1943,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'editor'	, $editor );
 		$tmpl->set( 'group'		, $group );
 		$tmpl->set( 'discussion', $discussion );
-		
+
 		echo $tmpl->fetch( 'groups.editdiscussion' );
 	}
 	/**
@@ -1961,7 +1961,7 @@ class CommunityViewGroups extends CommunityView
 
 		$this->addPathway(JText::_('COM_COMMUNITY_GROUPS'), CRoute::_('index.php?option=com_community&view=groups'));
 		$this->addPathway( JText::_("COM_COMMUNITY_SEARCH"), '');
-		
+
 		// Display the submenu
 		$this->showSubmenu();
 
@@ -1989,7 +1989,7 @@ class CommunityViewGroups extends CommunityView
 			if( empty($saveSuccess) || !in_array( false , $saveSuccess ) )
 			{
 				$posted	= true;
-	
+
 				$groups	= $model->getAllGroups( $catId , null , $search );
 				$pagination = $model->getPagination();
 				$count	= count( $groups );
@@ -2035,10 +2035,10 @@ class CommunityViewGroups extends CommunityView
 		$this->showSubmenu();
 
 		$config		= CFactory::getConfig();
-		$groupId	= JRequest::getInt( 'groupid' , '' , 'GET' ); 
+		$groupId	= JRequest::getInt( 'groupid' , '' , 'GET' );
 
 		// Add pathways
-		$this->_addGroupInPathway( $groupId );		
+		$this->_addGroupInPathway( $groupId );
 		$this->addPathway( JText::_('COM_COMMUNITY_GROUPS_BULLETIN_CREATE' ) );
 
 		CFactory::load( 'libraries' , 'editor' );
@@ -2055,7 +2055,7 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'editor'	, $editor );
 		echo $tmpl->fetch( 'groups.addnews' );
 	}
-	
+
 	public function _getGroupsHTML( $tmpGroups, $tmpPagination = NULL)
 	{
 		$config	= CFactory::getConfig();
@@ -2068,9 +2068,9 @@ class CommunityViewGroups extends CommunityView
 
 		$task			= JRequest::getVar( 'task' , '' , 'GET' );
 		$showFeatured		= (empty($task) ) ? true : false;
-		
+
 		$groups	= array();
-				
+
 		if( $tmpGroups )
 		{
 			foreach( $tmpGroups as $row )
@@ -2082,7 +2082,7 @@ class CommunityViewGroups extends CommunityView
 			}
 			unset($tmpGroups);
 		}
-		
+
 		$tmpl->set( 'showFeatured'		, $showFeatured );
 		$tmpl->set( 'featuredList'		, $featuredList );
 		$tmpl->set( 'isCommunityAdmin'		, COwnerHelper::isCommunityAdmin() );
@@ -2090,21 +2090,21 @@ class CommunityViewGroups extends CommunityView
 		$tmpl->set( 'pagination'		, $tmpPagination );
 		$groupsHTML	= $tmpl->fetch( 'groups.list' );
 		unset( $tmpl );
-		
+
 		return $groupsHTML;
-	} 
-	
-	
+	}
+
+
 	/**
 	 * Return the video list for viewGroup display
-	 */	 	
+	 */
 	protected function _getVideos($params,$groupId)
 	{
 		$result = array();
-		
+
 		CFactory::load( 'helpers', 'videos' );
 		CFactory::load( 'libraries' , 'videos' );
-		
+
 		$videoModel 	= CFactory::getModel('videos');
 		$tmpVideos 		= $videoModel->getGroupVideos( $groupId, '', $params->get('grouprecentvideos' , GROUP_VIDEO_RECENT_LIMIT) );
 		$videos			= array();
@@ -2117,89 +2117,89 @@ class CommunityViewGroups extends CommunityView
 				$videos[]	= $video;
 			}
 		}
-		
+
 		$totalVideos	= $videoModel->total;
 		$result['total'] = $totalVideos;
 		$result['data']	 = $videos;
 		return $result;
 	}
-	
+
 	private function _getEvents($group)
 	{
 	}
-	
+
 	/**
 	 * Return the albu list for viewGroup display
-	 */	 	
+	 */
 	protected function _getAlbums($params,$groupId)
 	{
 		$result = array();
-		
+
 		$photosModel	= CFactory::getModel( 'photos' );
-		
+
 		$albums			=& $photosModel->getGroupAlbums($groupId , true, false, $params->get('grouprecentphotos' , GROUP_PHOTO_RECENT_LIMIT));
 		$totalAlbums	= $photosModel->total;
-		
+
 		$result['total'] = $totalAlbums;
 		$result['data']  = $albums;
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Return the an array of HTML part of bulletings in viewGroups
-	 * and the total number of bulletin	 
-	 */ 	 	
+	 * and the total number of bulletin
+	 */
 	protected function _getDiscussionListHTML($params,$groupId)
 	{
 		$result = array();
-		
+
 		$discussModel	= CFactory::getModel( 'discussions' );
-		
+
 		$discussions		= $discussModel->getDiscussionTopics( $groupId , '10' , $params->get('discussordering' , DISCUSSION_ORDER_BYLASTACTIVITY) );
 		$totalDiscussion	= $discussModel->total;
-		
+
 		// Attach avatar of the member to the discussions
 		for( $i = 0; $i < count( $discussions ); $i++ )
 		{
 			$row	=& $discussions[$i];
 			$row->user	= CFactory::getUser( $row->creator );
-			
+
 			// Get last replier for the discussion
 			$row->lastreplier			= $discussModel->getLastReplier( $row->id );
 			if( $row->lastreplier )
 				$row->lastreplier->post_by	= CFactory::getUser( $row->lastreplier->post_by );
 		}
-		
+
 		// Process discussions HTML output
 		$tmpl		= new CTemplate();
 		$tmpl->set( 'discussions'	, $discussions );
 		$tmpl->set( 'groupId'		, $groupId );
 		$discussionsHTML	= $tmpl->fetch( 'groups.discussionlist' );
 		unset( $tmpl );
-		
+
 		$result['HTML']  = $discussionsHTML;
 		$result['total'] = $totalDiscussion;
 		$result['data']  = $discussions;
 
 		return $result;
 	}
-	
-	
+
+
 	/**
 	 * Return the an array of HTML part of bulletings in viewGroups
-	 * and the total number of bulletin	 
-	 */ 	 	
+	 * and the total number of bulletin
+	 */
 	protected function _getBulletinListHTML($groupId)
 	{
-		
+
 		$result = array();
-		
-		$bulletinModel	= CFactory::getModel( 'bulletins' );	
+
+		$bulletinModel	= CFactory::getModel( 'bulletins' );
 		$bulletins		= $bulletinModel->getBulletins( $groupId );
 		$totalBulletin	= $bulletinModel->total;
-		
-		
+
+
 		// Get the creator of the discussions
 		for( $i = 0; $i < count( $bulletins ); $i++ )
 		{
@@ -2207,7 +2207,7 @@ class CommunityViewGroups extends CommunityView
 
 			$row->creator	= CFactory::getUser( $row->created_by );
 		}
-		
+
 		// Only trigger the bulletins if there is really a need to.
 		if( !empty( $bulletins )  )
 		{
@@ -2224,18 +2224,18 @@ class CommunityViewGroups extends CommunityView
 			}
 			$appsLib->triggerEvent( 'onBulletinDisplay',  $args );
 		}
-		
+
 		// Process bulletins HTML output
 		$tmpl		= new CTemplate();
 		$tmpl->set( 'bulletins'	, $bulletins );
 		$tmpl->set( 'groupId'		, $groupId );
 		$bulletinsHTML	= $tmpl->fetch( 'groups.bulletinlist' );
 		unset( $tmpl );
-		
+
 		$result['HTML']  = $bulletinsHTML;
 		$result['total'] = $totalBulletin;
 		$result['data']  = $bulletins;
-		
+
 		return $result;
 	}
 }

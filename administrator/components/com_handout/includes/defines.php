@@ -14,9 +14,6 @@ defined('_JEXEC') or die;
 // Put all static value defines here that are neither language nor
 // configuration specific
 
-// Paths
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
-
 // Version
 define('COM_HANDOUT_VERSION_NUMBER', '1.0');
 

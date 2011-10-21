@@ -136,7 +136,7 @@ class  plgSystemKontentUpdate extends JPlugin{
 	public function getLocalVersionString($component, $xml_file){
 		$version = '';
 		$parser			=& JFactory::getXMLParser('Simple');
-		$xml			= JPATH_ROOT.DS.'administrator'.DS.'components'.DS.$component.DS.$xml_file;
+		$xml			= JPATH_ROOT.'/administrator/components/'.$component.'/'.$xml_file;
 		$parser->loadFile($xml);
 		$document =& $parser->document;
 

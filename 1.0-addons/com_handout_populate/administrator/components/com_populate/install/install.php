@@ -9,8 +9,8 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).DS.'helper.php';
-require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_populate'.DS. 'helpers'.DS.'handout.php';
+require_once dirname(__FILE__).'/helper.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_populate/helpers/handout.php';
 
 function com_install()
 {

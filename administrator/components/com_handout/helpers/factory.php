@@ -9,6 +9,10 @@
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link 		http://www.sharehandouts.com
  */
+defined('_JEXEC') or die;
+
+require_once dirname(__FILE__) . '/../handout.class.php';
+
 class HandoutFactory
 {
 
@@ -41,7 +45,7 @@ class HandoutFactory
 		jimport('joomla.filesystem.path');
 		$path = JPath::clean($p_path);
 		if ($p_addtrailingslash) {
-			$path = rtrim($path, DS) . DS;
+			$path = rtrim($path, '\\/') . '/';
 		}
 		return $path;
 	}

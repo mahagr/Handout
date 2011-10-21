@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 	JHTML::_('behavior.calendar');
 ?>
 <div id="handout" class="hedit">
-	<?php $this->_addPath( 'template', JPATH_COMPONENT . DS . 'views' . DS . 'handout' . DS . 'tmpl' );?>
+	<?php $this->_addPath( 'template', JPATH_COMPONENT . '/views/handout/tmpl' );?>
 	<?php echo $this->loadTemplate('menu'); ?>
 
 	<h2><?php echo JText::_('COM_HANDOUT_TITLE_EDIT');?></h2>
@@ -70,7 +70,7 @@ defined('_JEXEC') or die;
 		}
 	//-->
 	</script>
-	<?php include_once(JPATH_COMPONENT . DS . 'footer.php'); ?>
+	<?php include_once(JPATH_COMPONENT . '/footer.php'); ?>
 </div>
 
 <?php
@@ -80,13 +80,13 @@ defined('_JEXEC') or die;
 		$Itemid = JRequest::getInt('Itemid');
 
 		JFilterOutput::objectHTMLSafe( $row );
-	
+
 		ob_start();
 		?>
 		<form action="index.php" method="post" name="adminForm" onsubmit="javascript:setgood();" id="hform-edit" class="hform">
-			
-		
-		
+
+
+
 			<ul>
 						<li><input type="button" name="cancel" onclick="submitbutton('cancel');" value="<?php echo JText::_('COM_HANDOUT_CANCEL');?>"></li>
 						<li><input type="submit" name="sub" value="<?php echo JText::_('COM_HANDOUT_SAVE');?>"></li>
@@ -128,7 +128,7 @@ defined('_JEXEC') or die;
 					echo $editor->display('docdescription', $row->docdescription , '550', '250', '50', '10') ;
 				?>
 			</p>
-           
+
 			<input type="hidden" name="goodexit" value="0" />
 			<input type="hidden" name="id" value="<?php echo $row->id;?>" />
 			<input type="hidden" name="option" value="com_handout" />
@@ -137,8 +137,8 @@ defined('_JEXEC') or die;
 			<input type="hidden" name="doccounter" value="<?php echo $row->doccounter;?>" />
 			<input type="hidden" name="doclastupdateon" value="<?php echo date('Y-m-d H:i:s') ?>" />
 			<?php echo HANDOUT_token::render();?>
-			
-			
+
+
 			<ul>
 						<li><input type="button" name="cancel" onclick="submitbutton('cancel');" value="<?php echo JText::_('COM_HANDOUT_CANCEL');?>"></li>
 						<li><input type="submit" name="sub"   value="<?php echo JText::_('COM_HANDOUT_SAVE');?>"></li>
@@ -223,15 +223,15 @@ defined('_JEXEC') or die;
 
 		                </p>
 						<p>
-							<input type="checkbox" <?php if($row->allow_single_download==1)echo 'checked="checked"';?> name="allow_single_download"  value="1"/> <?php echo JText::_('ALLOW_SINGLE_DOWNLOAD');?> 
-	
-							
+							<input type="checkbox" <?php if($row->allow_single_download==1)echo 'checked="checked"';?> name="allow_single_download"  value="1"/> <?php echo JText::_('ALLOW_SINGLE_DOWNLOAD');?>
+
+
 							<span class="hasTip" title="<?php echo JText::_('ALLOW_SINGLE_DOWNLOAD');?>::<?php echo JText::_('ALLOW_SINGLE_DOWNLOAD_TOOLTIP');?>">
 								<img border="0" alt="Tooltip" src="media/com_handout/images/icon-16-tooltip.png" /></span>
-							
+
 						</p>
-						
-						
+
+
 					</td>
 				</tr>
 			</tbody>

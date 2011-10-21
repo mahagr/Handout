@@ -237,10 +237,10 @@ class HandoutHTML extends JHTML
 		$selectValue=0;
 		if($doc->docsubmittedby==$doc->docmaintainedby)
 		{
-			
+
 			$selectValue=-2;
 		}else {
-			
+
 			$selectValue=$doc->docmaintainedby;
 		}
 
@@ -316,36 +316,26 @@ class HandoutHTML extends JHTML
 
 ?>
 $msg=""; if (form.docname.value == ""){ $msg += '\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_NAME');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_NAME');?>
 '; } if (form.docdate_published.value == "") { $msg += "\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_DATE');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_DATE');?>
 "; } if (form.docfilename.value == "") { $msg += "\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_DOC');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_DOC');?>
 " ; } if (form.catid.value == "0") { $msg +="\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_CAT');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_CAT');?>
 " ; } if (form.docowner.value == "
-<?php echo COM_HANDOUT_PERMIT_NOOWNER;
-?>
+<?php echo COM_HANDOUT_PERMIT_NOOWNER;?>
 " || form.docowner.value == "" ) { $msg +="\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_OWNER');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_OWNER');?>
 " ; } if (form.docmaintainedby.value == "
-<?php echo COM_HANDOUT_PERMIT_NOOWNER;
-?>
+<?php echo COM_HANDOUT_PERMIT_NOOWNER;?>
 "|| form.docmaintainedby.value == "" ) { $msg +="\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_MAINT');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_MAINT');?>
 " ; } if( form.document_url ){ if( form.document_url.value != "" ){ if(
 form.docfilename.value != "
-<?php echo COM_HANDOUT_DOCUMENT_LINK;
-?>
+<?php echo COM_HANDOUT_DOCUMENT_LINK;?>
 "){ if( form.docfilename.value != "" ){ $msg += "\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_DOCLINK');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_DOCLINK');?>
 "; } }else{ var linkname = form.document_url.value.toLowerCase();; var
 cind = linkname.indexOf( "://" ); if( cind < 0
 <?php
@@ -368,12 +358,10 @@ cind = linkname.indexOf( "://" ); if( cind < 0
 
 ){ // Invalid URL (no schema://) if( cind >= 0 ){ linkname =
 linkname.substr( 0, cind+3 ); }else{ linkname = "none"; } $msg += "\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_DOCLINK_PROTOCOL');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_DOCLINK_PROTOCOL');?>
 "; $msg += " (" + linkname + ")"; }else{ if( cind+3 == linkname.length
 ){ $msg += "\n
-<?php echo JText::_('COM_HANDOUT_ENTRY_DOCLINK_NAME');
-?>
+<?php echo JText::_('COM_HANDOUT_ENTRY_DOCLINK_NAME');?>
 "; $msg += " (" + linkname + "???)"; } } } } }
 <?php
 	}
@@ -384,7 +372,7 @@ linkname.substr( 0, cind+3 ); }else{ linkname = "none"; } $msg += "\n
 	}
 }
 
-require_once JPATH_ROOT . DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'pane.php';
+require_once JPATH_ROOT . '/libraries/joomla/html/pane.php';
 
 class HandoutTabs extends JPaneTabs
 {

@@ -134,7 +134,7 @@ class plgFinderHANDOUT_Documents extends FinderIndexerAdapter
 			$item->mime = strtolower(JFile::getExt($item->filename));
 
 			// Set the full file path.
-			$item->filepath = JPath::clean($this->_handout_config->handoutpath.DS.$item->filename);
+			$item->filepath = JPath::clean($this->_handout_config->handoutpath.'/'.$item->filename);
 
 			// Make sure that the path exists.
 			if (JFile::exists($item->filepath) !== false)
