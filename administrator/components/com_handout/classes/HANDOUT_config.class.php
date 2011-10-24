@@ -118,12 +118,8 @@ class HANDOUT_Config {
 		}
 
 		$config .= "}\n}";
-		$fp = fopen($this->_path, "w");
-		if ($fp) {
-			if( fputs($fp, $config) !== false AND fclose($fp) !==false) {
-				return true;
-			}
-		}
+		jimport ('joomla.filesystem.file');
+		JFile::write($this->_path, $config);
 
 		return false;
 	}
