@@ -33,8 +33,8 @@ endif;
 $app = &JFactory::getApplication();
 $pathway = & $app->getPathWay();
 if ($this->pagetitle) {
-	$pathway->addItem($this->pagetitle[0][0]->name);
-	$app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pagetitle[0][0]->name );
+	$pathway->addItem($this->pagetitle[0][0]->title);
+	$app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pagetitle[0][0]->title );
 }
 ?>
 
