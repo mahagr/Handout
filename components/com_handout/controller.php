@@ -17,9 +17,6 @@ jimport('joomla.environment.browser');
 //require_once JPATH_COMPONENT_HELPERS . '/documents.php';
  $handout = &HandoutFactory::getHandout();
 require_once $handout->getPath('classes', 'html');
-//component constants
-define('COM_HANDOUT_IMAGESPATH', JURI::root(true) . '/components/com_handout/media/images/');
-define('COM_HANDOUT_CSSPATH', 'components/com_handout/media/css/');
 
 class HandoutController extends JController
 {
