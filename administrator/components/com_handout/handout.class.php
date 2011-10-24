@@ -372,7 +372,7 @@ class HandoutMainFrame
 		// remove '..'
 		$path = str_replace('..', '', $path);
 		// Remove double slashes and backslahses and convert all slashes and backslashes to /
-		$path = preg_replace('#[/\\]+#', '/', $path);
+		$path = preg_replace('#[\\/]+#', '/', $path);
 
 		return $path;
 	}
