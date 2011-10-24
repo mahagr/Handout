@@ -318,15 +318,6 @@ class HandoutModelDocument extends JModel
 		$this->_returnTo ( 'cat_view', JText::_('COM_HANDOUT_DOCMOVED'), $move );
 	}
 
-	function updateDocumentProcess($uid) {
-		HANDOUT_token::check () or die ( 'Invalid Token' );
-
-		$step = ( int ) JRequest::getVar('step', 1);
-		$uploaded = JRequest::getVar( HANDOUT_Utils::stripslashes ( $_FILES ), 'upload' );
-		uploadFile ( $step, $uploaded );
-	}
-
-
 	function publishDocument($cid, $publish = 1) {
 		HANDOUT_token::check () or die ( 'Invalid Token' );
 
