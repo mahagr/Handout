@@ -81,7 +81,7 @@ else
 
 		if($this->conf->get('item_tooltip', 0)) :
 			$tooltip = '';
-			if($this->conf->item_filename)
+			if($this->conf->get('item_filename'))
 			{
 				$tooltip .= JTEXT::_('COM_HANDOUT_FNAME').": ";
 				$tooltip .= $this->doc->data->filename;
@@ -148,7 +148,7 @@ else
 		endif;
 
 		//output number of comments
-		if ( true || $this->conf->get('item_comments_count') ) :
+		if ( !empty($this->doc->data->kunena_discuss_count) && $this->conf->get('item_comments_count') ) :
 			$item_output_array[] =  '<span class="hdoc-comments">' . JText::_('COM_HANDOUT_COMMENTS') .': '.$this->doc->data->kunena_discuss_count.'</span>';
 		endif;
 
