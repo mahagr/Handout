@@ -32,8 +32,10 @@ endif;
 
 $app = &JFactory::getApplication();
 $pathway = & $app->getPathWay();
-$pathway->addItem($this->pagetitle[0][0]->name);
-$app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pagetitle[0][0]->name );
+if ($this->pagetitle) {
+	$pathway->addItem($this->pagetitle[0][0]->name);
+	$app->setPageTitle( JText::_('COM_HANDOUT_TITLE_BROWSE') . ' | ' . $this->pagetitle[0][0]->name );
+}
 ?>
 
 <div id="handout">

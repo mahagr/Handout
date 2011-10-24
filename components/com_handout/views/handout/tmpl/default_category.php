@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 
 ?>
 <?php
-	if($this->category->data->title != '') :
+	if(!empty($this->category->data->title)) :
 	?>
 	<div class="hcat-head">
 		<?php
@@ -32,9 +32,9 @@ defined('_JEXEC') or die;
 				?>
 				<div class="hcat-icon h<?php echo $this->category->data->image_position;?>" ><img src="<?php echo $this->category->paths->thumb; ?>" alt="<?php echo $this->category->data->title;?>" /></div><?php
 			endif;
-	
+
 			 echo $this->loadTemplate('addthis');
-	
+
 			if($this->category->data->title != '') :
 				?><h2 class="hcat-name"><?php echo $this->category->data->title;?></h2><?php
 			endif;

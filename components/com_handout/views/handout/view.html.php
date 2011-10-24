@@ -33,25 +33,27 @@ class HandoutViewHandout extends JView {
 		if ($gid > 0) {
 			list($category->links, $category->paths, $category->data) = $model->getCategory ( $gid);
 			$this->assign('cat_empty',true );
+		} else {
+			$this->assign('cat_empty',false );
 		}
 
 		$cat_list = new StdClass ();
 		$cat_list->items = $model->getCategoryList($gid);
-	
+
 		//echo var_dump($cat_list->items );
 
-		
+
 			$docmodel= & JModel::getInstance('Document','HandoutModel');
 		$doc_list = new StdClass ();
 		list($doc_list->order, $doc_list->items) = $docmodel->getDocumentList ( $gid);
-		
-		
+
+
 		list($pagenav) =$model->getPageNav ( $gid );
 		$pagetitle = $model->getPageTitle ( $gid);
-	
-	
+
+
 		//echo var_dump($doc_list);
-             //   exit();        
+             //   exit();
 		$this->assignRef('category', $category);
 		$this->assignRef('cat_list', $cat_list);
 		$this->assignRef('doc_list', $doc_list);
@@ -61,14 +63,14 @@ class HandoutViewHandout extends JView {
 		$this->assignRef('perms', $perms);
 		$this->assignRef('conf', $handout->getAllCfg());
 		parent::display();
-		  /*}else 
-		  
+		  /*}else
+
 		  {
 		  	$model=$this->getModel();
-		  	
-		  	
-		  	
-		  	
+
+
+
+
 		  }*/
 	}
 }
