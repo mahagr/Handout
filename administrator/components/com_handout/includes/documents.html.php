@@ -200,7 +200,7 @@ function showDocumentsToSelect($rows, $lists, $search, $pageNav, $number_unpubli
 		  <thead>
 		  <tr>
 			<th width="15%" align="left">
-			<a href="<?php echo $link; ?>name"><?php echo JText::_('COM_HANDOUT_NAME');?></a>
+			<a href="<?php echo $link; ?>name"><?php echo JText::_('COM_HANDOUT_DOCUMENT_NAME_LABEL');?></a>
 			</th>
 			<th width="15%" align="left" >
 			<a href="<?php echo $link; ?>filename"><?php echo JText::_('COM_HANDOUT_FILE');?></a>
