@@ -119,9 +119,7 @@ class HANDOUT_Config {
 
 		$config .= "}\n}";
 		jimport ('joomla.filesystem.file');
-		JFile::write($this->_path, $config);
-
-		return false;
+		return JFile::write($this->_path, $config);
 	}
 
 	/**
