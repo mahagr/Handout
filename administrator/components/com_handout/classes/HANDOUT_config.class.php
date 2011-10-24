@@ -88,11 +88,16 @@ class HANDOUT_Config {
 			require_once $this->_path;
 			if( class_exists($this->_name)) {
 				$this->_config = new $this->_name();
+				if (!is_subclass_of($this->_config, 'JObject')) {
+					$config = new JObject();
+					$config->setProperties(get_object_vars($this->_config));
+					$this->_config =& $config;
+				}
 			} else {
-				$this->_config = new StdClass();
+				$this->_config = new JObject();
 			}
 		} else {
-			$this->_config = new StdClass();
+			$this->_config = new JObject();
 		}
 	}
 
@@ -107,13 +112,14 @@ class HANDOUT_Config {
 
 		$config = "<?php\n";
 		$config .= "if(defined('_" . $this->_name . "')) {\nreturn true;\n} else { \ndefine('_" . $this->_name . "',1); \n\n";
-		$config .= "class " . $this->_name . "\n{\n";
+		$config .= "class " . $this->_name . " extends JObject\n{\n";
 		$config .= "// Last Edit: " . strftime("%a, %Y-%b-%d %R") . "\n";
 		$config .= "// Edited by: " . $user->username . "\n";
 
 		$vars = get_object_vars($this->_config);
 		ksort($vars);
 		foreach($vars as $key => $value) {
+			if ($key[0] == '_') continue;
 			$config .= 'var $' . $key . ' = ' . var_export($value , true) . ";\n" ;
 		}
 
@@ -140,6 +146,7 @@ class HANDOUT_Config {
 
 		$vars = get_object_vars($this->_config);
 		foreach( $vars as $key=>$var ) {
+			if ($key[0] == '_') continue;
 			$this->_config->$key = str_replace( $search, $replace, $var );
 		}
 

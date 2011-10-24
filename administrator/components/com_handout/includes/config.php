@@ -288,8 +288,12 @@ function saveConfig()
 	unset($_POST['assign_download_author']);
 	unset($_POST['assign_download_editor']);
 
+	unset($_POST['id'], $_POST['task'], $_POST['option'], $_POST['section']);
+	$token = $_SESSION['handout.token'];
+	if ($token) unset($_POST[$token]);
+
 	foreach($_POST as $key => $value) {
-		$handout->setCfg($key, $value);
+		$handout->setCfg($key, $value, true);
 	}
 
 	if ($handout->saveConfig()) {

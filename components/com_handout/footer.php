@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 ?>
 <p class="credit"><a href="http://extensions.kontentdesign.com/" target="_blank">Handout for Joomla</a></p>
 <?php
-if ($this->conf->ga_code):
+if ($this->conf->get('ga_code')):
 ?>
 <div class="handout_ga">
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-<?php echo $this->conf->ga_code; ?>']);
+  _gaq.push(['_setAccount', 'UA-<?php echo $this->conf->get('ga_code'); ?>']);
   _gaq.push(['_trackPageview']);
 
   (function() {

@@ -49,7 +49,7 @@ $document->setMetaData('language', $this->data->doclanguage);
 
 	<div id="hdoc-details">
 		<?php
-	if ($this->conf->details_image && $this->data->docthumbnail) :
+	if ($this->conf->get('details_image') && $this->data->docthumbnail) :
 		?><div class="hdoc-thumb"><img src="<?php echo $this->paths->thumb ?>" alt="<?php echo $this->data->docname;?>" /></div><?php
 	endif;
 	 echo $this->loadTemplate('addthis');
@@ -61,79 +61,79 @@ $document->setMetaData('language', $this->data->doclanguage);
 		<dd class="hdoc-value"><?php echo JText::_('COM_HANDOUT_VALUE')?></dd>
 
 	<?php
-	if($this->conf->details_name) :
+	if($this->conf->get('details_name')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_NAME') ?>:</dt>
 		<dd><?php echo $this->data->docname ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_description) :
+	if($this->conf->get('details_description')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_DESC') ?>:</dt>
 		<dd><p><?php echo $this->data->docdescription ?></p></dd>
 		<?php
 	endif;
-	if($this->conf->details_filename) :
+	if($this->conf->get('details_filename')) :
 		 ?>
 		<dt><?php echo JText::_('COM_HANDOUT_FNAME') ?>:</dt>
 		<dd><?php echo $this->data->filename ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_filesize) :
+	if($this->conf->get('details_filesize')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_FSIZE') ?>:</dt>
 		<dd><?php echo $this->data->filesize ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_filetype) :
+	if($this->conf->get('details_filetype')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_FTYPE') ?>:</dt>
 		<dd><?php echo $this->data->filetype ?>&nbsp;(<?php echo JText::_('COM_HANDOUT_MIME').":&nbsp;".$this->data->mime ?>)</dd>
 		<?php
 	endif;
-	if($this->conf->details_fileversion) :
+	if($this->conf->get('details_fileversion')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_FVERSION') ?>:</dt>
 		<dd><?php echo $this->data->docversion ?></dd>
 		<?php
 	endif;
-		if($this->conf->details_filetype) :
+		if($this->conf->get('details_filetype')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_FLANGUAGE') ?>:</dt>
 		<dd><?php echo $this->data->doclanguage ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_submitter) :
+	if($this->conf->get('details_submitter')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_SUBMITTED_BY') ?>:</dt>
 		<dd><?php echo $this->data->submitted_by ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_created) :
+	if($this->conf->get('details_created')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_SUBMITTED_DATE') ?>:</dt>
 		<dd><?php  echo strftime( JText::_('COM_HANDOUT_DATEFORMAT_LONG'), strtotime($this->data->docdate_published)); ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_readers) :
+	if($this->conf->get('details_readers')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_OWNER') ?>:</dt>
 		<dd><?php echo $this->data->owner ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_maintainers) :
+	if($this->conf->get('details_maintainers')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_MAINTAINERS') ?>:</dt>
 		<dd><?php echo $this->data->maintainedby ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_downloads) :
+	if($this->conf->get('details_downloads')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_DOWNLOADS') ?>:</dt>
 		<dd><?php echo $this->data->doccounter ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_updated) :
+	if($this->conf->get('details_updated')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_LAST_UPDATED') ?>:</dt>
 		<dd><?php  if (!strstr($this->data->doclastupdateon, '0000-00-00'))
@@ -141,19 +141,19 @@ $document->setMetaData('language', $this->data->doclanguage);
 		</dd>
 		<?php
 	endif;
-	if($this->conf->details_homepage) :
+	if($this->conf->get('details_homepage')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_INFOURL') ?>:</dt>
 		<dd><a href="<?php echo $this->data->docurl;?>"><?php echo $this->data->docurl;?></a></dd>
 		<?php
 	endif;
-	if($this->conf->details_crc_checksum) :
+	if($this->conf->get('details_crc_checksum')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_CRC_CHECKSUM') ?>:</dt>
 		<dd><?php echo $this->data->params->get('crc_checksum'); ?></dd>
 		<?php
 	endif;
-	if($this->conf->details_md5_checksum) :
+	if($this->conf->get('details_md5_checksum')) :
 		?>
 		<dt><?php echo JText::_('COM_HANDOUT_MD5_CHECKSUM') ?>:</dt>
 		<dd><?php echo $this->data->params->get('md5_checksum'); ?></dd>
@@ -189,7 +189,7 @@ $document->setMetaData('language', $this->data->doclanguage);
 	</div>
 
 	<?php
-	if ($this->data->kunena_discuss_contents) {
+	if (!empty($this->data->kunena_discuss_contents)) {
 		echo $this->data->kunena_discuss_contents;
 	}
 	?>

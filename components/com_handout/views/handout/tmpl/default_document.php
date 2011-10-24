@@ -36,7 +36,7 @@ else
 	<div class="hdoc-icon <?php echo $iconClass ?>">
 <?php
 	//output document image
-	switch ($this->conf->doc_image) :
+	switch ($this->conf->get('doc_image')) :
 		case 0 :   //do nothing
 			break;
 		case 1 :   //icon
@@ -46,7 +46,7 @@ else
 			 $href = isset($this->doc->buttons['download']) ? 'href="'.$this->doc->buttons['download']->link.'"' : "";
 			?>
 			<a <?php echo $href;?> class="hasTip" title="<?php echo $this->doc->data->docname ?>::<?php echo JText::_('COM_HANDOUT_CLICK_TO_DOWNLOAD'); ?>">
-				<img src="<?php echo COM_HANDOUT_IMAGESPATH . 'icons/icon-'.$this->conf->doc_icon_size.$icon_ext ?>" alt="<?php echo $this->doc->data->docname ?>" />
+				<img src="<?php echo COM_HANDOUT_IMAGESPATH . 'icons/icon-'.$this->conf->get('doc_icon_size').$icon_ext ?>" alt="<?php echo $this->doc->data->docname ?>" />
 			</a>
 			<?php
 			break;
@@ -65,7 +65,7 @@ else
 	?></div>
 	<?php
 		//output document link
-		$isDownload = isset($this->doc->buttons['download']) && $this->conf->item_title_link;
+		$isDownload = isset($this->doc->buttons['download']) && $this->conf->get('item_title_link');
 		?>
 		<h4 class="hasTip" title="<?php echo $this->doc->data->docname ?>::<?php echo ($isDownload ? JText::_('COM_HANDOUT_CLICK_TO_DOWNLOAD') : JText::_('COM_HANDOUT_CLICK_TO_SEE_DETAILS')) ?>">
 			<a<?php echo $isDownload ? ' href="'.$this->doc->buttons['download']->link.'"' : '' ?>><?php echo $this->doc->data->docname ?></a>
@@ -79,7 +79,7 @@ else
 		<div class='hdoc-details'>
 		<?php
 
-		if($this->conf->item_tooltip) :
+		if($this->conf->get('item_tooltip', 0)) :
 			$tooltip = '';
 			if($this->conf->item_filename)
 			{
@@ -88,14 +88,14 @@ else
 				$tooltip .= "&lt;br /&gt;";
 			}
 
-			if($this->conf->item_filesize)
+			if($this->conf->get('item_filesize'))
 			{
 				$tooltip .= JTEXT::_('COM_HANDOUT_FSIZE').": ";
 				$tooltip .= ' '.$this->doc->data->filesize.'';
 				$tooltip .= "&lt;br /&gt;";
 			}
 
-			if($this->conf->item_filetype)
+			if($this->conf->get('item_filetype'))
 			{
 				$tooltip .= JTEXT::_('COM_HANDOUT_FTYPE').": ";
 				$tooltip .= $this->doc->data->mime;
@@ -123,39 +123,39 @@ else
 
 		$item_output_array = array();
 
-		if($this->conf->item_filetype)
+		if($this->conf->get('item_filetype'))
 		{
 			$item_output_array[] = '<span class="hdoc-type">' . JText::_('COM_HANDOUT_FILETYPE') .': <span>'.$this->doc->data->filetype . '</span></span>';
 		}
-		if($this->conf->item_filesize)
+		if($this->conf->get('item_filesize'))
 		{
 			$item_output_array[] =  '<span class="hdoc-size">' . JText::_('COM_HANDOUT_SIZE') . ': <span>' . round($this->doc->data->filesize) . JText::_('COM_HANDOUT_KB') . '</span></span>';
 		}
 
 		//output document date
-		if ( $this->conf->item_date ) :
+		if ( $this->conf->get('item_date') ) :
 			$item_output_array[] =  '<span class="hdoc-date">' . JText::_('COM_HANDOUT_UPLOADED') .': <span>'. strftime( JText::_('COM_HANDOUT_DATEFORMAT_SHORT'), strtotime($this->doc->data->docdate_published)).'</span></span>';
 		endif;
 
 		//output document counter
-		if ( $this->conf->item_hits  ) :
+		if ( $this->conf->get('item_hits') ) :
 			$item_output_array[] =  '<span class="hdoc-counter">' . JText::_('COM_HANDOUT_DOWNLOADS') .': <span>'. $this->doc->data->doccounter.'</span></span>';
 		endif;
 
 		//output document url
-		if ( $this->conf->item_homepage && $this->doc->data->docurl != '') :
+		if ( $this->conf->get('item_homepage') && $this->doc->data->docurl != '') :
 				$item_output_array[] =  '<span class="hdoc-homepage">' . JText::_('COM_HANDOUT_INFOURL') .': <span><a href="'.$this->doc->data->docurl.'">'.$this->doc->data->docurl.'</span></span>';
 		endif;
 
 		//output number of comments
-		if ( true || $this->conf->item_comments_count  ) :
+		if ( true || $this->conf->get('item_comments_count') ) :
 			$item_output_array[] =  '<span class="hdoc-comments">' . JText::_('COM_HANDOUT_COMMENTS') .': '.$this->doc->data->kunena_discuss_count.'</span>';
 		endif;
 
 		echo implode (' | ',$item_output_array);
 
 	//output document description
-		if ( $this->conf->item_description && $this->doc->data->docdescription ) :
+		if ( $this->conf->get('item_description') && $this->doc->data->docdescription ) :
 			?>
 			<div class="hdoc-description">
 				<?php echo $this->doc->data->docdescription;?>

@@ -23,26 +23,26 @@ defined('_JEXEC') or die;
 
 ?>
 	<?php
-	if( !$this->conf->menu_home
-		&& !$this->conf->menu_search
-		&& !$this->conf->menu_upload
+	if( !$this->conf->get('menu_home')
+		&& !$this->conf->get('menu_search')
+		&& !$this->conf->get('menu_upload')
 		&& !$this->perms->upload) {
 			// No buttons to show
 	}
 	else {
 		?>
 		<div id="htoolbar">
-			<?php if($this->conf->menu_home) :?>
+			<?php if($this->conf->get('menu_home')) :?>
 				<div class="hbtn-home">
-					<a href="<?php echo $this->links->home;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->toolbar_icon_size?>-home.png" alt="<?php echo JText::_('COM_HANDOUT_DOWNLOADS_HOME'); ?>" /></a>
+					<a href="<?php echo $this->links->home;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->get('toolbar_icon_size')?>-home.png" alt="<?php echo JText::_('COM_HANDOUT_DOWNLOADS_HOME'); ?>" /></a>
 					<p><a href="<?php echo $this->links->home;?>"><?php echo JText::_('COM_HANDOUT_DOWNLOADS_HOME'); ?></a></p>
 				</div>
 			<?php
 			endif;
-			if($this->conf->menu_search) :
+			if($this->conf->get('menu_search')) :
 			?>
 				<div class="hbtn-search">
-					<a href="<?php echo $this->links->search;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->toolbar_icon_size?>-search.png" alt="<?php echo JText::_('COM_HANDOUT_SEARCH_DOC'); ?>" /></a>
+					<a href="<?php echo $this->links->search;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->get('toolbar_icon_size')?>-search.png" alt="<?php echo JText::_('COM_HANDOUT_SEARCH_DOC'); ?>" /></a>
 					<p><a href="<?php echo $this->links->search;?>"><?php echo JText::_('COM_HANDOUT_SEARCH_DOC'); ?></a></p>
 				</div>
 			<?php
@@ -53,10 +53,10 @@ defined('_JEXEC') or die;
 			 *		- true 	: the user is authorized to upload
 			 *		- false : the user isn't authorized to upload
 			*/
-			if($this->conf->menu_upload && $this->perms->upload) :
+			if($this->conf->get('menu_upload') && $this->perms->upload) :
 			?>
 				<div class="hbtn-upload">
-					<a href="<?php echo $this->links->upload;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->toolbar_icon_size?>-submit.png" alt="<?php echo JText::_('COM_HANDOUT_SUBMIT'); ?>" /></a>
+					<a href="<?php echo $this->links->upload;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->get('toolbar_icon_size')?>-submit.png" alt="<?php echo JText::_('COM_HANDOUT_SUBMIT'); ?>" /></a>
 					<p><a href="<?php echo $this->links->upload;?>"><?php echo JText::_('COM_HANDOUT_SUBMIT'); ?></a></p>
 				</div>
 			<?php endif; ?>
