@@ -109,8 +109,6 @@
 			<property name="extsub" value="plg_system_kontentupdate" />
 		</phingcall>
 
-		<exec command="chmod -R 775 *" dir="${targetdir}" />
-
 		<!-- Now make the final package -->
 		<if>
 			<not>
@@ -160,6 +158,9 @@
 				<exclude name=".DS_Store" />
 			</fileset>
 		</zip>
+
+		<!-- Cleanup build area -->
+		<delete dir="${targetdir}/package" />
 
 	</target>
 
