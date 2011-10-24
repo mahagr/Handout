@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 	if( !$this->conf->menu_home
 		&& !$this->conf->menu_search
 		&& !$this->conf->menu_upload
-		&& $this->perms->upload != COM_HANDOUT_AUTHORIZED) {
+		&& !$this->perms->upload) {
 			// No buttons to show
 	}
 	else {
@@ -50,22 +50,16 @@ defined('_JEXEC') or die;
 			/*
 			 * Check to upload permissions and show the appropriate icon/text
 			 * Values for $this->perms->upload
-			 *		- COM_HANDOUT_AUTHORIZED 	: the user is authorized to upload
-			 *		- COM_HANDOUT_NOT_LOGGED_IN  : the user isn't logged in
-			 *		- COM_HANDOUT_NOT_AUTHORIZED : the user isn't authorized to upload
+			 *		- true 	: the user is authorized to upload
+			 *		- false : the user isn't authorized to upload
 			*/
-			if($this->conf->menu_upload) :
-				switch($this->perms->upload) :
-				case COM_HANDOUT_AUTHORIZED :
+			if($this->conf->menu_upload && $this->perms->upload) :
 			?>
 				<div class="hbtn-upload">
 					<a href="<?php echo $this->links->upload;?>"><img src="<?php echo COM_HANDOUT_IMAGESPATH;?>icon-<?php echo $this->conf->toolbar_icon_size?>-submit.png" alt="<?php echo JText::_('COM_HANDOUT_SUBMIT'); ?>" /></a>
 					<p><a href="<?php echo $this->links->upload;?>"><?php echo JText::_('COM_HANDOUT_SUBMIT'); ?></a></p>
 				</div>
-				<?php break;
-			endswitch;
-		endif;
-		?>
+			<?php endif; ?>
 	</div>
 	<div class="clr"></div>
 	<?php

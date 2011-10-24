@@ -18,8 +18,8 @@ class HandoutModelHandout extends JModel
        {
            parent::__construct();
        }
-      
-       
+
+
 function getCategory($id) {
 		$handoutUser = HandoutFactory::getHandoutUser ();
 
@@ -36,8 +36,8 @@ function getCategory($id) {
 		$returnArray = array($cat->getLinkObject (), $cat->getPathObject (), $cat->getDataObject ());
 		return $returnArray;
 	}
-	
-	
+
+
 	function getCategoryList($id) {
 		$handout = &HandoutFactory::getHandout();
 
@@ -61,8 +61,8 @@ function getCategory($id) {
 
 		return $items;
 	}
-	
-	
+
+
 function getMenuParams() {
 		jimport ( 'joomla.application.menu' );
 		$menu = JSite::getMenu();
@@ -81,17 +81,9 @@ function getMenuParams() {
 
 		// create perms
 		$perms = new StdClass ( );
-		$perms->view = COM_HANDOUT_AUTHORIZED;
-		$perms->search = COM_HANDOUT_AUTHORIZED;
-		$perms->upload = COM_HANDOUT_NOT_AUTHORIZED;
-
-		if ($handoutUser->canUpload ()) {
-			$perms->upload = COM_HANDOUT_AUTHORIZED;
-		} else {
-			if ($handoutUser->userid == 0 && $handout->getCfg ( 'user_upload' ) != - 1) {
-				$perms->upload = COM_HANDOUT_NOT_LOGGED_IN;
-			}
-		}
+		$perms->view = true;
+		$perms->search = true;
+		$perms->upload = $handoutUser->canUpload ();
 
 		$returnArray = array($links, $perms);
 		return $returnArray;
@@ -171,22 +163,22 @@ function getMenuParams() {
 	function _returnTo($task, $msg = '', $gid = '', $params = null) {
 		return HANDOUT_Utils::returnTo ( $task, $msg, $gid, $params );
 	}
-	
-	
-	
+
+
+
 	function getMtreeCategoryList($parentid=0)
 	{
-	
+
 	$db=& JFactory::getDBO();
 	$query="select * from #__mt_cats where cat_parent=".$parentid." and cat_published=1";
     $db->setQuery($query);
     $list=$db->loadObjectList();
     return $list;
-    
-	
-	
+
+
+
 	}
-	
+
 }
 
 

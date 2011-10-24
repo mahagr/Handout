@@ -29,17 +29,9 @@ class HandoutHelper {
 
 		// create perms
 		$perms = new StdClass ( );
-		$perms->view = COM_HANDOUT_AUTHORIZED;
-		$perms->search = COM_HANDOUT_AUTHORIZED;
-		$perms->upload = COM_HANDOUT_NOT_AUTHORIZED;
-
-		if ($handoutUser->canUpload ()) {
-			$perms->upload = COM_HANDOUT_AUTHORIZED;
-		} else {
-			if ($handoutUser->userid == 0 && $handout->getCfg ( 'user_upload' ) != - 1) {
-				$perms->upload = COM_HANDOUT_NOT_LOGGED_IN;
-			}
-		}
+		$perms->view = true;
+		$perms->search = true;
+		$perms->upload = $handoutUser->canUpload ();
 
 		$returnArray = array($links, $perms);
 		return $returnArray;

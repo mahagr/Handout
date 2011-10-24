@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+if (defined('COM_HANDOUT_VERSION_NUMBER')) return;
+
 // Put all static value defines here that are neither language nor
 // configuration specific
 
