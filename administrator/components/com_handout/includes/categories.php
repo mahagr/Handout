@@ -97,7 +97,7 @@ function showCategories()
 	// first pass - collect children
 	foreach ($rows as $v) {
 		$pt = $v->parent;
-		if (!is_array($children[$pt])) $children[$pt] = array();
+		if (!$pt || !is_array($children[$pt])) $children[$pt] = array();
 		array_push($children[$pt], $v);
 	}
 	// second pass - get an indent list of the items

@@ -250,7 +250,7 @@ function editDocument($uid)
 		'doclicense_display', 'class="inputbox" size="1"', 'value', 'text', $doc->doclicense_display);
 
 	//languages list
-	$lists['languages'];
+	$lists['languages'] = array();
 	$xml = new JSimpleXML;
 	$xml->loadFile(COM_HANDOUT_DOC_LANGUAGE_XML);
 	foreach( $xml->document->language as $lang ) {
