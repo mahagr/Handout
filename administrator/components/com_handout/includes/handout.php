@@ -71,7 +71,7 @@ function showStatistics()
 			// "\n WHERE docowner=-1 OR docowner=0 " .
 			"\n ORDER BY doccounter DESC";
 	$database->setQuery($query, 0, 50);
-	$row = $database->loadObjectList();
+	$row = (array) $database->loadObjectList();
 	HTML_HandoutHandout::showStatistics($row);
 }
 
@@ -89,7 +89,7 @@ function installSampleData(){
 
 	// get all super admins
 	$database->setQuery("SELECT id FROM `#__users` WHERE `usertype`='Super Administrator'");
-	$admins = implode(',', $database->loadResultArray() );
+	$admins = implode(',', (array) $database->loadResultArray() );
 
 	// add sample group
 	$group = new HandoutGroups($database);

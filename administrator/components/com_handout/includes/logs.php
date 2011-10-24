@@ -101,7 +101,7 @@ function showLogs($option) {
 			.")"
 			."\n ORDER BY log_datetime DESC";
 	$database->setQuery($query, $limitstart, $limit);
-	$rows = $database->loadObjectList();
+	$rows = (array) $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
 		echo $database->stderr();

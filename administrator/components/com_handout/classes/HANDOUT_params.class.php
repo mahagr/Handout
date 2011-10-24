@@ -372,7 +372,7 @@ class HandoutParameters {
 		. "\n ORDER BY title"
 		;
 		$database->setQuery( $query );
-		$options = $database->loadObjectList();
+		$options = (array) $database->loadObjectList();
 		array_unshift( $options, JHTML::_('select.option', '0', '- Select Section -', 'id', 'title' ) );
 
 		return JHTML::_('select.genericlist', $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
@@ -410,7 +410,7 @@ class HandoutParameters {
 				;
 		}
 		$database->setQuery( $query );
-		$options = $database->loadObjectList();
+		$options = (array) $database->loadObjectList();
 		array_unshift( $options, JHTML::_('select.option', '0', '- Select Category -', 'id', 'title' ) );
 
 		return JHTML::_('select.genericlist', $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );

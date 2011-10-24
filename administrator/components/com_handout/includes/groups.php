@@ -68,7 +68,7 @@ function editGroup($option, $uid)
 				. "\n WHERE id IN (" . $row->groups_members . ")"
 				. "\n ORDER BY block ASC, name ASC"
 			);
-		$usersInGroup = $database->loadObjectList();
+		$usersInGroup = (array) $database->loadObjectList();
 
 		foreach($usersInGroup as $user) {
 			$musers[] = JHTML::_('select.option',$user->id,
@@ -85,7 +85,7 @@ function editGroup($option, $uid)
 	}
 	$query .= "\n ORDER BY block ASC, name ASC";
 	$database->setQuery($query);
-	$usersToAdd = $database->loadObjectList();
+	$usersToAdd = (array) $database->loadObjectList();
 	foreach($usersToAdd as $user) {
 		$toAddUsers[] = JHTML::_('select.option',$user->id,
 						$user->id . "-" . $user->name . " (" . $user->username . ")"
@@ -166,7 +166,7 @@ function showGroups($option)
 			.(count($where) ? "\n WHERE " . implode(' AND ', $where) : "")
 			."\n ORDER BY groups_name";
 	$database->setQuery($query, $limitstart,$limit);
-	$rows = $database->loadObjectList();
+	$rows = (array) $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -220,7 +220,7 @@ function emailGroup($gid)
 	$lists = array();
 
 	$database->setQuery("SELECT * FROM #__handout_groups WHERE groups_id=$gid");
-	$email_group = $database->loadObjectList();
+	$email_group = (array) $database->loadObjectList();
 
 	$lists['leadin'] = JText::_('COM_HANDOUT_THIS_IS') . " [" . $sitename . "] "
 	 . JText::_('COM_HANDOUT_SENT_BY') . " '" . $email_group[0]->groups_name . "'";
@@ -272,12 +272,12 @@ function sendEmail($gid)
 		 . "\n FROM #__handout_groups "
 		 . "\n WHERE groups_id=" . (int) $gid);
 
-	$email_group = $database->loadObjectList();
+	$email_group = (array) $database->loadObjectList();
 	$database->setQuery("SELECT id,name,username,email "
 		 . "\n FROM #__users"
 		 . "\n WHERE id in ( " . $email_group[0]->groups_members . ")"
 		 . "\n   AND email !=''");
-	$listofusers = $database->loadObjectList();
+	$listofusers = (array) $database->loadObjectList();
 	if (! count($listofusers)) {
 		$app->redirect($this_index , JText::_('COM_HANDOUT_NO_TARGET_EMAIL') . " " . $email_group[0]->name);
 	}

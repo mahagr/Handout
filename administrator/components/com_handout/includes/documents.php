@@ -131,7 +131,7 @@ function showDocuments($pend, $sort, $view_type)
 	 . (count($where) ? "\n WHERE " . implode(' AND ', $where) : "")
 	 . "\n ORDER BY " . $sorttemp . " ASC" ;
 	$database->setQuery($query);
-	$rows = $database->loadObjectList();
+	$rows = (array) $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -223,7 +223,7 @@ function editDocument($uid)
 	// check if we have at least one category defined
 	$database->setQuery("SELECT id " . "\n FROM #__categories " . "\n WHERE section='com_handout'", 0, 1);
 
-	if (!$checkcats = $database->loadObjectList()) {
+	if (!$checkcats = (array) $database->loadObjectList()) {
 		$app = &JFactory::getApplication();
 		$app->redirect("index.php?option=com_handout&section=categories", JText::_('COM_HANDOUT_PLEASE_SEL_CAT'));
 	}
@@ -233,7 +233,7 @@ function editDocument($uid)
 
 	// licenses list
 	$database->setQuery("SELECT id, name " . "\n FROM #__handout_licenses " . "\n ORDER BY name ASC");
-	$licensesTemp = $database->loadObjectList();
+	$licensesTemp = (array) $database->loadObjectList();
 	$licenses[] = JHTML::_('select.option','0', JText::_('COM_HANDOUT_NO_AGREEMENT'));
 
 	foreach($licensesTemp as $licensesTemp) {
@@ -319,14 +319,14 @@ function editDocument($uid)
 	$last = array();
 	if ($doc->doclastupdateby > '0' && $doc->doclastupdateby != $user->id) {
 		$database->setQuery("SELECT id, name FROM #__users WHERE id=" . (int) $doc->doclastupdateby);
-		$last = $database->loadObjectList();
+		$last = (array) $database->loadObjectList();
 	} else $last[0]->name = $user->name ? $user->name : $user->username; // "Super Administrator"
 
 	// creator user information
 	$created = array();
 	if ($doc->docsubmittedby > '0' && $doc->docsubmittedby != $user->id) {
 		$database->setQuery("SELECT id, name FROM #__users WHERE id=". (int) $doc->docsubmittedby);
-		$created = $database->loadObjectList();
+		$created = (array) $database->loadObjectList();
 	} else $created[0]->name = $user->name ? $user->name : $user->username; // "Super Administrator"
 
 	// Imagelist
@@ -506,7 +506,7 @@ function moveDocumentForm($cid)
 	$cids = implode(',', $cid);
 	$query = "SELECT docname FROM #__handout WHERE id IN ( " . $cids . " ) ORDER BY id, docname";
 	$database->setQuery($query);
-	$items = $database->loadObjectList();
+	$items = (array) $database->loadObjectList();
 	// category select list
 	$options = array(JHTML::_('select.option','1', JText::_('COM_HANDOUT_SELECT_CAT')));
 	$lists['categories'] = HandoutHTML::categoryList("", "", $options);
@@ -549,7 +549,7 @@ function copyDocumentForm($cid)
 	$cids = implode(',', $cid);
 	$query = "SELECT docname FROM #__handout WHERE id IN ( " . $cids . " ) ORDER BY id, docname";
 	$database->setQuery($query);
-	$items = $database->loadObjectList();
+	$items = (array) $database->loadObjectList();
 	// category select list
 	$options = array(JHTML::_('select.option','1', JText::_('COM_HANDOUT_SELECT_CAT')));
 	$lists['categories'] = HandoutHTML::categoryList("", "", $options);

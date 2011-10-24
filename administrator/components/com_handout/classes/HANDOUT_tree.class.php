@@ -113,7 +113,7 @@ class HANDOUT_Tree {
 
 		$database->setQuery($sql);
 
-		$rows = $database->loadObjectList('id');
+		$rows = (array) $database->loadObjectList('id');
 		echo $database->getErrorMsg();
 		// establish the hierarchy of the menu
 		$data = array();

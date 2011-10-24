@@ -126,7 +126,7 @@ function showAgreements($option)
 			.(count($where) ? "\n WHERE " . implode(' AND ', $where) : "")
 			."\n ORDER BY name";
 	$database->setQuery( $query, $limitstart,$limit);
-	$rows = $database->loadObjectList();
+	$rows = (array) $database->loadObjectList();
 
 	// show the beginning of each license text
 	foreach ( $rows as $key=>$row ) {

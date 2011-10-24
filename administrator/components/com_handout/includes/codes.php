@@ -65,7 +65,7 @@ function editCode($option, $uid)
 	$database->setQuery($query);
 
 	$doclist[] = JHTML::_('select.option', '0', JText::_('- Select Download -'), 'value', 'text');
-	$doclist = array_merge($doclist, $database->loadObjectList());
+	$doclist = array_merge($doclist, (array) $database->loadObjectList());
 	$lists['downloads'] = JHTML::_('select.genericlist', $doclist, 'docid', 'class="inputbox" size="1"', 'value', 'text', intval($row->docid));
 
 	//build the html radio buttons for usage
@@ -75,7 +75,7 @@ function editCode($option, $uid)
 	//fetch the set of codes already selected
 	$query = "SELECT name FROM #__handout_codes";
 	$database->setQuery($query);
-	$lists['usedcodes'] = $database->loadResultArray();
+	$lists['usedcodes'] = (array) $database->loadResultArray();
 
 	HTML_HandoutCodes::editCode($option, $row, $lists);
 }
@@ -159,7 +159,7 @@ function showCodes($option)
 		. (count($where) ? "\n WHERE " . implode(' AND ', $where) : "")
 		. "\n ORDER BY c.name";
 	$database->setQuery($query, $limitstart, $limit);
-	$rows = $database->loadObjectList();
+	$rows = (array) $database->loadObjectList();
 
 	// show the beginning of each code text
 	foreach ($rows as $key => $row) {

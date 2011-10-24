@@ -54,12 +54,10 @@ class PopulateSelects
 		$options[] =  JHTML::_('select.option', 0, '- No License -' );
 
 		$database->setQuery("SELECT id, name FROM #__HANDOUT_licenses ORDER BY name");
-		$licenses = $database->loadObjectList();
+		$licenses = (array) $database->loadObjectList();
 
-		if (is_array( $licenses ) ) {
-			foreach ($licenses as $license) {
-				$options[] = JHTML::_('select.option', $license->id, $license->name);
-			}
+		foreach ($licenses as $license) {
+			$options[] = JHTML::_('select.option', $license->id, $license->name);
 		}
 
 		return  JHTML::_('select.genericlist',  $options, 'doclicense_id', '', 'value', 'text', $doclicense_id );
@@ -89,22 +87,18 @@ class PopulateSelects
 		//groups
 		$options[] = JHTML::_('select.option', _DM_PERMIT_NOOWNER,	   '------ Docman Groups ------');
 		$database->setQuery("SELECT groups_id AS id, groups_name AS name FROM #__HANDOUT_groups ORDER BY groups_name");
-		$groups = $database->loadObjectList();
-		if (is_array( $groups ) ) {
-			foreach ($groups as $group) {
-				$options[] = JHTML::_('select.option', ((-1 * $group->id) - 10), $group->name);
-			}
+		$groups = (array) $database->loadObjectList();
+		foreach ($groups as $group) {
+			$options[] = JHTML::_('select.option', ((-1 * $group->id) - 10), $group->name);
 		}
 
 
 		//users
 		$options[] = JHTML::_('select.option', _DM_PERMIT_NOOWNER,	   '------ Users ------');
 		$database->setQuery("SELECT id, CONCAT( username, ' ( ', name, ' )') AS name FROM #__users ORDER BY username");
-		$users = $database->loadObjectList();
-		if (is_array( $users ) ) {
-			foreach ($users as $user) {
-				$options[] = JHTML::_('select.option', $user->id, $user->name);
-			}
+		$users = (array) $database->loadObjectList();
+		foreach ($users as $user) {
+			$options[] = JHTML::_('select.option', $user->id, $user->name);
 		}
 
 

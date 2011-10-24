@@ -18,7 +18,7 @@ class PopulateModelFiles extends JModel
 		$database = JFactory::getDBO();
 
 		$database->setQuery("SELECT docfilename FROM #__handout GROUP BY docfilename"  );
-		$rows = $database -> loadResultArray();
+		$rows = (array) $database->loadResultArray();
 		if ($database -> getErrorNum()) {
 			echo $database -> stderr();
 			return false;

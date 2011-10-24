@@ -18,7 +18,7 @@ class PopulateModelCategories extends JModel
 	   $database = JFactory::getDBO();
 
 		$database->setQuery("SELECT *, id as value, parent_id AS parent, name as text FROM #__categories WHERE section='com_handout'"  );
-		$rows = $database -> loadObjectList();
+		$rows = (array) $database->loadObjectList();
 		if ($database -> getErrorNum()) {
 			echo $database -> stderr();
 			return false;

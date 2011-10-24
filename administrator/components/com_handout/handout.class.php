@@ -1064,6 +1064,6 @@ class HandoutLog extends JTable
 		}
 
 		$db->setQuery("SELECT * FROM #__handout_log " . "\n WHERE id IN ($cids)");
-		return $db->loadObjectlist();
+		return (array) $db->loadObjectlist();
 	}
 }

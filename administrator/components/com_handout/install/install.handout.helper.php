@@ -833,7 +833,7 @@ endif; ?>
 						' WHERE module = '.$db->Quote($mname) .
 						' AND client_id = '.(int)$mclient->id;
 				$db->setQuery($query);
-				$modules = $db->loadResultArray();
+				$modules = (array) $db->loadResultArray();
 
 				// Do we have any module copies?
 				if (count($modules)) {

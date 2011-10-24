@@ -120,7 +120,7 @@ function plgSearchJFHandout ($text, $phrase = '', $ordering = '', $areas = null)
 	$query .= ' WHERE jmd.published = 1 AND approved = 1';
 	$query .= ' ) AS s WHERE ' . $where . ' ORDER BY ' . $order;
 	$db->setQuery($query, 0, $limit);
-	$rows = $db->loadObjectList();
+	$rows = (array) $db->loadObjectList();
 	$handoutuser = HandoutFactory::getHandoutUser();
 
 	foreach ($rows as $i => &$row) {

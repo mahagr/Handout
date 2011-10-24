@@ -22,7 +22,7 @@ class modHandoutTopDownloadsHelper
 		." ORDER BY doccounter DESC ";
 
 		$database->setQuery( $query, 0, $params->get('limit', 10) );
-		$rows = $database->loadObjectList();
+		$rows = (array) $database->loadObjectList();
 
 		return $rows;
 	}

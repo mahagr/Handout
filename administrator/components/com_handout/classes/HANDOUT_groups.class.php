@@ -31,7 +31,7 @@ class HANDOUT_groups {
 			$database->setQuery("SELECT groups_id, groups_name "
 			 . "\n  FROM #__handout_groups "
 			 . "\n ORDER BY groups_name ASC");
-			$groups = $database->loadObjectList();
+			$groups = (array) $database->loadObjectList();
 		}
 
 		return $groups;

@@ -23,7 +23,7 @@ class modHandoutLatestAdditionsHelper
 			 . " ORDER BY docdate_published DESC";
 
 		$database->setQuery( $query, 0, $params->get('limit', 10) );
-		$rows = $database->loadObjectList();
+		$rows = (array) $database->loadObjectList();
 
 		return $rows;
 	}

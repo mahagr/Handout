@@ -172,7 +172,7 @@ function getMenuParams() {
 	$db=& JFactory::getDBO();
 	$query="select * from #__mt_cats where cat_parent=".$parentid." and cat_published=1";
     $db->setQuery($query);
-    $list=$db->loadObjectList();
+    $list = (array) $db->loadObjectList();
     return $list;
 
 

@@ -155,7 +155,7 @@ class HandoutMigration
 			$realName = $prefix . $table; // e.g. #__docman => jos_docman
 			$query = "SHOW TABLES LIKE '$realName'";
 			$db->setQuery($query);
-			$exists = $db->loadResultArray();
+			$exists = (array) $db->loadResultArray();
 			if (! count($exists)) {
 				$noExists[] = $realName;
 			}

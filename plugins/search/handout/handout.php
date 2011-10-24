@@ -107,7 +107,7 @@ function plgSearchHandout ($text, $phrase = '', $ordering = '', $areas = null)
 	$query .= ' AND jmd.published = 1) AS s ORDER BY ' . $order;
 
 	$db->setQuery($query);
-	$rows = $db->loadObjectList();
+	$rows = (array) $db->loadObjectList();
 
 	$handoutUser = HandoutFactory::getHandoutUser();
 

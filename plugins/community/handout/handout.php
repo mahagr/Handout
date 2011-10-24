@@ -29,7 +29,7 @@ if(!class_exists('plgCommunityHandout'))
 	     $db=& JFactory::getDBO();
          $query="select * from #__handout where js_group_id=1";//.$groupid;
          $db->setQuery($query);
-         $docs=$db->loadObjectList();
+         $docs = (array) $db->loadObjectList();
         // echo var_dump($docs);
 		$linkhtml="<table>";
 		if($docs)

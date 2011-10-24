@@ -184,7 +184,7 @@ class HANDOUT_User
 		//Add Handout groups
 
 		$db->setQuery("SELECT groups_id,groups_members " . "\n FROM #__handout_groups");
-		$all_groups = $db->loadObjectList();
+		$all_groups = (array) $db->loadObjectList();
 
 		if (count($all_groups)) {
 			foreach ($all_groups as $a_group) {
@@ -814,7 +814,7 @@ class HANDOUT_users
 		if (!isset($users)) {
 			$db = &JFactory::getDBO();
 			$db->setQuery("SELECT * " . "\n FROM #__users " . "\n ORDER BY name ASC");
-			$users = $db->loadObjectList('id');
+			$users = (array) $db->loadObjectList('id');
 		}
 
 		return $users;

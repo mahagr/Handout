@@ -22,7 +22,7 @@ class plgHandoutHandout extends JPlugin
 			 $db=& JFactory::getDBO();
          $query="select * from #__handout where mtree_id=".$listingid;
          $db->setQuery($query);
-         $docs=$db->loadObjectList();
+         $docs = (array) $db->loadObjectList();
 		$linkhtml="";
 		$count=0;
 		if($docs)
@@ -127,7 +127,7 @@ class plgHandoutHandout extends JPlugin
 		/* retrive all docs by mtree link id */
 	$query="select * from #__handout  where mtree_id=".$row->link_id;
   	$db->setQuery($query);
-  	$handoutdocs=$db->loadObjectList();
+  	$handoutdocs= (array) $db->loadObjectList();
   	$count=count($handoutdocs);
   	 foreach($handoutdocs as $doc)
   	{     //if first file have no extended number to add new file field
@@ -212,7 +212,7 @@ class plgHandoutHandout extends JPlugin
 		$db=& JFactory::getDBO();
          $query="select * from #__handout where mtree_id=".$listingid;
          $db->setQuery($query);
-         $docs=$db->loadObjectList();
+         $docs= (array) $db->loadObjectList();
 		$linkhtml="";
 		if($docs)
 		{

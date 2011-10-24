@@ -212,7 +212,7 @@ class HandoutModelDocument extends JModel
 		$last = array ();
 		if ($doc->doclastupdateby > COM_HANDOUT_PERMIT_USER) {
 			$database->setQuery ( "SELECT id, name " . "\n FROM #__users " . "\n WHERE id=" . ( int ) $doc->doclastupdateby );
-			$last = $database->loadObjectList ();
+			$last = (array) $database->loadObjectList ();
 		} else {
 			$last [0]->name = "Super Administrator";
 		}
@@ -222,7 +222,7 @@ class HandoutModelDocument extends JModel
 		$created = array ();
 		if ($doc->docsubmittedby > COM_HANDOUT_PERMIT_USER) {
 			$database->setQuery ( "SELECT id, name " . "\n FROM #__users " . "\n WHERE id=" . ( int ) $doc->docsubmittedby );
-			$created = $database->loadObjectList ();
+			$created = (array) $database->loadObjectList ();
 		} else {
 			$created [0]->name = "Super Administrator";
 		}
@@ -552,7 +552,7 @@ class HandoutModelDocument extends JModel
 		$database = &JFactory::getDBO ();
 
 		$database->setQuery ( "SELECT id, name FROM #__handout_licenses ORDER BY name ASC" );
-		$result = $database->loadObjectList ();
+		$result = (array) $database->loadObjectList ();
 
 		$options = array ();
 		$options [] = JHTML::_ ( 'select.option', '0', JText::_('COM_HANDOUT_NO_AGREEMENT') );

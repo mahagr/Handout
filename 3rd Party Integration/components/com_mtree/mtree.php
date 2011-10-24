@@ -307,7 +307,7 @@ function getCats( $parent_cat_id ) {
 	$return .= "\n";
 
 	$database->setQuery( 'SELECT cat_id, cat_name FROM #__mt_cats WHERE cat_parent = ' . $database->quote($parent_cat_id) . ' && cat_published = 1 && cat_approved = 1 ORDER BY cat_name ASC' );
-	$cats = $database->loadObjectList();
+	$cats = (array) $database->loadObjectList();
 	if($parent_cat_id > 0) {
 		$database->setQuery( 'SELECT cat_parent FROM #__mt_cats WHERE cat_id = ' . $database->quote($parent_cat_id) . ' && cat_published = 1 && cat_approved = 1 LIMIT 1');
 		$browse_cat_parent = $database->loadResult();
@@ -318,7 +318,6 @@ function getCats( $parent_cat_id ) {
 	} else {
 		//
 	}
-	if(!empty($cats)) {
 		foreach( $cats as $key => $cat )
 		{
 			$return .= $cat->cat_id . '|' . $cat->cat_name;
@@ -326,7 +325,6 @@ function getCats( $parent_cat_id ) {
 				$return .=  "\n";
 			}
 		}
-	}
 	echo $return;
 	return true;
 }
@@ -437,7 +435,7 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 		}
 
 		$database->setQuery( $sql );
-		$cats = $database->loadObjectList("cat_id");
+		$cats = (array) $database->loadObjectList("cat_id");
 
 		$cat_desc = '';
 		$related_categories = null;
@@ -466,9 +464,8 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 			}
 
 			$database->setQuery( $sql );
-			$sub_cats_tmp = $database->loadObjectList();
+			$sub_cats_tmp = (array) $database->loadObjectList();
 
-			if(!empty($sub_cats_tmp)) {
 				foreach($sub_cats_tmp AS $sub_cat) {
 					if( isset($sub_cats[$sub_cat->cat_parent]) ) {
 						if( $mtconf->getTemParam('numOfSubcatsToDisplay',3) > 0 && count($sub_cats[$sub_cat->cat_parent]) < $mtconf->getTemParam('numOfSubcatsToDisplay',3) ) {
@@ -482,7 +479,6 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 						$sub_cats_total[$sub_cat->cat_parent] = (($total_sub_cats) ? $total_sub_cats : 0 );
 					}
 				}
-			}
 			if (isset($sub_cats)) {
 				foreach($cat_ids AS $c) {
 					if(!array_key_exists($c,$sub_cats)) {
@@ -498,7 +494,7 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 			$database->setQuery( 'SELECT r.rel_id FROM #__mt_relcats AS r '
 				.	'LEFT JOIN #__mt_cats AS c ON c.cat_id = r.rel_id '
 				.	'WHERE r.cat_id = ' . $database->quote($cat_id) . ' AND c.cat_published = 1' );
-			$related_categories = $database->loadResultArray();
+			$related_categories = (array) $database->loadResultArray();
 
 		}
 
@@ -517,8 +513,7 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 			}
 
 			$database->setQuery( $sql );
-			$cat_links_tmp = $database->loadObjectList();
-			if(!empty($cat_links_tmp)) {
+			$cat_links_tmp = (array) $database->loadObjectList();
 				foreach($cat_links_tmp AS $cat_link) {
 					if(isset($cat_links[$cat_link->cat_id])) {
 						if($mtconf->getTemParam('numOfLinksToDisplay',3) > 0 && count($cat_links[$cat_link->cat_id]) < $mtconf->getTemParam('numOfLinksToDisplay',3)) {
@@ -528,7 +523,6 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 						$cat_links[$cat_link->cat_id] = array($cat_link);
 					}
 				}
-			}
 			foreach($cat_ids AS $c) {
 				if(!isset($cat_links) || !array_key_exists($c,$cat_links)) {
 					$cat_links[$c] = array();
@@ -555,7 +549,7 @@ function showTree_cache( $cat, $limitstart, $option, $my ) {
 		$sql .= "\n LIMIT $limitstart, " . $mtconf->get('fe_num_of_links');
 		$database->setQuery( $sql );
 
-		$links = $database->loadObjectList();
+		$links = (array) $database->loadObjectList();
 
 		# Pathway
 		$pathWay = new mtPathWay( $cat_id );
@@ -693,7 +687,7 @@ function searchby( $option )
 
 	$sql .=	"\n LIMIT $limitstart, " . $mtconf->get('fe_num_of_searchresults');
 	$database->setQuery( $sql );
-	$links = $database->loadObjectList();
+	$links = (array) $database->loadObjectList();
 
 	# Get total
 	$sql = "SELECT COUNT(DISTINCT l.link_id) FROM (#__mt_links AS l, #__mt_cl AS cl";
@@ -844,7 +838,7 @@ function search( $option ) {
 		}
 
 		$database->setQuery("SELECT field_type,published,simple_search FROM #__mt_customfields WHERE iscore = 1");
-		$searchable_core_fields = $database->loadObjectList('field_type');
+		$searchable_core_fields = (array) $database->loadObjectList('field_type');
 
 		# Determine if there are custom fields that are simple searchable
 		$database->setQuery("SELECT COUNT(*) FROM #__mt_customfields WHERE published = 1 AND simple_search = 1 AND iscore = 0");
@@ -890,7 +884,7 @@ function search( $option ) {
 				.	"\n AND cat_published='1' AND cat_approved='1' "
 				.	( (!empty($only_subcats_sql)) ? $only_subcats_sql : '' )
 			);
-			$cats = $database->loadObjectList();
+			$cats = (array) $database->loadObjectList();
 		}
 		# Retrieve links
 		$sql = 'SELECT ';
@@ -923,7 +917,7 @@ function search( $option ) {
 
 		$sql .=	"\n LIMIT $limitstart, " . $mtconf->get('fe_num_of_searchresults');
 		$database->setQuery( $sql );
-		$links = $database->loadObjectList();
+		$links = (array) $database->loadObjectList();
 
 		# Get total
 		$sql = "SELECT COUNT(DISTINCT l.link_id) FROM (#__mt_links AS l, #__mt_cl AS cl";
@@ -1234,7 +1228,7 @@ function listalpha_cache( $cat_id, $alpha, $limitstart, $option ) {
 				.	"AND cat_published = '1' "
 				.	($mtconf->getTemParam('onlyShowRootLevelCatInListalpha',0) ? "AND cat_parent = 0 " : "AND cat_parent >= 0 ")
 				.	"ORDER BY cat_name ASC ");
-			$categories = $database->loadObjectList();
+			$categories = (array) $database->loadObjectList();
 
 			// Add parent category name to distinguish categories with same name
 			$sql = 'SELECT DISTINCT cat1.cat_name FROM (#__mt_cats AS cat1, #__mt_cats AS cat2) ';
@@ -1242,9 +1236,8 @@ function listalpha_cache( $cat_id, $alpha, $limitstart, $option ) {
 			$sql .= 'AND cat1.cat_name = cat2.cat_name AND cat1.cat_id != cat2.cat_id ';
 			$sql .= 'ORDER BY cat1.cat_name ASC';
 			$database->setQuery( $sql );
-			$same_name_cats = $database->loadResultArray();
+			$same_name_cats = (array) $database->loadResultArray();
 
-			if( !empty($same_name_cats) ) {
 				$mtcat = new mtCats( $database );
 				for( $i=0; $i<count($categories); $i++ ) {
 					if( in_array( $categories[$i]->cat_name, $same_name_cats ) ) {
@@ -1253,13 +1246,12 @@ function listalpha_cache( $cat_id, $alpha, $limitstart, $option ) {
 						}
 					}
 				}
-			}
 
 		}
 
 		# SQL - Links
 		$database->setQuery( $link_sql );
-		$links = $database->loadObjectList();
+		$links = (array) $database->loadObjectList();
 
 		# Page Navigation
 		jimport('joomla.html.pagination');
@@ -1411,7 +1403,7 @@ function viewowner_cache( $owner, $limitstart, $option ) {
 
 		$sql .= "\n LIMIT $limitstart, " . $mtconf->get('fe_num_of_links');
 		$database->setQuery( $sql );
-		$links = $database->loadObjectList();
+		$links = (array) $database->loadObjectList();
 
 		# Get total reviews
 		$database->setQuery("SELECT COUNT(*) FROM #__mt_reviews AS r"
@@ -1493,7 +1485,7 @@ function viewusersreview_cache( $owner, $limitstart, $option ) {
 			.	"\nORDER BY r.rev_date DESC"
 			.	"\nLIMIT $limitstart, " . $mtconf->get('fe_num_of_links')
 			);
-		$reviews = $database->loadObjectList();
+		$reviews = (array) $database->loadObjectList();
 
 		for( $i=0; $i<count($reviews); $i++ ) {
 			$reviews[$i]->rev_text = nl2br(htmlspecialchars(trim($reviews[$i]->rev_text)));
@@ -1593,7 +1585,7 @@ function viewusersfav_cache( $owner, $limitstart, $option ) {
 
 		$sql .= "\n LIMIT $limitstart, " . $mtconf->get('fe_num_of_links') ;
 		$database->setQuery( $sql );
-		$links = $database->loadObjectList();
+		$links = (array) $database->loadObjectList();
 
 		# Get total reviews
 		$database->setQuery("SELECT COUNT(*) FROM #__mt_reviews AS r"
@@ -1709,7 +1701,7 @@ function viewgallery( $link_id, $option ) {
 		$document->setTitle(sprintf(JText::_( 'Gallery2' ), $link->link_name));
 
 		$database->setQuery('SELECT img_id, filename FROM #__mt_images WHERE link_id = ' . $database->quote($link_id) . ' ORDER BY ordering ASC');
-		$images = $database->loadObjectList();
+		$images = (array) $database->loadObjectList();
 
 		$savant = new Savant2($savantConf);
 		assignCommonViewlinkVar( $savant, $link, $fields, $pathWay, $params );
@@ -1740,7 +1732,7 @@ function viewimage( $img_id, $option ) {
 		echo JText::_( 'NOT_EXIST' );
 	} else {
 		$database->setQuery('SELECT img_id, filename FROM #__mt_images WHERE link_id = ' . $database->quote($image->link_id) . ' ORDER BY ordering ASC');
-		$images = $database->loadObjectList();
+		$images = (array) $database->loadObjectList();
 
 		$document->setTitle(sprintf(JText::_( 'Image2' ), $link->link_name));
 
@@ -1927,7 +1919,7 @@ function viewlink_cache( $link, $limitstart, $fields, $params, $my, $option ) {
 		}
 		$sql .= "\n LIMIT $limitstart, " . $mtconf->get('fe_num_of_reviews');
 		$database->setQuery( $sql );
-		$reviews = $database->loadObjectList();
+		$reviews = (array) $database->loadObjectList();
 
 		# Add <br /> to all new lines & gather an array of review_ids
 		for( $i=0; $i<count($reviews); $i++ ) {
@@ -1938,13 +1930,13 @@ function viewlink_cache( $link, $limitstart, $fields, $params, $my, $option ) {
 		# If the user is logged in, get all voted rev_ids
 		if( $my->id > 0 ) {
 			$database->setQuery( 'SELECT value, rev_id FROM #__mt_log WHERE log_type = \'votereview\' AND user_id = \''.$my->id.'\' AND link_id = \''.$link_id.'\' LIMIT '.$total_reviews );
-			$voted_reviews = $database->loadObjectList( 'rev_id' );
+			$voted_reviews = (array) $database->loadObjectList( 'rev_id' );
 		} else {
 			$voted_reviews = array();
 		}
 		# Get image ids
 		$database->setQuery("SELECT img_id AS id, filename FROM #__mt_images WHERE link_id = '" . $link_id . "' ORDER BY ordering ASC");
-		$images = $database->loadObjectList();
+		$images = (array) $database->loadObjectList();
 
 		# Page Navigation
 		jimport('joomla.html.pagination');
@@ -2000,7 +1992,7 @@ function printlink( $link_id, $option ) {
 
 		# Get image ids
 		$database->setQuery("SELECT img_id AS id, filename FROM #__mt_images WHERE link_id = '" . $link_id . "' ORDER BY ordering ASC");
-		$images = $database->loadObjectList();
+		$images = (array) $database->loadObjectList();
 
 		# Pathway
 		$pathWay = new mtPathWay( $link->cat_id );
@@ -2331,7 +2323,7 @@ function writereview_cache( $link, $fields, $params, $option ) {
 
 			# Check if this user has reviewed this listing previously
 			$database->setQuery( "SELECT rev_id FROM #__mt_reviews WHERE link_id = '".$link->link_id."' AND user_id = '".$my->id."'" );
-			$user_rev = $database->loadObjectList();
+			$user_rev = (array) $database->loadObjectList();
 
 			# Check if this user has voted for this listing previously
 			$database->setQuery( "SELECT value FROM #__mt_log WHERE link_id = '".$link->link_id."' AND user_id = '".$my->id."' AND log_type = 'vote' LIMIT 1" );
@@ -2405,11 +2397,11 @@ function addreview( $link_id, $option ) {
 	if( $my->id > 0 ) {
 		# Check if this user has reviewed this listing previously
 		$database->setQuery( 'SELECT rev_id FROM #__mt_reviews WHERE link_id = ' . $database->quote($link->link_id) . ' AND user_id = ' . $database->quote($my->id) . ' LIMIT 1' );
-		$user_rev = $database->loadObjectList();
+		$user_rev = (array) $database->loadObjectList();
 	} elseif ( $my->id == 0 && $mtconf->get('user_review') == 0 ) {
 		# Check log if this user's IP has been used to review this listing before
 		$database->setQuery( 'SELECT rev_id FROM #__mt_log WHERE link_id = ' . $database->quote($link->link_id) . ' AND log_ip = ' . $database->quote($remote_addr) . ' AND log_type = \'review\' LIMIT 1' );
-		$user_rev = $database->loadObjectList();
+		$user_rev = (array) $database->loadObjectList();
 	}
 
 	if ( count($user_rev) > 0 &&  $mtconf->get('user_review_once') == '1') {
@@ -3532,7 +3524,7 @@ function editlisting( $link_id, $option ) {
 
 	# Load images
 	$database->setQuery( "SELECT img_id, filename FROM #__mt_images WHERE link_id = '" . $link_id . "' ORDER BY ordering ASC" );
-	$images = $database->loadObjectList();
+	$images = (array) $database->loadObjectList();
 
 	# Get current category's template
 	$database->setQuery( "SELECT cat_name, cat_parent, cat_template, metakey, metadesc FROM #__mt_cats WHERE cat_id='".$cat_id."' AND cat_published='1' LIMIT 1" );
@@ -3555,7 +3547,7 @@ function editlisting( $link_id, $option ) {
 
 	# Get other categories
 	$database->setQuery( "SELECT cl.cat_id FROM #__mt_cl AS cl WHERE cl.link_id = '$link_id' AND cl.main = '0'");
-	$other_cats = $database->loadResultArray();
+	$other_cats = (array) $database->loadResultArray();
 
 	# Pathway
 	$pathWay = new mtPathWay( $cat_id );
@@ -3598,12 +3590,12 @@ function editlisting( $link_id, $option ) {
 	} else {
 		// OK, you can edit
 		$database->setQuery( "SELECT CONCAT('cust_',cf_id) as varname, caption As value, field_type, prefix_text_mod, suffix_text_mod FROM #__mt_customfields WHERE hidden <> '1' AND published = '1'" );
-		$custom_fields = $database->loadObjectList('varname');
+		$custom_fields = (array) $database->loadObjectList('varname');
 		$savant->assign('custom_fields', $custom_fields);
 
 		# Load custom fields' value from #__mt_cfvalues to $link
 		$database->setQuery( "SELECT CONCAT('cust_',cf_id) as varname, value FROM #__mt_cfvalues WHERE link_id = '".$link_id."'" );
-		$cfvalues = $database->loadObjectList('varname');
+		$cfvalues = (array) $database->loadObjectList('varname');
 
 		foreach( $custom_fields as $cfkey => $value )
 		{
@@ -3787,7 +3779,7 @@ function savelisting( $option ) {
 				$tmp_pending_link_id = $database->loadResult();
 				if( $tmp_pending_link_id > 0 ) {
 					$database->setQuery( 'SELECT CONCAT(' . $database->quote(JPATH_SITE.$mtconf->get('relative_path_to_attachments')) . ',raw_filename) FROM #__mt_cfvalues_att WHERE link_id = ' . $database->quote($tmp_pending_link_id) );
-					$raw_filenames = array_merge($raw_filenames,$database->loadResultArray());
+					$raw_filenames = array_merge($raw_filenames,(array) $database->loadResultArray());
 
 					$database->setQuery( "DELETE FROM #__mt_cfvalues WHERE link_id = '".$tmp_pending_link_id."'" );
 					$database->query();
@@ -3798,14 +3790,12 @@ function savelisting( $option ) {
 					$database->setQuery( "DELETE FROM #__mt_cl WHERE link_id = '".$tmp_pending_link_id."'" );
 					$database->query();
 					$database->setQuery( "SELECT filename FROM #__mt_images WHERE link_id = '".$tmp_pending_link_id."'" );
-					$tmp_pending_images = $database->loadResultArray();
-					if(count($tmp_pending_images)) {
+					$tmp_pending_images = (array) $database->loadResultArray();
 						foreach($tmp_pending_images AS $tmp_pending_image) {
 							unlink($mtconf->getjconf('absolute_path') . $mtconf->get('relative_path_to_listing_small_image') . $tmp_pending_image);
 							unlink($mtconf->getjconf('absolute_path') . $mtconf->get('relative_path_to_listing_medium_image') . $tmp_pending_image);
 							unlink($mtconf->getjconf('absolute_path') . $mtconf->get('relative_path_to_listing_original_image') . $tmp_pending_image);
 						}
-					}
 					$database->setQuery( "DELETE FROM #__mt_images WHERE link_id = '".$tmp_pending_link_id."'" );
 					$database->query();
 				}
@@ -3837,7 +3827,7 @@ function savelisting( $option ) {
 
 		# Load field type
 		$database->setQuery('SELECT cf_id, field_type, hidden, published, iscore FROM #__mt_customfields');
-		$fieldtype = $database->loadObjectList('cf_id');
+		$fieldtype = (array) $database->loadObjectList('cf_id');
 		$hidden_cfs = array();
 		foreach($fieldtype AS $ft) {
 			if($ft->hidden && $ft->published) {
@@ -3887,7 +3877,7 @@ function savelisting( $option ) {
 				}
 			}
 			$database->setQuery('SELECT ft_class FROM #__mt_fieldtypes WHERE field_type IN (\'' . implode('\',\'',$load_ft) . '\')');
-			$ft_classes = $database->loadResultArray();
+			$ft_classes = (array) $database->loadResultArray();
 			foreach( $ft_classes AS $ft_class ) {
 				eval($ft_class);
 			}
@@ -3934,7 +3924,7 @@ function savelisting( $option ) {
 				if(class_exists($class)) {
 					if(empty($core_params)) {
 						$database->setQuery('SELECT field_type, params FROM #__mt_customfields WHERE iscore = 1');
-						$core_params = $database->loadObjectList('field_type');
+						$core_params = (array) $database->loadObjectList('field_type');
 					}
 					$mFieldTypeObject = new $class(array('params'=>$core_params[$core_field_type]->params));
 					$v = call_user_func(array(&$mFieldTypeObject, 'parseValue'),$v);
@@ -3952,13 +3942,11 @@ function savelisting( $option ) {
 				// Find if there are any additional categories assigned to the listinig
 				if( $original_link_id <> $row->link_id ) {
 					$database->setQuery( 'SELECT DISTINCT cat_id FROM #__mt_cl WHERE link_id = '.$database->Quote($original_link_id).' and main=\'0\' ' );
-					$tmp_cats = $database->loadResultArray();
-					if( !empty($tmp_cats) ){
+					$tmp_cats = (array) $database->loadResultArray();
 						foreach( $tmp_cats AS $tmp_cat_id ) {
 							$database->setQuery( 'INSERT INTO #__mt_cl (`link_id`,`cat_id`,`main`) VALUES('.$database->Quote($row->link_id).','.$database->Quote($tmp_cat_id).',\'0\')');
 							$database->query();
 						}
-					}
 					unset($tmp_cats);
 				}
 			}
@@ -4031,7 +4019,7 @@ function savelisting( $option ) {
 
 		if( !empty($active_cfs) ) {
 			$database->setQuery('SELECT cf_id, params FROM #__mt_customfields WHERE iscore = 0 AND cf_id IN (\'' . implode('\',\'',array_keys($active_cfs)). '\') LIMIT ' . count($active_cfs));
-			$params = $database->loadObjectList('cf_id');
+			$params = (array) $database->loadObjectList('cf_id');
 
 			foreach($active_cfs AS $cf_id => $v) {
 				if(class_exists('mFieldType_'.$fieldtype[$cf_id]->field_type)) {
@@ -4083,7 +4071,7 @@ function savelisting( $option ) {
 
 		if(isset($keep_att_ids) && !empty($keep_att_ids) ) {
 			$database->setQuery( 'SELECT cf_id, raw_filename FROM #__mt_cfvalues_att WHERE link_id = ' . $database->quote($row->link_id) . ' AND cf_id NOT IN (\'' . implode('\',\'',$keep_att_ids) . '\')');
-			$tmp_raw_filenames = $database->loadObjectList();
+			$tmp_raw_filenames = (array) $database->loadObjectList();
 
 			$i=0;
 			foreach($tmp_raw_filenames AS $tmp_raw_filename)
@@ -4099,7 +4087,7 @@ function savelisting( $option ) {
 			$database->query();
 		} else {
 			$database->setQuery( 'SELECT cf_id, raw_filename FROM #__mt_cfvalues_att WHERE link_id = ' . $database->quote($row->link_id) );
-			$tmp_raw_filenames = $database->loadObjectList();
+			$tmp_raw_filenames = (array) $database->loadObjectList();
 
 			$i=0;
 			foreach($tmp_raw_filenames AS $tmp_raw_filename)
@@ -4118,7 +4106,7 @@ function savelisting( $option ) {
 		if(!$isNew && isset($keep_att_ids) && !empty($keep_att_ids) && $mtconf->get('needapproval_modifylisting') && $row->link_published == 1) {
 
 			$database->setQuery( "SELECT * FROM #__mt_cfvalues_att WHERE link_id = '" . $original_link_id . "' AND cf_id IN ('" . implode("','",$keep_att_ids) . "')" );
-			$listing_atts = $database->loadObjectList();
+			$listing_atts = (array) $database->loadObjectList();
 
 			foreach($listing_atts AS $listing_att) {
 				$file_extension = pathinfo($listing_att->raw_filename);
@@ -4179,7 +4167,7 @@ function savelisting( $option ) {
 				}
 
 				$database->setQuery( 'SELECT CONCAT(' . $database->quote(JPATH_SITE.$mtconf->get('relative_path_to_attachments')) . ',raw_filename) FROM #__mt_cfvalues_att WHERE link_id = ' . $database->quote($row->link_id) . ' AND cf_id = ' . $database->quote($cf_id));
-				$raw_filenames = array_merge($raw_filenames,$database->loadResultArray());
+				$raw_filenames = array_merge($raw_filenames,(array) $database->loadResultArray());
 
 				$database->setQuery('DELETE FROM #__mt_cfvalues_att WHERE link_id = ' . $database->quote($row->link_id) . ' AND cf_id = ' . $database->quote($cf_id));
 				$database->query();
@@ -4242,7 +4230,7 @@ function savelisting( $option ) {
 			// the images are not lost after approval
 			} else {
 				$database->setQuery('SELECT img_id FROM #__mt_images WHERE link_id = ' . $database->quote($original_link_id) );
-				$keep_img_ids = $database->loadResultArray();
+				$keep_img_ids = (array) $database->loadResultArray();
 			}
 
 			$redirectMsg = '';
@@ -4291,23 +4279,21 @@ function savelisting( $option ) {
 				) {
 					if(isset($keep_img_ids) && !empty($keep_img_ids)) {
 						$database->setQuery('SELECT filename FROM #__mt_images WHERE link_id = \'' . $row->link_id . '\' AND img_id NOT IN (\'' . implode('\',\'',$keep_img_ids) . '\')' );
-						$image_filenames = $database->loadResultArray();
+						$image_filenames = (array) $database->loadResultArray();
 						$database->setQuery('DELETE FROM #__mt_images WHERE link_id = \'' . $row->link_id . '\' AND img_id NOT IN (\'' . implode('\',\'',$keep_img_ids) . '\')' );
 						$database->query();
 					} else {
 						$database->setQuery('SELECT filename FROM #__mt_images WHERE link_id = \'' . $row->link_id . '\'' );
-						$image_filenames = $database->loadResultArray();
+						$image_filenames = (array) $database->loadResultArray();
 						$database->setQuery('DELETE FROM #__mt_images WHERE link_id = \'' . $row->link_id . '\'' );
 						$database->query();
 					}
 				}
-				if(!empty($image_filenames)) {
 					foreach($image_filenames AS $image_filename) {
 						unlink($mtconf->getjconf('absolute_path') . $mtconf->get('relative_path_to_listing_small_image') . $image_filename);
 						unlink($mtconf->getjconf('absolute_path') . $mtconf->get('relative_path_to_listing_medium_image') . $image_filename);
 						unlink($mtconf->getjconf('absolute_path') . $mtconf->get('relative_path_to_listing_original_image') . $image_filename);
 					}
-				}
 
 				$files_exceed_limit = false;
 

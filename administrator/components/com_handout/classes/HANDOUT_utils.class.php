@@ -65,7 +65,7 @@ class HANDOUT_Utils
 		. "\n ORDER BY " . COM_HANDOUT_FIELD_CATEGORY_ORDERING;
 
 		$database->setQuery($query);
-		$items = $database->loadObjectList();
+		$items = (array) $database->loadObjectList();
 		// establish the hierarchy of the menu
 		$children = array();
 		// first pass - collect children
@@ -490,7 +490,7 @@ class HANDOUT_Utils
 		if (!isset($modules)) {
 			$database = &JFactory::getDBO();
 			$database->setQuery("SELECT id, module FROM #__modules");
-			$rows = $database->loadObjectList();
+			$rows = (array) $database->loadObjectList();
 			foreach ($rows as $row) {
 				$modules[$row->module] = $row->id;
 			}
@@ -681,7 +681,7 @@ class HANDOUT_Cats
 
 		$query .= " ORDER BY " . $ordering;
 		$database->setQuery($query);
-		$childs = $database->loadObjectList();
+		$childs = (array) $database->loadObjectList();
 		return $childs;
 	}
 
@@ -721,7 +721,7 @@ class HANDOUT_Cats
 		static $docresults = array();
 		if (!isset($docresults[$query])) {
 			$database->setQuery($query);
-			$docresults[$query] = $database->loadObjectList('catid');
+			$docresults[$query] = (array) $database->loadObjectList('catid');
 		}
 		$docs = &$docresults[$query];
 
@@ -734,7 +734,7 @@ class HANDOUT_Cats
 			$query = "SELECT c.id, c.parent_id AS parent" . "\n FROM #__categories AS c" . "\n WHERE section='com_handout'" . "\n AND published <> -2"
 					. "\n ORDER BY ordering";
 			$database->setQuery($query);
-			$cats = $database->loadObjectList();
+			$cats = (array) $database->loadObjectList();
 		}
 
 		$total = 0;
@@ -774,7 +774,7 @@ class HANDOUT_Cats
 			$query = "SELECT id, name, title, parent_id AS parent" . "\n FROM #__categories" . "\n WHERE section='com_handout'" . "\n AND published <> -2"
 					. "\n ORDER BY ordering";
 			$database->setQuery($query);
-			$cats = $database->loadObjectList('id');
+			$cats = (array) $database->loadObjectList('id');
 
 			$arAncestors = array();
 			HANDOUT_Cats::getAncestorsRecurse($id, $cats, $arAncestors);
@@ -808,7 +808,7 @@ class HANDOUT_Cats
 			$database = &JFactory::getDBO();
 			 $query="SELECT * FROM #__categories" . "\n WHERE ".COM_HANDOUT_FIELD_SECTION." = 'com_handout'";
 			 $database->setQuery($query);
-			$list = $database->loadObjectList('id');
+			$list = (array) $database->loadObjectList('id');
 
 		}
 		return $list;
@@ -901,7 +901,7 @@ class HANDOUT_Docs
 		$query .= "\n ORDER BY $ordering $direction";
 		$database->setQuery($query, $limitstart, $limit);
 
-		return $database->loadObjectList();
+		return (array) $database->loadObjectList();
 	}
 
 	function getFilesByUserAccess($extra_files = null)
@@ -944,7 +944,7 @@ class HANDOUT_Docs
 
 		$database->setQuery($query);
 
-		return $database->loadObjectList();
+		return (array) $database->loadObjectList();
 	}
 
 	/**
@@ -1132,7 +1132,7 @@ class HANDOUT_Docs
 
 		// TODO: add proper pagination instead of hardcoded limit?
 		$database->setQuery($query, 0, 20);
-		$rows = $database->loadObjectList();
+		$rows = (array) $database->loadObjectList();
 
 		$cache = array(); // Fill in the correct sections
 		for ($r = 0; $r < count($rows); $r++) {
@@ -1165,7 +1165,7 @@ class HANDOUT_Docs
 
 		$query = "SELECT groups_id " . "FROM   #__handout_groups " . "WHERE  groups_members REGEXP '(^|[^0-9])0*$this_user([^0-9]|$)'";
 		$database->setQuery($query);
-		$all_groups = $database->loadObjectList();
+		$all_groups = (array) $database->loadObjectList();
 
 		$user_groups = '';
 		if (count($all_groups)) {
@@ -1192,7 +1192,7 @@ class HANDOUT_Docs
 		// Find it...
 		$query = "SELECT parent_id, title FROM #__categories WHERE id = " . (int) $id;
 		$database->setQuery($query);
-		$row = $database->loadObjectList();
+		$row = (array) $database->loadObjectList();
 		if (count($row)) {
 			if ($row[0]->parent_id) {
 				$cache[$id] = HANDOUT_Docs::_handoutSearchSection($row[0]->parent_id, $cache, $sep) . $sep . $row[0]->title;
