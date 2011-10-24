@@ -20,7 +20,7 @@ if (defined('_HANDOUT_HTML_CATEGORIES')) {
 
 class HTML_HandoutCategories
 {
-	function show(&$rows, $myid, &$pageNav, &$lists, $type)
+	function show(&$rows, $myid, &$pageNav, $type)
 	{
 		$user = &JFactory::getUser();
 
@@ -154,7 +154,7 @@ class HTML_HandoutCategories
 	</form>
 		<?php include_once(JPATH_ADMINISTRATOR."/components/com_handout/footer.php");
 		}
-		 function showToSelect(&$rows, &$pageNav, $type)
+		 function showToSelect(&$rows, &$pageNav)
 			{
 			?>
 
@@ -195,7 +195,6 @@ class HTML_HandoutCategories
 				<input type="hidden" name="task" value="element" />
 				<input type="hidden" name="tmpl" value="component" />
 				<input type="hidden" name="object" value="<?php echo JRequest::getString('object'); ?>" />
-				<input type="hidden" name="type" value="<?php echo $type;?>" />
 				<?php echo HANDOUT_token::render();?>
 			</form>
 	<?php include_once(JPATH_ADMINISTRATOR."/components/com_handout/footer.php");

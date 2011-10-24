@@ -86,7 +86,7 @@ function showCategories()
 
 	$database->setQuery($query);
 
-	$rows = $database->loadObjectList();
+	$rows = (array) $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -97,9 +97,8 @@ function showCategories()
 	// first pass - collect children
 	foreach ($rows as $v) {
 		$pt = $v->parent;
-		$list = @$children[$pt] ? $children[$pt] : array();
-		array_push($list, $v);
-		$children[$pt] = $list;
+		if (!is_array($children[$pt])) $children[$pt] = array();
+		array_push($children[$pt], $v);
 	}
 	// second pass - get an indent list of the items
 	jimport('joomla.html.html.menu');
@@ -129,11 +128,10 @@ function showCategories()
 
 	if (JRequest::getString('task') == 'element') {
 		// FIXME: bug?
-		HTML_HandoutCategories::showToSelect($list, $pageNav, $lists);
+		HTML_HandoutCategories::showToSelect($list, $pageNav);
 	}
 	else {
-		// FIXME: bug?
-		HTML_HandoutCategories::show($list, $user->id, $pageNav, $lists, 'other');
+		HTML_HandoutCategories::show($list, $user->id, $pageNav, 'other');
 	}
 }
 
@@ -146,7 +144,6 @@ function editCategory($section = '', $uid = 0)
 	// disable the main menu to force user to use buttons
 	$_REQUEST['hidemainmenu'] = 1;
 
-	$type = JRequest::getVar('type', '');
 	$redirect = JRequest::getVar('section', '');
 
 	$row = new HandoutCategory($database);
