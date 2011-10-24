@@ -166,7 +166,7 @@ class HANDOUT_MIME_Magic {
 	function analyzeFile($path)
 	{
 		/* If the PHP Mimetype extension is available, use that. */
-		if (Util::extensionExists('fileinfo')) {
+		if (function_exists('finfo_open')) {
 			$res = finfo_open(FILEINFO_MIME);
 			$type = finfo_file($res, $path);
 			finfo_close($res);
