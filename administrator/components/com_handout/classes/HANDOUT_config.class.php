@@ -93,11 +93,12 @@ class HANDOUT_Config {
 					$config->setProperties(get_object_vars($this->_config));
 					$this->_config =& $config;
 				}
-			} else {
-				$this->_config = new JObject();
 			}
-		} else {
-			$this->_config = new JObject();
+		}
+		// Load default configuration
+		if (!$this->_config) {
+			require_once JPATH_ADMINISTRATOR . "/components/com_handout/handout.config.dist.php";
+			$this->_config = new HandoutConfig();
 		}
 	}
 
