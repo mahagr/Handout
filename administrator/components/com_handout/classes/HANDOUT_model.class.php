@@ -179,8 +179,8 @@ class HANDOUT_Document extends HANDOUT_Model
 
 		switch ($identifier) {
 			case 'icon':
-			//$result = HANDOUT_Utils::pathIcon ($this->objFormatData->filetype . ".png", $type, $param);
-				$result = COM_HANDOUT_IMAGESPATH . 'icons/icon-' . $size . '-' . $this->objFormatData->filetype . ".png";
+				$result = HANDOUT_Utils::pathIcon ($this->objFormatData->filetype . ".png", $type, $size);
+				//$result = COM_HANDOUT_IMAGESPATH . 'icons/icon-' . $size . '-' . $this->objFormatData->filetype . ".png";
 				break;
 
 			default:

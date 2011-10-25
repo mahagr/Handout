@@ -98,7 +98,8 @@ class HANDOUT_Utils
 
 		$handout = &HandoutFactory::getHandout();
 
-		$icon_path = $handout->_path->themes . '/' . $handout->getCfg('icon_theme') . "/images/";
+		//$icon_path = $handout->_path->themes . '/' . $handout->getCfg('icon_theme') . "/images/";
+		$icon_path = COM_HANDOUT_IMAGESPATH.'icons/';
 
 		// set icon size
 		if (!isset($size)) {
@@ -112,10 +113,10 @@ class HANDOUT_Utils
 
 		//Testing to see which folder the icon is in b/c of the change in folder structure.
 		//TO DO: This needs to be re-worked
-		if (file_exists(JPATH_ROOT . $icon_path . 'icons/' . $icon_path_size . $icon)) {
+		/*if (file_exists(JPATH_ROOT . $icon_path . 'icons/' . $icon_path_size . $icon)) {
 			$icon_path .= 'icons/' . $icon_path_size;
 		}
-		else {
+		else*/ {
 			$icon_path .= $icon_path_size;
 		}
 
