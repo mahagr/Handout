@@ -13,7 +13,9 @@ JHTML::stylesheet('handout.css', COM_HANDOUT_CSSPATH);
 
 ?>
 <div id="handout">
-	<?php
+	<?php $this->_addPath( 'template', JPATH_COMPONENT . '/views/handout/tmpl' );?>
+	<?php echo $this->loadTemplate('menu'); ?>
+<?php
 		$app = &JFactory::getApplication();
 		$app->setPageTitle( JText::_('COM_HANDOUT_CODE_DOC') );
 	?>

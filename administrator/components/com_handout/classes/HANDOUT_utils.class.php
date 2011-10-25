@@ -102,7 +102,7 @@ class HANDOUT_Utils
 		$icon_path = COM_HANDOUT_IMAGESPATH.'icons/';
 
 		// set icon size
-		if (!isset($size)) {
+		if (!$size) {
 			//$icon_path .= $handout->getCfg('icon_size') ? "64x64/" : "32x32/";
 			$icon_path_size = $handout->getCfg('icon_size') ? "icon-64-" : "icon-32-";
 		}

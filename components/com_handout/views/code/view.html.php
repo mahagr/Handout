@@ -36,7 +36,8 @@ class HandoutViewCode extends JView {
 		else {
 			$tmpl = null;
 		}
-
+		$action = 'index.php?option=com_handout&view=code';
+		list($links, $perms) =  HandoutHelper::fetchMenu ( $gid );
 
 		$model=$this->getModel();
 		if ($code) {
@@ -49,6 +50,9 @@ class HandoutViewCode extends JView {
 			$this->assignRef('code', $code);
 			$this->assignRef('conf', $handout->getAllCfg());
 			$this->assignRef('usertype', $usertype);
+			$this->assignRef('action', $action);
+			$this->assignRef('links', $links);
+			$this->assignRef('perms', $perms);
 			parent::display($tmpl);
 		}
 	}
